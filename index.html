@@ -1,6 +1,6 @@
 <html>
 	<head>
-		<title>OGAM#1 Tanks</title>
+		<title>OGAM#1 Zilok</title>
 		<style>
 			body {
 				margin: 0;
@@ -17,40 +17,90 @@
 				stage = new PIXI.Stage(0x18060C),
 				renderer = PIXI.autoDetectRenderer(w, h);
 
+			PIXI.scaleModes.DEFAULT = PIXI.scaleModes.NEAREST;
+
 			document.body.appendChild(renderer.view);
 
 			var texture = PIXI.Texture.fromImage("res/images/tank.png"),
-				tanks = [];
+				assetsToLoader = ["res/images/tank.json"],
+				loader = new PIXI.AssetLoader(assetsToLoader);
 
-			for (var i = 0; i < 100; i++) {
+			var tanks = [],
+    			bits = [];
 
-				var tank = new PIXI.Sprite(texture);
-				tank.anchor.x = 0.5;
-				tank.anchor.y = 0.5;
+			loader.onComplete = startMeUp;
+			loader.load();
 
-				tank.position.x = Math.random() * w;
-				tank.position.y = Math.random() * h;
+			var blurFilter1 = new PIXI.BlurFilter();
 
-				tank.scale.x = 2;
-				tank.scale.y = 2;
+			function startMeUp () {
 
-				tanks.push(tank);
+				for (var i = 0; i < 100; i++) {
 
-				stage.addChild(tank);
+					var tank = new PIXI.Sprite(texture);
+					//tank.filters = [blurFilter1]
+					tank.anchor.x = 0.5;
+					tank.anchor.y = 0.5;
+
+					tank.position.x = (Math.random() * (w - 100)) + 100;
+					tank.position.y = Math.random() * h;
+
+					tank.scale.x = 2;
+					tank.scale.y = 2;
+
+					tank.tint = Math.random() * 0xFFFFFF;
+
+					tanks.push(tank);
+
+					tank.blendMode = PIXI.blendModes.ADD;
+
+					stage.addChild(tank);
+
+				}
+
+				for (var i = 0; i < 4; i++) {
+
+					for (var j = 0; j < 4; j++) {
+
+						var bit = PIXI.Sprite.fromFrame("f" + j + "_" + i);
+
+						bit.scale.x = 4;
+						bit.scale.y = 4;
+						bit.position.x = (j * 16) + 20;
+						bit.position.y = (i * 16) + 60;
+						bit.anchor.x = 0.5;
+						bit.anchor.y = 0.5;
+
+						stage.addChild(bit);
+
+						bits.push(bit);
+
+					}
+				}
+
+				run();
+
 			}
-
 
 			function run() {
 
 				tanks.forEach(function (t, i) {
+
 					t.rotation += Math.sin(Date.now() / 500 + i) * 0.1;
+
 				});
+
+				bits.forEach(function (t, i) {
+
+					t.position.y += Math.sin(Date.now() / 300 + i) * 0.9;
+
+				});
+
+				blurFilter1.blur = (Math.max(0, Math.sin(Date.now() / 400) - 0.5)) * 20 ;
 
 				renderer.render(stage);
 				requestAnimFrame(run);
 			}
-			requestAnimFrame(run);
-
 
 		</script>
 	</body>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<script>
+		/*
+
+			Slicer to generate simple tilemap JSON for pixi.js
+
+		*/
+		var tileW = 4,
+			tileH = 4;
+
+		var obj = {
+			meta: {
+				image: "res/images/tank.png",
+				size: {w: 16, h: 16}
+			},
+			frames: {}
+		}
+
+		// Add frames
+		for (var j = 0; j < Math.floor(obj.meta.size.h / tileH); j++) {
+
+			for (var i = 0; i < Math.floor(obj.meta.size.w / tileW); i++) {
+
+				obj.frames["f" + i + "_" + j] = {
+					"frame": {
+						x: i * tileW,
+						y: j * tileH,
+						w: tileW,
+						h: tileH
+					}
+				}
+
+			}
+
+		}
+
+		console.log(JSON.stringify(obj));
+
+	</script>
+</body>
+</html>
