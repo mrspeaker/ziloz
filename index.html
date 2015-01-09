@@ -1,0 +1,57 @@
+<html>
+	<head>
+		<title>OGAM#1 Tanks</title>
+		<style>
+			body {
+				margin: 0;
+				padding: 0;
+				background-color: #000000;
+			}
+		</style>
+	</head>
+	<body>
+		<script src="lib/pixi.dev.js"></script>
+		<script>
+			var w = 500,
+				h = 300,
+				stage = new PIXI.Stage(0x18060C),
+				renderer = PIXI.autoDetectRenderer(w, h);
+
+			document.body.appendChild(renderer.view);
+
+			var texture = PIXI.Texture.fromImage("res/images/tank.png"),
+				tanks = [];
+
+			for (var i = 0; i < 100; i++) {
+
+				var tank = new PIXI.Sprite(texture);
+				tank.anchor.x = 0.5;
+				tank.anchor.y = 0.5;
+
+				tank.position.x = Math.random() * w;
+				tank.position.y = Math.random() * h;
+
+				tank.scale.x = 2;
+				tank.scale.y = 2;
+
+				tanks.push(tank);
+
+				stage.addChild(tank);
+			}
+
+
+			function run() {
+
+				tanks.forEach(function (t, i) {
+					t.rotation += Math.sin(Date.now() / 500 + i) * 0.1;
+				});
+
+				renderer.render(stage);
+				requestAnimFrame(run);
+			}
+			requestAnimFrame(run);
+
+
+		</script>
+	</body>
+</html>
