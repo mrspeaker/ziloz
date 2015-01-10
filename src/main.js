@@ -1,0 +1,7 @@
+var main = {
+
+	init: function () {
+
+	}
+
+}
