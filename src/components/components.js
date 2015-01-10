@@ -12,9 +12,22 @@ components.size = {
     h: 16
 };
 
+components.spinny = {
+	vel: -0.01
+};
+
+components.life = {
+	count: 100
+}
+
 components.vel = {
 	x: 0,
 	y: 0
+};
+
+components.shoot = {
+	vel: 0.3,
+	rot: -Math.PI / 2
 };
 
 components.sprite = {

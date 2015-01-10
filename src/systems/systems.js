@@ -2,17 +2,38 @@
 
 var sys = (window.sys = window.sys || {});
 
+sys.Life = {
+	update: function (e) {
+		if (!e.life) return;
+
+		if(e.life.count-- <= 0) {
+			e.remove = true;
+		}
+	}
+}
+
 sys.AI = {
 	update: function (e) {
 		if (!e.vel) { return; }
 
-		e.vel.x += Math.random() * 4 - 2 | 0;
-		e.vel.y += Math.random() * 2 - 1 | 0;
+		if (e.shoot) {
+
+			e.vel.x += Math.cos(e.shoot.rot) * e.shoot.vel;
+			e.vel.y += Math.sin(e.shoot.rot) * e.shoot.vel;
+
+		} else {
+
+			e.vel.x += (Math.random() * 2 - 1) * 0.05;
+			e.vel.y += (Math.random() * 2 - 1) * 0.05;
+		}
 
 		if (e.sinbounce) {
 			e.vel.y += Math.sin(Date.now() / e.sinbounce.freq) * e.sinbounce.amp;
 		}
 
+		if (e.spinny) {
+			e.sprite.ref.rotation += e.spinny.vel;
+		}
 	}
 };
 

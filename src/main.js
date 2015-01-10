@@ -9,7 +9,6 @@ var main = {
 	init: function () {
 
 		this.ents = [];
-		this.bits = [];
 
 		PIXI.scaleModes.DEFAULT = PIXI.scaleModes.NEAREST;
 
@@ -29,65 +28,101 @@ var main = {
 
 		//var blurFilter1 = new PIXI.BlurFilter();
 
+		document.addEventListener("keydown", (function (e) {
+
+			this.keyDown(e);
+
+		}).bind(this), false);
+
 		this.run();
+
+	},
+
+	keyDown: function (e) {
+
+		if (e.keyCode === 32) {
+
+			this.addBullet(this.tank);
+
+		}
+
+	},
+
+	addBullet: function (e) {
+
+		var rot = e.sprite ? e.sprite.ref.rotation : 0;
+
+		var b = this.makeSprite(
+			this.texture,
+			e.pos.x,
+			e.pos.y);
+
+		b.rotation = rot;
+
+		var bb = createEntity("bullet", {
+			pos: {
+				x: b.position.x,
+				y: b.position.y
+			},
+			sprite: {
+				ref: b
+			},
+			shoot: {
+				rot: rot - Math.PI / 2
+			}
+		});
+
+		this.ents.push(bb);
+		this.stage.addChild(b);
+
+	},
+
+	makeSprite: function (texture, x, y, col, sx, sy) {
+
+		var sprite = new PIXI.Sprite(texture);
+		sprite.anchor.x = 0.5;
+		sprite.anchor.y = 0.5;
+
+		sprite.position.x = x;
+		sprite.position.y = y;
+
+		sprite.scale.x = sx || 1;
+		sprite.scale.y = sx || 1;
+
+		if (col) {
+			sprite.tint = col;
+		}
+
+		return sprite;
 
 	},
 
 	onload: function () {
 
-		for (var i = 0; i < 100; i++) {
+		var tank = this.makeSprite(
+			this.texture,
+			(Math.random() * (this.w - 100)) + 100,
+			Math.random() * this.h,
+			Math.random() * 0xFFFFFF,
+			2,
+			2);
 
-			var tank = new PIXI.Sprite(this.texture);
-			tank.anchor.x = 0.5;
-			tank.anchor.y = 0.5;
+		tank.blendMode = PIXI.blendModes.ADD;
 
-			tank.position.x = (Math.random() * (this.w - 100)) + 100;
-			tank.position.y = Math.random() * this.h;
-
-			tank.scale.x = 2;
-			tank.scale.y = 2;
-
-			tank.tint = Math.random() * 0xFFFFFF;
-
-			tank.blendMode = PIXI.blendModes.ADD;
-
-			var tt = createEntity("tank", {
-				pos: {
-					x: tank.position.x,
-					y: tank.position.y
-				},
-				sprite: {
-					ref: tank
-				},
-				sinbounce: {
-					freq: Math.random() * 200 + 200
-				}
-			});
-
-			this.ents.push(tt);
-			this.stage.addChild(tank);
-
-		}
-
-		for (var i = 0; i < 4; i++) {
-
-			for (var j = 0; j < 4; j++) {
-
-				var bit = PIXI.Sprite.fromFrame("f" + j + "_" + i);
-
-				bit.scale.x = 4;
-				bit.scale.y = 4;
-				bit.position.x = (j * 16) + 20;
-				bit.position.y = (i * 16) + 60;
-				bit.anchor.x = 0.5;
-				bit.anchor.y = 0.5;
-
-				this.stage.addChild(bit);
-
-				this.bits.push(bit);
-
+		this.tank = createEntity("tank", {
+			pos: {
+				x: tank.position.x,
+				y: tank.position.y
+			},
+			sprite: {
+				ref: tank
 			}
-		}
+		});
+
+		this.ents.push(this.tank);
+		this.stage.addChild(tank);
+
+		var bit = PIXI.Sprite.fromFrame("f" + 1 + "_" + 1);
 
 		this.run();
 
@@ -104,22 +139,24 @@ var main = {
 
 	update: function () {
 
-		this.bits.forEach(function (t, i) {
-
-			t.position.y += Math.sin(Date.now() / 300 + i) * 0.9;
-
-		});
-
 		//blurFilter1.blur = (Math.max(0, Math.sin(Date.now() / 400) - 0.5)) * 20 ;
+		var stage = this.stage;
 
-		for (var i = 0; i < this.ents.length; i++) {
-			var e = this.ents[i];
+		this.ents = this.ents.filter(function (e) {
 
 			sys.AI.update(e);
 			sys.Physics.update(e, 1);
 			sys.Render.update(e);
+			sys.Life.update(e);
 
-		}
+			if (e.remove) {
+
+				stage.removeChild(e.sprite.ref);
+
+			}
+
+			return !(e.remove);
+		});
 
 	},
 
