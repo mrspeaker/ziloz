@@ -13,7 +13,11 @@ components.size = {
 };
 
 components.spinny = {
-	vel: -0.01
+	rate: -0.01
+};
+
+components.jiggle = {
+	rate: 0.2
 };
 
 components.life = {
@@ -34,7 +38,7 @@ components.sprite = {
 	ref: null
 };
 
-components.sinbounce = {
+components.sine = {
 	freq: 300,
 	amp: 0.1
 };

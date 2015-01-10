@@ -7,17 +7,17 @@ prefabs.tank = {
     size: {},
     vel: {},
     sprite: {},
-    spinny: {}
+
+    spinny: {},
+    jiggle: {}
 };
 
 prefabs.bullet = {
 	pos: {},
-	size: {
-		w: 10,
-		h: 10
-	},
+	size: {},
 	vel: {},
 	sprite: {},
+
 	shoot: {},
 	life: {}
 }

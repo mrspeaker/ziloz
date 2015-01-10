@@ -101,26 +101,42 @@ var main = {
 
 		var tank = this.makeSprite(
 			this.texture,
-			(Math.random() * (this.w - 100)) + 100,
-			Math.random() * this.h,
+			0, 0,
 			Math.random() * 0xFFFFFF,
-			2,
-			2);
+			2, 2);
 
 		tank.blendMode = PIXI.blendModes.ADD;
 
 		this.tank = createEntity("tank", {
 			pos: {
-				x: tank.position.x,
-				y: tank.position.y
+				x: (Math.random() * (this.w - 100)) + 100,
+				y: Math.random() * this.h
 			},
 			sprite: {
 				ref: tank
 			}
 		});
 
+		this.tank2 = createEntity("tank", {
+			pos: {
+				x: (Math.random() * (this.w - 100)) + 100,
+				y: Math.random() * this.h
+			},
+			sprite: {
+				ref: this.makeSprite(
+					this.texture,
+					0, 0,
+					Math.random() * 0xFFFFFF,
+					2, 2
+				)
+			}
+		});
+
 		this.ents.push(this.tank);
-		this.stage.addChild(tank);
+		this.ents.push(this.tank2);
+
+		this.stage.addChild(this.tank.sprite.ref);
+		this.stage.addChild(this.tank2.sprite.ref);
 
 		var bit = PIXI.Sprite.fromFrame("f" + 1 + "_" + 1);
 
