@@ -65,22 +65,28 @@ var main = {
 
 	addExplosion: function (e) {
 
-		var x = e.pos.x,
-			y = e.pos.y,
-			b = this.makeSprite(this.texture, x, y, 0xff0000);
-		this.stage.addChild(b);
 
-		var bb = createEntity("explosion", {
-			pos: {
-				x: x,
-				y: y
-			},
-			sprite: {
-				ref: b
-			}
-		});
+		for (var i = 0; i < 10; i++) {
+			var x = e.pos.x + (Math.random() * 20 - 10),
+				y = e.pos.y + (Math.random() * 20 - 10),
+				b = this.makeSprite(this.texture, x, y, 0xff0000);
 
-		this.ents_to_add.push(bb);
+			b.blendMode = PIXI.blendModes.ADD;
+
+			this.stage.addChild(b);
+
+			var bb = createEntity("explosion", {
+				pos: {
+					x: x,
+					y: y
+				},
+				sprite: {
+					ref: b
+				}
+			});
+
+			this.ents_to_add.push(bb);
+		}
 
 	},
 
