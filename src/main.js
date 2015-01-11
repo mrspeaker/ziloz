@@ -143,15 +143,18 @@ var main = {
 
 	},
 
-	run: function () {
+	run: function (now, last) {
 
-		this.update();
+		var dt = now - (last || now);
+
+		this.update(dt);
 		this.render();
-		requestAnimFrame(function () { main.run() });
+
+		requestAnimFrame(function (next) { main.run(next, now) });
 
 	},
 
-	update: function () {
+	update: function (dt) {
 
 		var stage = this.stage;
 
@@ -163,7 +166,6 @@ var main = {
 
 		}, this);
 
-		sys.Move.count =0;
 		this.ents = this.ents.filter(function (e) {
 
 			sys.Move.update(e);

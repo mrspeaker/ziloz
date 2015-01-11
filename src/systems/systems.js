@@ -15,9 +15,7 @@ sys.Life = {
 }
 
 sys.Move = {
-	count: 0,
 	update: function (e) {
-		this.count++;
 
 		if (e.spin && e.rot) {
 
@@ -50,13 +48,29 @@ sys.Move = {
 		if (e.input) {
 
 			var input = e.input,
-				speed = 0.5;
+				key = input.key,
+				speed = 0.2;
 
-			if (input.key.right) { e.vel.x += speed; }
-			if (input.key.left) { e.vel.x -= speed; }
-			if (input.key.up) { e.vel.y -= speed; }
-			if (input.key.down) { e.vel.y += speed; }
-			if (input.key.fire) {
+			if (key.left || key.right) {
+				if (key.right) {
+					e.vel.x += speed;
+					e.rot.angle = Math.PI / 2;
+				}
+				if (key.left) {
+					e.vel.x -= speed;
+					e.rot.angle = -Math.PI / 2;
+				}
+			} else {
+				if (key.up) {
+					e.vel.y -= speed;
+					e.rot.angle = 0;
+				}
+				if (key.down) {
+					e.vel.y += speed;
+					e.rot.angle = Math.PI;
+				}
+			}
+			if (key.fire) {
 
 				var now = Date.now();
 				if (!e.lastFire || now - e.lastFire > 200) {
@@ -82,7 +96,7 @@ sys.Physics = {
 		pos.x += vel.x * dt;
 		pos.y += vel.y * dt;
 
-		vel.x *= 0.9;
-		vel.y *= 0.9;
+		vel.x *= 0.8;
+		vel.y *= 0.8;
 	}
 };
