@@ -11,6 +11,11 @@ sys.Render = {
 
 		sprite.position.x = e.pos.x;
 		sprite.position.y = e.pos.y;
+
+		if (e.rot) {
+			sprite.rotation = e.rot.angle + e.rot.offset;
+		}
+
 	}
 };
 

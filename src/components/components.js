@@ -2,9 +2,18 @@
 
 var components = window.components || {};
 
+components.sprite = {
+	ref: null
+};
+
 components.pos = {
 	x: 0,
 	y: 0
+};
+
+components.rot = {
+	angle: 0,
+	offset: 0
 };
 
 components.size = {
@@ -12,7 +21,14 @@ components.size = {
     h: 16
 };
 
-components.spinny = {
+components.vel = {
+	x: 0,
+	y: 0
+};
+
+components.playerControl = {};
+
+components.spin = {
 	rate: -0.01
 };
 
@@ -22,11 +38,6 @@ components.jiggle = {
 
 components.life = {
 	count: 100
-}
-
-components.vel = {
-	x: 0,
-	y: 0
 };
 
 components.shoot = {
@@ -34,12 +45,11 @@ components.shoot = {
 	rot: -Math.PI / 2
 };
 
-components.sprite = {
-	ref: null
-};
-
 components.sine = {
 	freq: 300,
 	amp: 0.1
 };
 
+components.collision = {
+	group: "default"
+};
