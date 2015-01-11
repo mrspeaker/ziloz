@@ -19,7 +19,7 @@ var main = {
 		document.body.appendChild(this.renderer.view);
 
 		var texture = PIXI.Texture.fromImage("res/images/tank.png"),
-			assetsToLoader = ["res/images/tank.json"],
+			assetsToLoader = ["res/images/tanktiles.json"],
 			loader = new PIXI.AssetLoader(assetsToLoader);
 
 		this.texture = texture;
@@ -47,9 +47,9 @@ var main = {
 				[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
 				[1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
 				[1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-				[1,1,0,0,0,0,1,0,1,0,0,0,0,1,1],
+				[1,1,0,0,0,0,2,0,2,0,0,0,0,1,1],
 				[0,1,0,0,0,0,0,0,0,0,0,0,0,1,0],
-				[1,1,0,0,0,0,1,0,1,0,0,0,0,1,1],
+				[1,1,0,0,0,0,2,0,2,0,0,0,0,1,1],
 				[1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
 				[1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
 				[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
@@ -195,10 +195,13 @@ var main = {
 				y: free.y
 			},
 			sprite: {
-				ref: this.makeSprite(this.texture, 0, 0, null, 2, 2)
+				ref: this.makeSprite(this.texture, 0, 0, Math.random() * 0xFFFFFF, 2, 2)
 			},
 			input: this.input1
 		});
+		this.t1Health = new PIXI.Graphics();
+		this.stage.addChild(this.t1Health);
+
 
 		var free = this.findFreeSpot(map);
 
@@ -221,6 +224,8 @@ var main = {
 			input: this.input2,
 			autofire: {}
 		});
+		this.t2Health = new PIXI.Graphics();
+		this.stage.addChild(this.t2Health);
 
 		this.ents_to_add.push(this.tank);
 		this.ents_to_add.push(this.tank2);
@@ -242,8 +247,6 @@ var main = {
 			}
 
 		}
-
-		this.addBullet(this.tank);
 
 		this.run();
 
@@ -301,6 +304,19 @@ var main = {
 	render: function () {
 
 		this.renderer.render(this.stage);
+
+		if (this.t1Health) {
+
+			this.t1Health.clear();
+			this.t2Health.clear();
+			this.t1Health.beginFill(this.tank.sprite.ref.tint);
+			this.t2Health.beginFill(this.tank2.sprite.ref.tint);
+			this.t1Health.drawRect(250, 250, 100 * (this.tank.health.amount / 100), 2);
+			this.t2Health.drawRect(50, 250, 100 * (this.tank2.health.amount / 100), 2);
+			this.t1Health.endFill();
+
+		}
+
 
 	}
 

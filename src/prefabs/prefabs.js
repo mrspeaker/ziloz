@@ -19,7 +19,7 @@ prefabs.bullet = {
 	size: {},
 	vel: {},
 	rot: {
-		offset: Math.PI / 2
+	//	offset: Math.PI / 2
 	},
 	sprite: {},
 
