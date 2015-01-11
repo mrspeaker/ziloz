@@ -90,6 +90,28 @@ var main = {
 
 	},
 
+	addTarget: function () {
+
+		var x = Math.random() * this.w,
+			y = Math.random() * this.h,
+			s = this.makeSprite(this.texture, x, y, 0xffff00);
+
+		this.stage.addChild(s);
+
+		var bb = createEntity("target", {
+			pos: {
+				x: x,
+				y: y
+			},
+			sprite: {
+				ref: s
+			}
+		});
+
+		this.ents_to_add.push(bb);
+
+	},
+
 	makeSprite: function (texture, x, y, col, sx, sy) {
 
 		var sprite = new PIXI.Sprite(texture);
@@ -200,29 +222,8 @@ var main = {
 			sys.Move.update(e);
 			sys.Physics.update(e, 1);
 			sys.Life.update(e);
+			sys.Collision.update(e, ents);
 			sys.Render.update(e);
-
-			ents.forEach(function (e2) {
-
-				if (e2 === e || !e.collision || !e2.collision) return;
-				if (e2.collision.group !== "default") {
-					return;
-				}
-
-				var dead = false,
-					dx = e2.pos.x - e.pos.x,
-					dy = e2.pos.y - e.pos.y;
-
-				if (Math.sqrt(dx * dx + dy * dy) < 15) {
-
-					e2.remove = !e2.health ? true : (e2.health.amount -= 20) <= 0;
-					e.remove = !e.health ? true : (e.health.amount -= 20) <= 0;
-
-					self.addExplosion(e2);
-
-				}
-
-			});
 
 			if (e.remove) {
 
@@ -233,6 +234,10 @@ var main = {
 			return !(e.remove);
 
 		});
+
+		if (Math.random () < 0.01) {
+			this.addTarget();
+		}
 
 	},
 

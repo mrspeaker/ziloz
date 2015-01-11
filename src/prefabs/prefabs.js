@@ -29,7 +29,8 @@ prefabs.bullet = {
     	freq: 30
     },
     collision: {
-    	group: "projectiles"
+    	group: "projectiles",
+    	damage: 10
     }
 };
 
@@ -44,4 +45,12 @@ prefabs.explosion = {
 	spin: {}
 }
 
+prefabs.target = {
+	pos: {},
+	size: {},
+	sprite: {},
+	collision: {
+		group: "pickup"
+	}
+}
 
