@@ -12,7 +12,6 @@ prefabs.tank = {
 
     health: {},
     spin: {}
-    //jiggle: {}
 };
 
 prefabs.bullet = {
@@ -25,7 +24,24 @@ prefabs.bullet = {
 	sprite: {},
 
 	shoot: {},
-	life: {}
+	life: {},
+    sine: {
+    	freq: 30
+    },
+    collision: {
+    	group: "projectiles"
+    }
 };
+
+prefabs.explosion = {
+	pos: {},
+	size: {},
+	vel: {},
+	rot: {},
+	sprite: {},
+	life: {},
+	jiggle: {},
+	spin: {}
+}
 
 

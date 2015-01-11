@@ -41,7 +41,7 @@ sys.Move = {
 
 		if (e.sine) {
 
-			e.vel.y += Math.sin(Date.now() / e.sinbounce.freq) * e.sinbounce.amp;
+			e.vel.y += Math.sin(Date.now() / e.sine.freq) * e.sine.amp;
 
 		}
 

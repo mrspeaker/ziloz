@@ -41,8 +41,8 @@ var main = {
 			y = e.pos.y + (Math.sin(rot) * 18);
 
 		var b = this.makeSprite(this.texture, x, y);
-
 		b.rotation += Math.PI;
+		this.stage.addChild(b);
 
 		var bb = createEntity("bullet", {
 			pos: {
@@ -58,9 +58,29 @@ var main = {
 		});
 
 		this.ents_to_add.push(bb);
-		this.stage.addChild(b);
 
 		return bb;
+
+	},
+
+	addExplosion: function (e) {
+
+		var x = e.pos.x,
+			y = e.pos.y,
+			b = this.makeSprite(this.texture, x, y, 0xff0000);
+		this.stage.addChild(b);
+
+		var bb = createEntity("explosion", {
+			pos: {
+				x: x,
+				y: y
+			},
+			sprite: {
+				ref: b
+			}
+		});
+
+		this.ents_to_add.push(bb);
 
 	},
 
@@ -158,7 +178,8 @@ var main = {
 	update: function (dt) {
 
 		var ents = this.ents,
-			stage = this.stage;
+			stage = this.stage,
+			self = this;
 
 		this.ents_to_add = this.ents_to_add.filter(function (e) {
 
@@ -177,7 +198,7 @@ var main = {
 
 			ents.forEach(function (e2) {
 
-				if (e2 === e || !e2.collision) return;
+				if (e2 === e || !e.collision || !e2.collision) return;
 				if (e2.collision.group !== "default") {
 					return;
 				}
@@ -190,6 +211,8 @@ var main = {
 
 					e2.remove = !e2.health ? true : (e2.health.amount -= 20) <= 0;
 					e.remove = !e.health ? true : (e.health.amount -= 20) <= 0;
+
+					self.addExplosion(e2);
 
 				}
 

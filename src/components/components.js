@@ -26,20 +26,16 @@ components.vel = {
 	y: 0
 };
 
-components.input = {
-
-};
-
-components.autofire = {
-
-}
+components.input = {};
 
 components.health = {
 	amount: 100
 }
 
+components.autofire = {};
+
 components.spin = {
-	rate: -0.01
+	rate: -0.02
 };
 
 components.jiggle = {
