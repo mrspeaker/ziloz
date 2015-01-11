@@ -10,6 +10,7 @@ prefabs.tank = {
     sprite: {},
     collision: {},
 
+    health: {},
     spin: {}
     //jiggle: {}
 };

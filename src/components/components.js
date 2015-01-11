@@ -30,6 +30,10 @@ components.input = {
 
 };
 
+components.health = {
+	amount: 100
+}
+
 components.spin = {
 	rate: -0.01
 };

@@ -177,16 +177,19 @@ var main = {
 			ents.forEach(function (e2) {
 
 				if (e2 === e || !e2.collision) return;
-
 				if (e2.collision.group !== "default") {
 					return;
 				}
 
-				var dx = e2.pos.x - e.pos.x,
+				var dead = false,
+					dx = e2.pos.x - e.pos.x,
 					dy = e2.pos.y - e.pos.y;
 
 				if (Math.sqrt(dx * dx + dy * dy) < 10) {
-					e2.remove = true;
+
+					e2.remove = !e2.health ? true : (e2.health.amount -= 20) <= 0;
+					e.remove = !e.health ? true : (e.health.amount -= 20) <= 0;
+
 				}
 
 			});
