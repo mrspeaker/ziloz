@@ -10,6 +10,16 @@ function merge (a, b) {
 	return out;
 }
 
+function addComponent (e, name, conf) {
+	e[name] = merge({}, components[name]);
+	if (conf) {
+		e[name] = merge(e[name], conf)
+	}
+}
+function removeComponent (e, name) {
+	delete e[name];
+}
+
 function createEntity (type, conf) {
 	// TODO: more efficient way to do this? Lot's of merging!
 	var prefab = prefabs[type],
