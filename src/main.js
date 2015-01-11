@@ -1,7 +1,7 @@
 var main = {
 
-	w: 500,
-	h: 300,
+	w: 28 * 16,
+	h: 22 * 16,
 
 	ents: null,
 	ents_to_add: null,
@@ -39,31 +39,44 @@ var main = {
 	makeMap: function () {
 
 		return {
-			w: 15,
-			h: 9,
-			tileW: 32,
-			tileH: 32,
+			w: 28,
+			h: 22,
+			tileW: 16,
+			tileH: 16,
 			blocks: [
-				[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-				[1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-				[1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-				[1,1,0,0,0,0,2,0,2,0,0,0,0,1,1],
-				[0,1,0,0,0,0,0,0,0,0,0,0,0,1,0],
-				[1,1,0,0,0,0,2,0,2,0,0,0,0,1,1],
-				[1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-				[1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-				[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+				[0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+				[1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+				[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0],
+				[0,0,0,0,0,0,0,0,0,0,2,3,3,2,0,0,0,0,0,0,0,0,0,0,3,3,0,0],
+				[0,0,1,3,3,3,3,1,0,0,2,3,3,2,0,0,0,0,0,0,0,0,0,0,3,3,0,0],
+				[0,0,1,3,3,3,3,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0],
+				[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,0,0,0,0,0,0,0,0],
+				[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,0,0,0,0,0,0,0,0],
+				[1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,0,0,0,0,1,1,1,1],
+				[0,0,0,1,0,0,0,0,2,2,0,0,0,0,0,0,0,0,2,2,0,0,0,0,1,0,0,0],
+				[0,0,0,1,0,0,0,0,4,4,0,0,1,4,4,1,0,0,3,3,0,0,0,0,1,0,0,0],
+				[0,0,0,1,0,0,0,0,4,4,0,0,1,4,4,1,0,0,3,3,0,0,0,0,1,0,0,0],
+				[0,0,0,1,0,0,0,0,2,2,0,0,0,0,0,0,0,0,2,2,0,0,0,0,1,0,0,0],
+				[1,1,1,1,0,0,0,0,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1],
+				[0,0,0,0,0,0,0,0,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+				[0,0,0,0,0,0,0,0,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+				[0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,4,4,4,4,1,0,0],
+				[0,0,4,4,0,0,0,0,0,0,0,0,0,0,2,4,4,2,0,0,1,4,4,4,4,1,0,0],
+				[0,0,4,4,0,0,0,0,0,0,0,0,0,0,2,4,4,2,0,0,0,0,0,0,0,0,0,0],
+				[0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+				[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1],
+				[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0]
 			],
 			getBlockAt: function (x, y) {
 
 				var yb = y / this.tileH | 0,
 					xb = x / this.tileW | 0;
 
-				if (yb < 0 || xb < 0) return {walkable: false}
-				if (xb > this.w - 1) return {walkable: false}
-				if (yb > this.h - 1) return {walkable: false}
+				if (yb < 1 || xb < 1) return {walkable: false}
+				if (xb > this.w - 2) return {walkable: false}
+				if (yb > this.h - 2) return {walkable: false}
 
-				return { walkable: this.blocks[yb][xb] === 0};
+				return { walkable: [0, 3, 4].indexOf(this.blocks[yb][xb]) > -1};
 			}
 		}
 
@@ -78,6 +91,7 @@ var main = {
 
 		var b = this.makeSprite(this.texture, x, y);
 		b.rotation += Math.PI;
+
 		this.stage.addChild(b);
 
 		var bb = createEntity("bullet", {
@@ -186,6 +200,21 @@ var main = {
 	onload: function () {
 
 		var map = this.map;
+		for (var bb = 0; bb < this.map.h; bb++) {
+
+			for (var aa = 0; aa < this.map.w; aa++) {
+
+				var block = map.blocks[bb][aa];
+				if (block === 0) continue;
+				var bit = PIXI.Sprite.fromFrame("f" + (block - 1) + "_" + 0);
+				bit.position.x = aa * map.tileW;
+				bit.position.y = bb * map.tileH;
+				this.stage.addChild(bit);
+
+			}
+
+		}
+
 
 		var free = this.findFreeSpot(map);
 
@@ -195,7 +224,7 @@ var main = {
 				y: free.y
 			},
 			sprite: {
-				ref: this.makeSprite(this.texture, 0, 0, Math.random() * 0xFFFFFF, 2, 2)
+				ref: this.makeSprite(this.texture, 0, 0, Math.random() * 0xFFFFFF, 1.7, 1.7)
 			},
 			input: this.input1
 		});
@@ -218,7 +247,7 @@ var main = {
 					this.texture,
 					0, 0,
 					Math.random() * 0xFFFFFF,
-					2, 2
+					1.7, 1.7
 				)
 			},
 			input: this.input2,
@@ -232,21 +261,6 @@ var main = {
 
 		this.stage.addChild(this.tank.sprite.ref);
 		this.stage.addChild(this.tank2.sprite.ref);
-
-		for (var bb = 0; bb < this.map.h; bb++) {
-
-			for (var aa = 0; aa < this.map.w; aa++) {
-
-				var block = this.map.blocks[bb][aa];
-				if (block === 0) continue;
-				var bit = PIXI.Sprite.fromFrame("f" + (block - 1) + "_" + 0);
-				bit.position.x = aa * this.map.tileW;
-				bit.position.y = bb * this.map.tileH;
-				this.stage.addChild(bit);
-
-			}
-
-		}
 
 		this.run();
 
@@ -311,8 +325,8 @@ var main = {
 			this.t2Health.clear();
 			this.t1Health.beginFill(this.tank.sprite.ref.tint);
 			this.t2Health.beginFill(this.tank2.sprite.ref.tint);
-			this.t1Health.drawRect(250, 250, 100 * (this.tank.health.amount / 100), 2);
-			this.t2Health.drawRect(50, 250, 100 * (this.tank2.health.amount / 100), 2);
+			this.t1Health.drawRect(5, 5, 100 * (this.tank.health.amount / 100), 5);
+			this.t2Health.drawRect(this.w - 105, this.h - 8, 100 * (this.tank2.health.amount / 100), 5);
 			this.t1Health.endFill();
 
 		}
