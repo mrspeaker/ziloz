@@ -47,14 +47,16 @@ sys.Move = {
 
 		}
 
-		if (e.playerControl) {
+		if (e.input) {
 
-			var speed = 0.5;
+			var input = e.input,
+				speed = 0.5;
+
 			if (input.key.right) { e.vel.x += speed; }
 			if (input.key.left) { e.vel.x -= speed; }
 			if (input.key.up) { e.vel.y -= speed; }
 			if (input.key.down) { e.vel.y += speed; }
-			if (input.space) {
+			if (input.key.fire) {
 
 				var now = Date.now();
 				if (!e.lastFire || now - e.lastFire > 200) {

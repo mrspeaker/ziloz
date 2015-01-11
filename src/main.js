@@ -5,7 +5,6 @@ var main = {
 
 	ents: null,
 	ents_to_add: null,
-	bits: null,
 
 	init: function () {
 
@@ -28,7 +27,8 @@ var main = {
 		loader.onComplete = this.onload.bind(this);
 		loader.load();
 
-		input.init();
+		this.input1 = Object.create(Input).init(1);
+		this.input2 = Object.create(Input).init(2);
 
 		this.run();
 
@@ -94,7 +94,8 @@ var main = {
 			},
 			sprite: {
 				ref: this.makeSprite(this.texture, 0, 0, null, 2, 2)
-			}
+			},
+			input: this.input1
 		});
 
 		this.tank.playerControl = {};
@@ -111,7 +112,8 @@ var main = {
 					Math.random() * 0xFFFFFF,
 					2, 2
 				)
-			}
+			},
+			input: this.input2
 		});
 
 		this.ents_to_add.push(this.tank);
@@ -135,8 +137,7 @@ var main = {
 
 		}
 
-		console.log("yp")
-		this.bbbb = this.addBullet(this.tank);
+		this.addBullet(this.tank);
 
 		this.run();
 

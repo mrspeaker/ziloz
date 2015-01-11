@@ -9,8 +9,8 @@ prefabs.tank = {
     vel: {},
     sprite: {},
 
-    spin: {},
-    jiggle: {}
+    spin: {}
+    //jiggle: {}
 };
 
 prefabs.bullet = {

@@ -26,7 +26,9 @@ components.vel = {
 	y: 0
 };
 
-components.playerControl = {};
+components.input = {
+
+};
 
 components.spin = {
 	rate: -0.01

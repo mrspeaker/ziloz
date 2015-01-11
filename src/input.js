@@ -1,16 +1,33 @@
-var input = {
+var Input = {
 
-	space: false,
-	space_was: false,
+	key: null,
 
-	key: {
-		up: false,
-		down: false,
-		left: false,
-		right: false
+	keyset1: {
+		up: 38,
+		down: 40,
+		left: 37,
+		right: 39,
+		fire: 32
 	},
 
-	init: function () {
+	keyset2: {
+		up: 87,
+		down: 83,
+		left: 65,
+		right: 68,
+		fire: 88
+	},
+
+	init: function (keyset) {
+
+		this.key = {
+			up: false,
+			down: false,
+			left: false,
+			right: false
+		};
+
+		this.keyset = this["keyset" + keyset];
 
 		document.addEventListener("keydown", (function (e) {
 
@@ -24,25 +41,31 @@ var input = {
 
 		}).bind(this), false);
 
+		return this;
+
 	},
 
 	keyDown: function (e) {
 
-		if (e.keyCode === 32) { this.space = true; }
-		if (e.keyCode === 38) { this.key.up = true; }
-		if (e.keyCode === 40) { this.key.down = true; }
-		if (e.keyCode === 37) { this.key.left = true; }
-		if (e.keyCode === 39) { this.key.right = true; }
+		var set = this.keyset;
+
+		if (e.keyCode === set.fire) { this.key.fire = true; }
+		if (e.keyCode === set.up) { this.key.up = true; }
+		if (e.keyCode === set.down) { this.key.down = true; }
+		if (e.keyCode === set.left) { this.key.left = true; }
+		if (e.keyCode === set.right) { this.key.right = true; }
 
 	},
 
 	keyUp: function (e) {
 
-		if (e.keyCode === 32) { this.space = false; }
-		if (e.keyCode === 38) { this.key.up = false; }
-		if (e.keyCode === 40) { this.key.down = false; }
-		if (e.keyCode === 37) { this.key.left = false; }
-		if (e.keyCode === 39) { this.key.right = false; }
+		var set = this.keyset;
+
+		if (e.keyCode === set.fire) { this.key.fire = false; }
+		if (e.keyCode === set.up) { this.key.up = false; }
+		if (e.keyCode === set.down) { this.key.down = false; }
+		if (e.keyCode === set.left) { this.key.left = false; }
+		if (e.keyCode === set.right) { this.key.right = false; }
 
 	},
 
