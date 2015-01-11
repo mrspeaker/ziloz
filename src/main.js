@@ -30,7 +30,43 @@ var main = {
 		this.input1 = Object.create(Input).init(1);
 		this.input2 = Object.create(Input).init(2);
 
+		this.map = this.makeMap();
+
 		this.run();
+
+	},
+
+	makeMap: function () {
+
+		return {
+			w: 15,
+			h: 9,
+			tileW: 32,
+			tileH: 32,
+			blocks: [
+				[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+				[1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+				[1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+				[1,1,0,0,0,0,1,0,1,0,0,0,0,1,1],
+				[0,1,0,0,0,0,0,0,0,0,0,0,0,1,0],
+				[1,1,0,0,0,0,1,0,1,0,0,0,0,1,1],
+				[1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+				[1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+				[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+			],
+			getBlockAt: function (x, y) {
+
+				var yb = y / this.tileH | 0,
+					xb = x / this.tileW | 0;
+
+				if (yb < 0 || xb < 0) return {walkable: false}
+				if (xb > this.w - 1) return {walkable: false}
+				if (yb > this.h - 1) return {walkable: false}
+
+				return { walkable: this.blocks[yb][xb] === 0};
+			}
+		}
+
 
 	},
 
@@ -92,17 +128,13 @@ var main = {
 
 	addTarget: function () {
 
-		var x = Math.random() * this.w,
-			y = Math.random() * this.h,
-			s = this.makeSprite(this.texture, x, y, 0xffff00);
+		var pos = this.findFreeSpot(this.map),
+			s = this.makeSprite(this.texture, pos.x, pos.y, 0xffff00);
 
 		this.stage.addChild(s);
 
 		var bb = createEntity("target", {
-			pos: {
-				x: x,
-				y: y
-			},
+			pos: pos,
 			sprite: {
 				ref: s
 			}
@@ -132,12 +164,35 @@ var main = {
 
 	},
 
+	findFreeSpot: function (map) {
+
+		var ok = false,
+			x,
+			y;
+
+		while (!ok) {
+			x = map.tileW * (Math.random () * map.w | 0);
+			y = map.tileH * (Math.random () * map.h | 0);
+
+			if (map.getBlockAt(x, y).walkable) {
+				ok = true;
+			}
+
+		}
+
+		return {x: x, y: y}
+	},
+
 	onload: function () {
+
+		var map = this.map;
+
+		var free = this.findFreeSpot(map);
 
 		this.tank = createEntity("tank", {
 			pos: {
-				x: (Math.random() * (this.w - 100)) + 100,
-				y: Math.random() * this.h
+				x: free.x,
+				y: free.y
 			},
 			sprite: {
 				ref: this.makeSprite(this.texture, 0, 0, null, 2, 2)
@@ -145,13 +200,15 @@ var main = {
 			input: this.input1
 		});
 
+		var free = this.findFreeSpot(map);
+
 		this.tank.playerControl = {};
 		delete this.tank.spin;
 
 		this.tank2 = createEntity("tank", {
 			pos: {
-				x: (Math.random() * (this.w - 100)) + 100,
-				y: Math.random() * this.h
+				x: free.x,
+				y: free.y
 			},
 			sprite: {
 				ref: this.makeSprite(
@@ -171,15 +228,15 @@ var main = {
 		this.stage.addChild(this.tank.sprite.ref);
 		this.stage.addChild(this.tank2.sprite.ref);
 
-		for (var bb = 0; bb < 9; bb++) {
+		for (var bb = 0; bb < this.map.h; bb++) {
 
-			for (var aa = 0; aa < 15; aa++) {
+			for (var aa = 0; aa < this.map.w; aa++) {
 
-				var f = bb === 0 || bb === 8 || aa === 0 || aa === 14 ? 0 : 1;
-				if (f === 1) continue;
-				var bit = PIXI.Sprite.fromFrame("f" + f + "_" + 0);
-				bit.position.x = aa * 32;
-				bit.position.y = bb * 32;
+				var block = this.map.blocks[bb][aa];
+				if (block === 0) continue;
+				var bit = PIXI.Sprite.fromFrame("f" + (block - 1) + "_" + 0);
+				bit.position.x = aa * this.map.tileW;
+				bit.position.y = bb * this.map.tileH;
 				this.stage.addChild(bit);
 
 			}
@@ -219,9 +276,9 @@ var main = {
 
 		this.ents = this.ents.filter(function (e) {
 
-			sys.Move.update(e);
-			sys.Physics.update(e, 1);
 			sys.Life.update(e);
+			sys.Move.update(e);
+			sys.Physics.update(e, self.map, 1);
 			sys.Collision.update(e, ents);
 			sys.Render.update(e);
 
@@ -235,7 +292,7 @@ var main = {
 
 		});
 
-		if (Math.random () < 0.01) {
+		if (Math.random () < 0.001) {
 			this.addTarget();
 		}
 
