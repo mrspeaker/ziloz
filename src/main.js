@@ -36,25 +36,24 @@ var main = {
 
 	addBullet: function (e) {
 
-		var rot = e.rot ? e.rot.angle : 0;
+		var rot = e.rot ? e.rot.angle - Math.PI / 2 : 0,
+			x = e.pos.x + (Math.cos(rot) * 15),
+			y = e.pos.y + (Math.sin(rot) * 15);
 
-		var b = this.makeSprite(
-			this.texture,
-			e.pos.x,
-			e.pos.y);
+		var b = this.makeSprite(this.texture, x, y);
 
 		b.rotation += Math.PI;
 
 		var bb = createEntity("bullet", {
 			pos: {
-				x: e.pos.x,
-				y: e.pos.y
+				x: x,
+				y: y
 			},
 			sprite: {
 				ref: b
 			},
 			rot: {
-				angle: rot - Math.PI / 2
+				angle: rot
 			}
 		});
 
@@ -99,6 +98,7 @@ var main = {
 		});
 
 		this.tank.playerControl = {};
+		delete this.tank.spin;
 
 		this.tank2 = createEntity("tank", {
 			pos: {
@@ -156,7 +156,8 @@ var main = {
 
 	update: function (dt) {
 
-		var stage = this.stage;
+		var ents = this.ents,
+			stage = this.stage;
 
 		this.ents_to_add = this.ents_to_add.filter(function (e) {
 
@@ -173,11 +174,22 @@ var main = {
 			sys.Life.update(e);
 			sys.Render.update(e);
 
-			/*this.ents.forEach(function (e2) {
+			ents.forEach(function (e2) {
 
-				if (e2 === e) return;
+				if (e2 === e || !e2.collision) return;
 
-			});*/
+				if (e2.collision.group !== "default") {
+					return;
+				}
+
+				var dx = e2.pos.x - e.pos.x,
+					dy = e2.pos.y - e.pos.y;
+
+				if (Math.sqrt(dx * dx + dy * dy) < 10) {
+					e2.remove = true;
+				}
+
+			});
 
 			if (e.remove) {
 

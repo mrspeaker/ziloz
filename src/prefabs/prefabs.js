@@ -8,6 +8,7 @@ prefabs.tank = {
     rot: {},
     vel: {},
     sprite: {},
+    collision: {},
 
     spin: {}
     //jiggle: {}
