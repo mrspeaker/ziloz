@@ -28,6 +28,12 @@ sys.Physics = {
 			dy = 0;
 			vel.x = 0;
 			vel.y = 0;
+
+			if (e.bouncer) {
+				e.rot.angle += Math.PI / 4;
+			}
+
+
 		}
 
 		pos.x += dx;

@@ -59,3 +59,5 @@ components.sine = {
 components.collision = {
 	group: "default"
 };
+
+components.bouncer = {};
