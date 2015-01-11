@@ -30,6 +30,10 @@ components.input = {
 
 };
 
+components.autofire = {
+
+}
+
 components.health = {
 	amount: 100
 }

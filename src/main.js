@@ -37,8 +37,8 @@ var main = {
 	addBullet: function (e) {
 
 		var rot = e.rot ? e.rot.angle - Math.PI / 2 : 0,
-			x = e.pos.x + (Math.cos(rot) * 15),
-			y = e.pos.y + (Math.sin(rot) * 15);
+			x = e.pos.x + (Math.cos(rot) * 18),
+			y = e.pos.y + (Math.sin(rot) * 18);
 
 		var b = this.makeSprite(this.texture, x, y);
 
@@ -113,7 +113,8 @@ var main = {
 					2, 2
 				)
 			},
-			input: this.input2
+			input: this.input2,
+			autofire: {}
 		});
 
 		this.ents_to_add.push(this.tank);
@@ -185,7 +186,7 @@ var main = {
 					dx = e2.pos.x - e.pos.x,
 					dy = e2.pos.y - e.pos.y;
 
-				if (Math.sqrt(dx * dx + dy * dy) < 10) {
+				if (Math.sqrt(dx * dx + dy * dy) < 15) {
 
 					e2.remove = !e2.health ? true : (e2.health.amount -= 20) <= 0;
 					e.remove = !e.health ? true : (e.health.amount -= 20) <= 0;

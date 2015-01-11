@@ -70,7 +70,7 @@ sys.Move = {
 					e.rot.angle = Math.PI;
 				}
 			}
-			if (key.fire) {
+			if (key.fire || e.autofire) {
 
 				var now = Date.now();
 				if (!e.lastFire || now - e.lastFire > 200) {
