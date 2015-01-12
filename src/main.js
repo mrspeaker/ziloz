@@ -1,3 +1,5 @@
+"use strict";
+
 var main = {
 
 	w: 30 * 16,
@@ -6,7 +8,7 @@ var main = {
 	ents: null,
 	ents_to_add: null,
 
-	textures: [],
+	textures: null,
 
 	init: function () {
 
@@ -26,17 +28,18 @@ var main = {
 
 		PIXI.scaleModes.DEFAULT = PIXI.scaleModes.NEAREST;
 
-		this.stage = new PIXI.Stage(0x18060C),
+		this.stage = new PIXI.Stage(0x18060C);
 		this.renderer = PIXI.autoDetectRenderer(this.w, this.h);
 
 		document.body.appendChild(this.renderer.view);
 
-		var texture = PIXI.Texture.fromImage("res/images/tank.png"),
-			assetsToLoader = ["res/images/tanktiles.json"],
-			loader = new PIXI.AssetLoader(assetsToLoader);
+		this.textures = {
+			"main":  PIXI.Texture.fromImage("res/images/tank.png")
+		};
 
-		this.textures.main = texture;
-
+		var loader = new PIXI.AssetLoader([
+			"res/images/tanktiles.json"
+		]);
 		loader.onComplete = this.onAssetLoad.bind(this);
 		loader.load();
 
@@ -142,7 +145,7 @@ var main = {
 						walkable: [0, 3, 4].indexOf(col) > -1,
 						destructible: [1].indexOf(col) > -1,
 						sprite: null
-					}
+					};
 				});
 			}),
 
@@ -159,7 +162,7 @@ var main = {
 				return this.blocks[yb][xb];
 			}
 
-		}
+		};
 
 
 	},
@@ -245,7 +248,7 @@ var main = {
 		sprite.position.y = y;
 
 		sprite.scale.x = sx || 1;
-		sprite.scale.y = sx || 1;
+		sprite.scale.y = sy || 1;
 
 		if (col) {
 			sprite.tint = col;
@@ -278,7 +281,8 @@ var main = {
 
 		}
 
-		return { x: x * tw, y: y * th }
+		return { x: x * tw, y: y * th };
+
 	},
 
 	run: function (now, last) {
@@ -288,14 +292,13 @@ var main = {
 		this.update(dt);
 		this.render();
 
-		requestAnimFrame(function (next) { main.run(next, now) });
+		requestAnimFrame(function (next) { main.run(next, now); });
 
 	},
 
 	update: function (dt) {
 
 		var ents = this.ents,
-			stage = this.stage,
 			self = this;
 
 		this.ents_to_add = this.ents_to_add.filter(function (e) {
@@ -362,4 +365,4 @@ var main = {
 
 	}
 
-}
+};

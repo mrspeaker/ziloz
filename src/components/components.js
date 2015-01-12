@@ -37,7 +37,7 @@ components.input = {
 
 components.health = {
 	amount: 100
-}
+};
 
 components.autofire = {};
 
@@ -71,5 +71,5 @@ components.bouncer = {};
 
 components.map = {
    	destroy: false,
-   	destroyedBy: false,
-}
+   	destroyedBy: false
+};

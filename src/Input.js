@@ -1,4 +1,6 @@
-var Input = {
+"use strict";
+
+window.Input = {
 
 	key: null,
 
