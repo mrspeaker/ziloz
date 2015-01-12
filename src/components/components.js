@@ -26,7 +26,9 @@ components.vel = {
 	y: 0
 };
 
-components.input = {};
+components.input = {
+	power: 0.8
+};
 
 components.health = {
 	amount: 100
@@ -47,7 +49,7 @@ components.life = {
 };
 
 components.shoot = {
-	vel: 1.5,
+	vel: 3.0,
 	rot: -Math.PI / 2
 };
 

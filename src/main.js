@@ -8,6 +8,8 @@ var main = {
 
 	init: function () {
 
+		var start = Date.now();
+
 		this.ents = [];
 		this.ents_to_add = [];
 
@@ -31,8 +33,6 @@ var main = {
 		this.input2 = Object.create(Input).init(2);
 
 		this.map = this.makeMap();
-
-		this.run();
 
 	},
 
@@ -68,17 +68,27 @@ var main = {
 				[5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,5,5,5,5,5,5,5],
 				[5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,5,5,5,5,5,5,5],
 				[5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5]
-			],
+			].map(function (row) {
+				return row.map(function (col) {
+					return {
+						type: col,
+						health: 10,
+						walkable: [0, 3, 4].indexOf(col) > -1,
+						sprite: null
+					}
+				});
+			}),
 			getBlockAt: function (x, y) {
 
 				var yb = y / this.tileH | 0,
-					xb = x / this.tileW | 0;
+					xb = x / this.tileW | 0,
+					nullBlock = {walkable: false};
 
-				if (yb < 0 || xb < 0) return {walkable: false}
-				if (xb > this.w - 1) return {walkable: false}
-				if (yb > this.h - 1) return {walkable: false}
+				if (yb < 0 || xb < 0) return nullBlock;
+				if (xb > this.w - 1) return nullBlock;
+				if (yb > this.h - 1) return nullBlock;
 
-				return { walkable: [0, 3, 4].indexOf(this.blocks[yb][xb]) > -1};
+				return this.blocks[yb][xb];
 			}
 		}
 
@@ -196,6 +206,7 @@ var main = {
 			tw = map.tileW,
 			th = map.tileH;
 
+		var max = 100;
 		while (!ok) {
 			x = (Math.random () * map.w | 0);
 			y = (Math.random () * map.h | 0);
@@ -207,6 +218,8 @@ var main = {
 				map.getBlockAt((x - 1) * tw, (y - 1) * th).walkable) {
 				ok = true;
 			}
+
+			if (max-- <= 0) ok = true;
 
 		}
 
@@ -221,11 +234,12 @@ var main = {
 			for (var aa = 0; aa < this.map.w; aa++) {
 
 				var block = map.blocks[bb][aa];
-				if (block === 0) continue;
-				var bit = PIXI.Sprite.fromFrame("f" + (block - 1) + "_" + 0);
-				bit.position.x = aa * map.tileW;
-				bit.position.y = bb * map.tileH;
-				this.stage.addChild(bit);
+				if (block.type === 0) continue;
+				var tile = PIXI.Sprite.fromFrame("f" + (block.type - 1) + "_" + 0);
+				tile.position.x = aa * map.tileW;
+				tile.position.y = bb * map.tileH;
+				this.stage.addChild(tile);
+				this.map.blocks[bb][aa].sprite = tile;
 
 			}
 
@@ -310,6 +324,7 @@ var main = {
 			sys.Life.update(e);
 			sys.Move.update(e);
 			sys.Physics.update(e, self.map, 1);
+			sys.Map.update(e, self.map);
 			sys.Collision.update(e, ents);
 			sys.Render.update(e);
 

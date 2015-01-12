@@ -34,7 +34,8 @@ prefabs.bullet = {
     	group: "projectiles",
     	damage: 10
     },
-    bouncer: {}
+    bouncer: {},
+    mazeRunner: {}
 };
 
 prefabs.explosion = {

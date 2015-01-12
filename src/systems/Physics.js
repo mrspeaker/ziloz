@@ -36,14 +36,20 @@ sys.Physics = {
 			lm = map.getBlockAt(nextX - w, nextY).walkable,
 			rm = map.getBlockAt(nextX + w, nextY).walkable;
 
+		if (e.mazeRunner) {
+			e.mazeRunner.hit = false;
+			e.mazeRunner.touching = [];
+		}
+
 		if (!(tl && tm && tr && bl && bm && br && lm && rm)) {
 			dx = 0;
 			dy = 0;
 			vel.x = 0;
 			vel.y = 0;
 
-			if (e.bouncer) {
-				e.rot.angle += Math.PI / 4;
+			if (e.mazeRunner) {
+				e.mazeRunner.hit = true;
+				e.mazeRunner.touching = [tl, tm, tr, lm, false, rm, bl, bm, br];
 			}
 
 

@@ -5,11 +5,13 @@ var sys = (window.sys = window.sys || {});
 sys.Collision = {
 	update: function (e, ents) {
 
+		if (e.remove) { return; }
+
 		if (e.collision && e.collision.damage) {
 
 			ents.forEach(function (e2) {
 
-				if (e2 === e || !e2.collision) return;
+				if (e2.remove || e2 === e || !e2.collision) return;
 				if (e2.collision.group === "projectile" ) {
 					return;
 				}
@@ -32,7 +34,7 @@ sys.Collision = {
 
 			ents.forEach(function (e2) {
 
-				if (!e2.collision || e2.collision.group !== "default") {
+				if (e2.remove || !e2.collision || e2.collision.group !== "default") {
 					return;
 				}
 
