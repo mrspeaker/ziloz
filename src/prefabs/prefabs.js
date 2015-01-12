@@ -4,16 +4,21 @@ var prefabs = window.prefabs || {};
 
 prefabs.tank = {
 	pos: {},
-    size: {
-    	w: 22,
-    	h: 22
-    },
-    rot: {},
-    vel: {},
-    sprite: {},
-    collision: {},
+	size: {
+		w: 22,
+		h: 22
+	},
+	rot: {},
+	vel: {},
+	sprite: {},
+	collision: {},
 
-    health: {}
+	health: {},
+
+	map: {
+		destroy: true,
+		destroyedBy: false
+	}
 };
 
 prefabs.bullet = {
@@ -27,15 +32,18 @@ prefabs.bullet = {
 
 	shoot: {},
 	life: {},
-    sine: {
-    	freq: 30
-    },
-    collision: {
-    	group: "projectiles",
-    	damage: 10
-    },
-    bouncer: {},
-    mazeRunner: {}
+	sine: {
+		freq: 30
+	},
+	collision: {
+		group: "projectiles",
+		damage: 10
+	},
+	bouncer: {},
+	map: {
+		destroy: true,
+		destroyedBy: true
+	}
 };
 
 prefabs.explosion = {

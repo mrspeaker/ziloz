@@ -74,6 +74,7 @@ var main = {
 						type: col,
 						health: 10,
 						walkable: [0, 3, 4].indexOf(col) > -1,
+						destructible: [1].indexOf(col) > -1,
 						sprite: null
 					}
 				});

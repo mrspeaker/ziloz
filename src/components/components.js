@@ -8,7 +8,9 @@ components.sprite = {
 
 components.pos = {
 	x: 0,
-	y: 0
+	y: 0,
+	lastX: 0,
+	lastY: 0
 };
 
 components.rot = {
@@ -27,7 +29,7 @@ components.vel = {
 };
 
 components.input = {
-	power: 0.8
+	power: 1.4
 };
 
 components.health = {
@@ -49,7 +51,7 @@ components.life = {
 };
 
 components.shoot = {
-	vel: 3.0,
+	vel: 5.0,
 	rot: -Math.PI / 2
 };
 
@@ -63,3 +65,8 @@ components.collision = {
 };
 
 components.bouncer = {};
+
+components.map = {
+   	destroy: true,
+   	destroyedBy: false
+}

@@ -40,6 +40,7 @@ sys.Move = {
 				speed =input.power;
 
 			if (key.left || key.right) {
+				e.vel.y = 0;
 				if (key.right) {
 					e.vel.x += speed;
 					e.rot.angle = Math.PI / 2;
@@ -48,7 +49,8 @@ sys.Move = {
 					e.vel.x -= speed;
 					e.rot.angle = -Math.PI / 2;
 				}
-			} else {
+			} else if (key.up || key.down) {
+				e.vel.x = 0;
 				if (key.up) {
 					e.vel.y -= speed;
 					e.rot.angle = 0;
@@ -58,6 +60,7 @@ sys.Move = {
 					e.rot.angle = Math.PI;
 				}
 			}
+
 			if (key.fire || e.autofire) {
 
 				var now = Date.now();
