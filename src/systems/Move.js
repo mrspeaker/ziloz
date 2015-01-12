@@ -37,7 +37,7 @@ sys.Move = {
 
 			var input = e.input,
 				key = input.key,
-				speed = 0.2;
+				speed = 0.5;
 
 			if (key.left || key.right) {
 				if (key.right) {

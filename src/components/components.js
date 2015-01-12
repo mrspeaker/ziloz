@@ -47,7 +47,7 @@ components.life = {
 };
 
 components.shoot = {
-	vel: 0.8,
+	vel: 1.5,
 	rot: -Math.PI / 2
 };
 

@@ -4,7 +4,10 @@ var prefabs = window.prefabs || {};
 
 prefabs.tank = {
 	pos: {},
-    size: {},
+    size: {
+    	w: 22,
+    	h: 22
+    },
     rot: {},
     vel: {},
     sprite: {},
