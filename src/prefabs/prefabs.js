@@ -32,7 +32,7 @@ prefabs.bullet = {
 	bouncer: {},
 	map: {
 		destroy: true,
-		destroyedBy: true
+		destroyedBy: false
 	}
 };
 

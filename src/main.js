@@ -20,7 +20,7 @@ var main = {
 		this.input1 = Object.create(Input).init(1);
 		this.input2 = Object.create(Input).init(2);
 
-		this.map = this.makeMap();
+		this.map = Object.create(Map).init();
 
 	},
 
@@ -40,12 +40,12 @@ var main = {
 		var loader = new PIXI.AssetLoader([
 			"res/images/tanktiles.json"
 		]);
-		loader.onComplete = this.onAssetLoad.bind(this);
+		loader.onComplete = this.onAssetsLoaded.bind(this);
 		loader.load();
 
 	},
 
-	onAssetLoad: function () {
+	onAssetsLoaded: function () {
 
 		var map = this.map;
 
@@ -71,7 +71,7 @@ var main = {
 		}
 
 		// Player 1
-		var free = this.findFreeSpot(map);
+		var free = this.map.findFreeSpot();
 		this.tank = this.add("tank", {
 			pos: {
 				x: free.x,
@@ -86,7 +86,7 @@ var main = {
 		this.stage.addChild(this.t1Health);
 
 		// Player 2
-		free = this.findFreeSpot(map);
+		free = this.map.findFreeSpot();
 		this.tank2 = this.add("tank", {
 			pos: {
 				x: free.x,
@@ -103,74 +103,6 @@ var main = {
 		this.stage.addChild(this.t2Health);
 
 		this.run();
-
-	},
-
-	makeMap: function () {
-
-		// TODO: move to new module
-
-		return {
-			w: 30,
-			h: 24,
-			tileW: 16,
-			tileH: 16,
-			blocks: [
-				[5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5],
-				[5,5,5,5,5,5,5,5,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5],
-				[5,5,5,5,5,5,5,5,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5],
-				[5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,5],
-				[5,0,0,0,0,0,0,0,0,0,0,2,3,3,2,0,0,0,0,0,0,0,0,0,0,3,3,0,0,5],
-				[5,0,0,1,3,3,3,3,1,0,0,2,3,3,2,0,0,0,0,0,0,0,0,0,0,3,3,0,0,5],
-				[5,0,0,1,3,3,3,3,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,5],
-				[5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,0,0,0,0,0,0,0,0,5],
-				[5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,0,0,0,0,0,0,0,0,5],
-				[5,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,0,0,0,0,1,1,1,1,5],
-				[5,5,5,5,1,0,0,0,0,2,2,0,0,0,0,0,0,0,0,2,2,0,0,0,0,1,5,5,5,5],
-				[5,5,5,5,1,0,0,0,0,4,4,0,0,1,4,4,1,0,0,3,3,0,0,0,0,1,5,5,5,5],
-				[5,5,5,5,1,0,0,0,0,4,4,0,0,1,4,4,1,0,0,3,3,0,0,0,0,1,5,5,5,5],
-				[5,5,5,5,1,0,0,0,0,2,2,0,0,0,0,0,0,0,0,2,2,0,0,0,0,1,5,5,5,5],
-				[5,1,1,1,1,0,0,0,0,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,5],
-				[5,0,0,0,0,0,0,0,0,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5],
-				[5,0,0,0,0,0,0,0,0,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5],
-				[5,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,4,4,4,4,1,0,0,5],
-				[5,0,0,4,4,0,0,0,0,0,0,0,0,0,0,2,4,4,2,0,0,1,4,4,4,4,1,0,0,5],
-				[5,0,0,4,4,0,0,0,0,0,0,0,0,0,0,2,4,4,2,0,0,0,0,0,0,0,0,0,0,5],
-				[5,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5],
-				[5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,5,5,5,5,5,5,5],
-				[5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,5,5,5,5,5,5,5],
-				[5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5]
-			].map(function (row) {
-
-				return row.map(function (col) {
-
-					return {
-						type: col,
-						health: 10,
-						walkable: [0, 3, 4].indexOf(col) > -1,
-						destructible: [1].indexOf(col) > -1,
-						sprite: null
-					};
-
-				});
-
-			}),
-
-			getBlockAt: function (x, y) {
-
-				var yb = y / this.tileH | 0,
-					xb = x / this.tileW | 0,
-					nullBlock = {walkable: false};
-
-				if (yb < 0 || xb < 0) return nullBlock;
-				if (xb > this.w - 1) return nullBlock;
-				if (yb > this.h - 1) return nullBlock;
-
-				return this.blocks[yb][xb];
-			}
-
-		};
-
 
 	},
 
@@ -233,7 +165,7 @@ var main = {
 	addTarget: function () {
 
 		return this.add("target", {
-			pos: this.findFreeSpot(this.map),
+			pos: this.map.findFreeSpot(),
 			sprite: {
 				tint: Math.random() * 0xffffff,
 				scale: 0.5
@@ -262,33 +194,6 @@ var main = {
 		}
 
 		return sprite;
-
-	},
-
-	findFreeSpot: function (map) {
-
-		var ok = false,
-			x,
-			y,
-			tw = map.tileW,
-			th = map.tileH;
-
-		while (!ok) {
-
-			x = (Math.random () * map.w | 0);
-			y = (Math.random () * map.h | 0);
-
-			if (
-				map.getBlockAt(x * tw, y * th).walkable &&
-				map.getBlockAt((x - 1) * tw, y * th).walkable &&
-				map.getBlockAt(x * tw, (y - 1) * th).walkable &&
-				map.getBlockAt((x - 1) * tw, (y - 1) * th).walkable) {
-					ok = true;
-			}
-
-		}
-
-		return { x: x * tw, y: y * th };
 
 	},
 
