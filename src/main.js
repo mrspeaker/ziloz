@@ -130,7 +130,6 @@ var main = {
 
 	addExplosion: function (e) {
 
-
 		for (var i = 0; i < 10; i++) {
 			var x = e.pos.x + (Math.random() * 20 - 10),
 				y = e.pos.y + (Math.random() * 20 - 10),
@@ -149,7 +148,11 @@ var main = {
 				},
 				sprite: {
 					ref: b
+				},
+				life: {
+					count: (Math.random() * 30) + 40 | 0
 				}
+
 			});
 
 			this.ents_to_add.push(bb);

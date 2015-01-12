@@ -55,6 +55,7 @@ sys.Map = {
 
 				if (run.destroyedBy) {
 					e.remove = true;
+					main.addExplosion(e);
 				}
 
 			}
