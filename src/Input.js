@@ -7,7 +7,8 @@ var Input = {
 		down: 40,
 		left: 37,
 		right: 39,
-		fire: 32
+		fire: 32,
+		fire2: 190
 	},
 
 	keyset2: {
@@ -15,7 +16,8 @@ var Input = {
 		down: 83,
 		left: 65,
 		right: 68,
-		fire: 88
+		fire: 88,
+		fire2: 70
 	},
 
 	init: function (keyset) {
@@ -50,6 +52,7 @@ var Input = {
 		var set = this.keyset;
 
 		if (e.keyCode === set.fire) { this.key.fire = true; }
+		if (e.keyCode === set.fire2) { this.key.fire = true; }
 		if (e.keyCode === set.up) { this.key.up = true; }
 		if (e.keyCode === set.down) { this.key.down = true; }
 		if (e.keyCode === set.left) { this.key.left = true; }
@@ -62,6 +65,7 @@ var Input = {
 		var set = this.keyset;
 
 		if (e.keyCode === set.fire) { this.key.fire = false; }
+		if (e.keyCode === set.fire2) { this.key.fire = false; }
 		if (e.keyCode === set.up) { this.key.up = false; }
 		if (e.keyCode === set.down) { this.key.down = false; }
 		if (e.keyCode === set.left) { this.key.left = false; }

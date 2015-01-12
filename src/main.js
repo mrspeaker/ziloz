@@ -198,13 +198,13 @@ var main = {
 
 		while (!ok) {
 			x = (Math.random () * map.w | 0);
-			y = map.tileH * (Math.random () * map.h | 0);
+			y = (Math.random () * map.h | 0);
 
 			if (
 				map.getBlockAt(x * tw, y * th).walkable &&
-				map.getBlockAt((x + 1) * tw, y * th).walkable &&
-				map.getBlockAt(x * tw, (y + 1) * th).walkable &&
-				map.getBlockAt((x + 1) * tw, (y + 1) * th).walkable) {
+				map.getBlockAt((x - 1) * tw, y * th).walkable &&
+				map.getBlockAt(x * tw, (y - 1) * th).walkable &&
+				map.getBlockAt((x - 1) * tw, (y - 1) * th).walkable) {
 				ok = true;
 			}
 
@@ -251,7 +251,6 @@ var main = {
 		var free = this.findFreeSpot(map);
 
 		this.tank.playerControl = {};
-		delete this.tank.spin;
 
 		this.tank2 = createEntity("tank", {
 			pos: {
@@ -266,7 +265,7 @@ var main = {
 				)
 			},
 			input: this.input2,
-			autofire: {}
+			//autofire: {}
 		});
 		this.t2Health = new PIXI.Graphics();
 		this.stage.addChild(this.t2Health);

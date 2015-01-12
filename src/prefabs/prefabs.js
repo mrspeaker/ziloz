@@ -13,8 +13,7 @@ prefabs.tank = {
     sprite: {},
     collision: {},
 
-    health: {},
-    spin: {}
+    health: {}
 };
 
 prefabs.bullet = {
@@ -55,6 +54,9 @@ prefabs.target = {
 	sprite: {},
 	collision: {
 		group: "pickup"
+	},
+	life: {
+		count: 3000
 	}
 }
 
