@@ -8,7 +8,7 @@ sys.Map = {
 
 		var run = e.map;
 
-		if (!run) return;
+		if (!run) { return };
 
 		// Check if move valid...
 		var x = e.pos.x,
@@ -37,7 +37,9 @@ sys.Map = {
 			run.touching = [tl, tm, tr, lm, false, rm, bl, bm, br];
 
 			if (e.bouncer) {
+
 				e.rot.angle += Math.PI / 4;
+
 			}
 
 			if (run.destroy) {
@@ -45,18 +47,24 @@ sys.Map = {
 				var block = map.blocks[e.pos.y / map.tileH | 0][e.pos.x / map.tileW | 0];
 
 				if (block.destructible) {
+
 					block.type = 0;
 					block.walkable = true;
 
 					if (block.sprite) {
+
 						main.stage.removeChild(block.sprite);
 						block.sprite = null;
+
 					}
+
 				}
 
 				if (run.destroyedBy) {
+
 					e.remove = true;
 					main.addExplosion(e);
+
 				}
 
 			}

@@ -6,6 +6,8 @@ sys.Move = {
 
 	update: function (e) {
 
+		var now = Date.now();
+
 		if (e.spin && e.rot) {
 
 			e.rot.angle += e.spin.rate;
@@ -38,33 +40,48 @@ sys.Move = {
 
 			var input = e.input,
 				key = input.key,
-				speed =input.power;
+				speed = input.power;
 
 			if (key.left || key.right) {
+
 				e.vel.y = 0;
+
 				if (key.right) {
+
 					e.vel.x += speed;
 					e.rot.angle = Math.PI / 2;
+
 				}
+
 				if (key.left) {
+
 					e.vel.x -= speed;
 					e.rot.angle = -Math.PI / 2;
+
 				}
+
 			} else if (key.up || key.down) {
+
 				e.vel.x = 0;
+
 				if (key.up) {
+
 					e.vel.y -= speed;
 					e.rot.angle = 0;
+
 				}
+
 				if (key.down) {
+
 					e.vel.y += speed;
 					e.rot.angle = Math.PI;
+
 				}
+
 			}
 
 			if (key.fire || e.autofire) {
 
-				var now = Date.now();
 				if (!e.lastFire || now - e.lastFire > 200) {
 					main.addBullet(e);
 					e.lastFire = now;

@@ -15,8 +15,11 @@ function merge (a, b) {
 function addComponent (e, name, conf) {
 
 	e[name] = merge({}, window.components[name]);
+
 	if (conf) {
+
 		e[name] = merge(e[name], conf);
+
 	}
 
 }

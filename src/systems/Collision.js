@@ -12,10 +12,8 @@ sys.Collision = {
 
 			ents.forEach(function (e2) {
 
-				if (e2.remove || e2 === e || !e2.collision) return;
-				if (e2.collision.group === "projectile" ) {
-					return;
-				}
+				if (e2.remove || e2 === e || !e2.collision) { return; }
+				if (e2.collision.group === "projectile" ) { return; }
 
 				var dx = e2.pos.x - e.pos.x,
 					dy = e2.pos.y - e.pos.y;
@@ -35,15 +33,15 @@ sys.Collision = {
 
 			ents.forEach(function (e2) {
 
-				if (e2.remove || !e2.collision || e2.collision.group !== "default") {
-					return;
-				}
+				if (e2.remove || !e2.collision || e2.collision.group !== "default") { return; }
 
 				var dx = e2.pos.x - e.pos.x,
 					dy = e2.pos.y - e.pos.y;
 
 				if (Math.sqrt(dx * dx + dy * dy) < 15) {
+
 					e.remove = true;
+
 				}
 
 
