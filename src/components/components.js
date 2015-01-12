@@ -3,7 +3,10 @@
 var components = window.components || {};
 
 components.sprite = {
-	ref: null
+	ref: null,
+	texture: "main",
+	scale: 1,
+	rot: 0
 };
 
 components.pos = {
@@ -67,6 +70,6 @@ components.collision = {
 components.bouncer = {};
 
 components.map = {
-   	destroy: true,
-   	destroyedBy: false
+   	destroy: false,
+   	destroyedBy: false,
 }

@@ -12,29 +12,19 @@ prefabs.tank = {
 	vel: {},
 	sprite: {},
 	collision: {},
-
 	health: {},
-
-	map: {
-		destroy: true,
-		destroyedBy: false
-	}
+	map: {}
 };
 
 prefabs.bullet = {
 	pos: {},
 	size: {},
 	vel: {},
-	rot: {
-	//	offset: Math.PI / 2
-	},
+	rot: {},
 	sprite: {},
 
 	shoot: {},
 	life: {},
-	sine: {
-		freq: 30
-	},
 	collision: {
 		group: "projectiles",
 		damage: 10
@@ -55,7 +45,7 @@ prefabs.explosion = {
 	life: {},
 	jiggle: {},
 	spin: {}
-}
+};
 
 prefabs.target = {
 	pos: {},
@@ -66,6 +56,10 @@ prefabs.target = {
 	},
 	life: {
 		count: 3000
+	},
+	sine: {
+		freq: 30
 	}
-}
+};
+
 

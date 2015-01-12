@@ -3,6 +3,7 @@
 var sys = (window.sys = window.sys || {});
 
 sys.Life = {
+
 	update: function (e) {
 
 		if (!e.life) return;
@@ -12,4 +13,5 @@ sys.Life = {
 		}
 
 	}
+
 };

@@ -10,13 +10,11 @@ sys.Physics = {
 
 		var pos = e.pos,
 			vel = e.vel,
-			ox = pos.x,
-			oy = pos.y,
 			dx = 0,
 			dy = 0;
 
-		e.pos.lastX = ox;
-		e.pos.lastY = oy;
+		e.pos.lastX = pos.x;
+		e.pos.lastY = pos.y;
 
 		dx += vel.x * dt;
 		dy += vel.y * dt;

@@ -6,6 +6,8 @@ var main = {
 	ents: null,
 	ents_to_add: null,
 
+	textures: [],
+
 	init: function () {
 
 		var start = Date.now();
@@ -25,6 +27,7 @@ var main = {
 			loader = new PIXI.AssetLoader(assetsToLoader);
 
 		this.texture = texture;
+		this.textures.main = texture;
 
 		loader.onComplete = this.onload.bind(this);
 		loader.load();
@@ -102,52 +105,40 @@ var main = {
 			x = e.pos.x + (Math.cos(rot) * 18),
 			y = e.pos.y + (Math.sin(rot) * 18);
 
-		var b = this.makeSprite(this.texture, x, y);
-		b.rotation += Math.PI;
-		b.scale.x = 0.5;
-		b.scale.y = 0.5;
-
-		this.stage.addChild(b);
-
-		var bb = createEntity("bullet", {
+		var bullet = createEntity("bullet", {
 			pos: {
 				x: x,
 				y: y
 			},
 			sprite: {
-				ref: b
+				texture: "main",
+				scale: 0.5,
+				rot: Math.PI
 			},
 			rot: {
 				angle: rot
 			}
 		});
 
-		this.ents_to_add.push(bb);
+		this.ents_to_add.push(bullet);
 
-		return bb;
+		return bullet;
 
 	},
 
 	addExplosion: function (e) {
 
 		for (var i = 0; i < 10; i++) {
-			var x = e.pos.x + (Math.random() * 20 - 10),
-				y = e.pos.y + (Math.random() * 20 - 10),
-				b = this.makeSprite(this.texture, x, y, 0xff7733);
 
-			b.blendMode = PIXI.blendModes.ADD;
-			b.scale.x = 0.7;
-			b.scale.y = 0.7;
-
-			this.stage.addChild(b);
-
-			var bb = createEntity("explosion", {
+			var expl = createEntity("explosion", {
 				pos: {
-					x: x,
-					y: y
+					x: e.pos.x + (Math.random() * 20 - 10),
+					y: e.pos.y + (Math.random() * 20 - 10)
 				},
 				sprite: {
-					ref: b
+					scale: 0.7,
+					tint: 0xff7733,
+					blend: "ADD"
 				},
 				life: {
 					count: (Math.random() * 30) + 40 | 0
@@ -155,30 +146,24 @@ var main = {
 
 			});
 
-			this.ents_to_add.push(bb);
+			this.ents_to_add.push(expl);
 		}
 
 	},
 
 	addTarget: function () {
 
-		var pos = this.findFreeSpot(this.map),
-			s = this.makeSprite(this.texture, pos.x, pos.y, Math.random() * 0xffffff);
-
-		this.stage.addChild(s);
-		s.scale.x = 0.5;
-		s.scale.y = 0.5;
-
-		var bb = createEntity("target", {
-			pos: pos,
+		var e = createEntity("target", {
+			pos: this.findFreeSpot(this.map),
 			sprite: {
-				ref: s
+				tint: Math.random() * 0xffffff,
+				scale: 0.5
 			},
 			rot: {},
 			spin: {}
 		});
 
-		this.ents_to_add.push(bb);
+		this.ents_to_add.push(e);
 
 	},
 
@@ -258,7 +243,7 @@ var main = {
 				y: free.y
 			},
 			sprite: {
-				ref: this.makeSprite(this.texture, 0, 0, 0x88ffff)
+				tint: 0x88ffff
 			},
 			input: this.input1
 		});
@@ -276,13 +261,9 @@ var main = {
 				y: free.y
 			},
 			sprite: {
-				ref: this.makeSprite(
-					this.texture,
-					0, 0,
-					0xffff55
-				)
+				tint: 0xffff55
 			},
-			input: this.input2,
+			input: this.input2
 			//autofire: {}
 		});
 		this.t2Health = new PIXI.Graphics();
@@ -290,9 +271,6 @@ var main = {
 
 		this.ents_to_add.push(this.tank);
 		this.ents_to_add.push(this.tank2);
-
-		this.stage.addChild(this.tank.sprite.ref);
-		this.stage.addChild(this.tank2.sprite.ref);
 
 		this.run();
 
@@ -317,6 +295,10 @@ var main = {
 
 		this.ents_to_add = this.ents_to_add.filter(function (e) {
 
+			if (e.sprite) {
+				sys.Render.init(e);
+			}
+
 			this.ents.push(e);
 
 			return false;
@@ -334,7 +316,12 @@ var main = {
 
 			if (e.remove) {
 
-				stage.removeChild(e.sprite.ref);
+				if (e.sprite) {
+
+					sys.Render.remove(e);
+
+				}
+
 
 			}
 
