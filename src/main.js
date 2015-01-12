@@ -80,7 +80,9 @@ var main = {
 							h: 10
 						},
 						refill: {
-							ammo: 10
+							ammo: block.refill === 1 ? 10 : 0,
+							fuel: block.refill === 2 ? 100 : 0,
+							health: block.refill === 3 ? 100 : 0
 						},
 						collision: {
 							group: "pickup"
@@ -278,6 +280,13 @@ var main = {
 
 	},
 
+	outOfFuel: function (e) {
+
+		e.remove = true;
+		this.addExplosion(e);
+
+	},
+
 	render: function () {
 
 		this.renderHealthBars();
@@ -293,9 +302,17 @@ var main = {
 
 		this.t1Health.beginFill(this.tank.sprite.ref.tint);
 		this.t2Health.beginFill(this.tank2.sprite.ref.tint);
-		this.t1Health.drawRect(5, 5, 100 * (this.tank.health.amount / 100), 5);
-		this.t2Health.drawRect(this.w - 105, this.h - 8, 100 * (this.tank2.health.amount / 100), 5);
-		this.t1Health.endFill();
+
+		this.t1Health.drawRect(15, 15, 120 * (this.tank.health.amount / 100), 5);
+		this.t1Health.drawRect(15, 25, 120 * (this.tank.ammo.amount / 10), 5);
+		this.t1Health.drawRect(15, 35, 120 * (this.tank.fuel.amount / 100), 5);
+
+		this.t2Health.drawRect(this.w - 138, this.h - 40, 120 * (this.tank2.health.amount / 100), 5);
+		this.t2Health.drawRect(this.w - 138, this.h - 30, 120 * (this.tank2.ammo.amount / 10), 5);
+		this.t2Health.drawRect(this.w - 138, this.h - 20, 120 * (this.tank2.fuel.amount / 100), 5);
+
+		//this.t1Health.endFill();
+
 
 	}
 

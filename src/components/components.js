@@ -42,9 +42,12 @@ components.health = {
 components.ammo = {
 	amount: 10
 };
-components.refill = {
-	amount: 10
+
+components.fuel = {
+	amount: 100
 };
+
+components.refill = {};
 
 components.autofire = {};
 

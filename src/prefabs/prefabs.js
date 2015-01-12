@@ -14,6 +14,7 @@ prefabs.tank = {
 	collision: {},
 	health: {},
 	ammo: {},
+	fuel: {},
 	map: {}
 };
 
