@@ -10,10 +10,19 @@ var main = {
 
 	init: function () {
 
-		var start = Date.now();
-
 		this.ents = [];
 		this.ents_to_add = [];
+
+		this.initPixi();
+
+		this.input1 = Object.create(Input).init(1);
+		this.input2 = Object.create(Input).init(2);
+
+		this.map = this.makeMap();
+
+	},
+
+	initPixi: function () {
 
 		PIXI.scaleModes.DEFAULT = PIXI.scaleModes.NEAREST;
 
@@ -26,20 +35,74 @@ var main = {
 			assetsToLoader = ["res/images/tanktiles.json"],
 			loader = new PIXI.AssetLoader(assetsToLoader);
 
-		this.texture = texture;
 		this.textures.main = texture;
 
-		loader.onComplete = this.onload.bind(this);
+		loader.onComplete = this.onAssetLoad.bind(this);
 		loader.load();
 
-		this.input1 = Object.create(Input).init(1);
-		this.input2 = Object.create(Input).init(2);
+	},
 
-		this.map = this.makeMap();
+	onAssetLoad: function () {
+
+		var map = this.map;
+
+		// Draw the map
+		for (var y = 0; y < this.map.h; y++) {
+
+			for (var x = 0; x < this.map.w; x++) {
+
+				var block = map.blocks[y][x];
+				if (block.type === 0) continue;
+
+				var tile = PIXI.Sprite.fromFrame("f" + (block.type - 1) + "_" + 0);
+				tile.position.x = x * map.tileW;
+				tile.position.y = y * map.tileH;
+				this.stage.addChild(tile);
+				this.map.blocks[y][x].sprite = tile;
+
+			}
+
+		}
+
+		// Player 1
+		var free = this.findFreeSpot(map);
+		this.tank = this.add("tank", {
+			pos: {
+				x: free.x,
+				y: free.y
+			},
+			sprite: {
+				tint: 0x88ffff
+			},
+			input: this.input1
+		});
+		this.t1Health = new PIXI.Graphics();
+		this.stage.addChild(this.t1Health);
+
+		// Player 2
+		free = this.findFreeSpot(map);
+		this.tank2 = this.add("tank", {
+			pos: {
+				x: free.x,
+				y: free.y
+			},
+			sprite: {
+				tint: 0xffff55
+			},
+			input: this.input2,
+			autofire: {},
+			spin:{}
+		});
+		this.t2Health = new PIXI.Graphics();
+		this.stage.addChild(this.t2Health);
+
+		this.run();
 
 	},
 
 	makeMap: function () {
+
+		// TODO: move to new module
 
 		return {
 			w: 30,
@@ -82,6 +145,7 @@ var main = {
 					}
 				});
 			}),
+
 			getBlockAt: function (x, y) {
 
 				var yb = y / this.tileH | 0,
@@ -94,8 +158,18 @@ var main = {
 
 				return this.blocks[yb][xb];
 			}
+
 		}
 
+
+	},
+
+	add: function (type, conf) {
+
+		var e = createEntity(type, conf);
+		this.ents_to_add.push(e);
+
+		return e;
 
 	},
 
@@ -105,7 +179,7 @@ var main = {
 			x = e.pos.x + (Math.cos(rot) * 18),
 			y = e.pos.y + (Math.sin(rot) * 18);
 
-		var bullet = createEntity("bullet", {
+		return this.add("bullet", {
 			pos: {
 				x: x,
 				y: y
@@ -120,17 +194,13 @@ var main = {
 			}
 		});
 
-		this.ents_to_add.push(bullet);
-
-		return bullet;
-
 	},
 
 	addExplosion: function (e) {
 
 		for (var i = 0; i < 10; i++) {
 
-			var expl = createEntity("explosion", {
+			this.add("explosion", {
 				pos: {
 					x: e.pos.x + (Math.random() * 20 - 10),
 					y: e.pos.y + (Math.random() * 20 - 10)
@@ -146,14 +216,13 @@ var main = {
 
 			});
 
-			this.ents_to_add.push(expl);
 		}
 
 	},
 
 	addTarget: function () {
 
-		var e = createEntity("target", {
+		return this.add("target", {
 			pos: this.findFreeSpot(this.map),
 			sprite: {
 				tint: Math.random() * 0xffffff,
@@ -163,13 +232,12 @@ var main = {
 			spin: {}
 		});
 
-		this.ents_to_add.push(e);
-
 	},
 
 	makeSprite: function (texture, x, y, col, sx, sy) {
 
 		var sprite = new PIXI.Sprite(texture);
+
 		sprite.anchor.x = 0.5;
 		sprite.anchor.y = 0.5;
 
@@ -195,8 +263,8 @@ var main = {
 			tw = map.tileW,
 			th = map.tileH;
 
-		var max = 100;
 		while (!ok) {
+
 			x = (Math.random () * map.w | 0);
 			y = (Math.random () * map.h | 0);
 
@@ -205,75 +273,12 @@ var main = {
 				map.getBlockAt((x - 1) * tw, y * th).walkable &&
 				map.getBlockAt(x * tw, (y - 1) * th).walkable &&
 				map.getBlockAt((x - 1) * tw, (y - 1) * th).walkable) {
-				ok = true;
-			}
-
-			if (max-- <= 0) ok = true;
-
-		}
-
-		return {x: x * tw, y: y * th}
-	},
-
-	onload: function () {
-
-		var map = this.map;
-		for (var bb = 0; bb < this.map.h; bb++) {
-
-			for (var aa = 0; aa < this.map.w; aa++) {
-
-				var block = map.blocks[bb][aa];
-				if (block.type === 0) continue;
-				var tile = PIXI.Sprite.fromFrame("f" + (block.type - 1) + "_" + 0);
-				tile.position.x = aa * map.tileW;
-				tile.position.y = bb * map.tileH;
-				this.stage.addChild(tile);
-				this.map.blocks[bb][aa].sprite = tile;
-
+					ok = true;
 			}
 
 		}
 
-
-		var free = this.findFreeSpot(map);
-
-		this.tank = createEntity("tank", {
-			pos: {
-				x: free.x,
-				y: free.y
-			},
-			sprite: {
-				tint: 0x88ffff
-			},
-			input: this.input1
-		});
-		this.t1Health = new PIXI.Graphics();
-		this.stage.addChild(this.t1Health);
-
-
-		var free = this.findFreeSpot(map);
-
-		this.tank.playerControl = {};
-
-		this.tank2 = createEntity("tank", {
-			pos: {
-				x: free.x,
-				y: free.y
-			},
-			sprite: {
-				tint: 0xffff55
-			},
-			input: this.input2
-			//autofire: {}
-		});
-		this.t2Health = new PIXI.Graphics();
-		this.stage.addChild(this.t2Health);
-
-		this.ents_to_add.push(this.tank);
-		this.ents_to_add.push(this.tank2);
-
-		this.run();
-
+		return { x: x * tw, y: y * th }
 	},
 
 	run: function (now, last) {
@@ -322,7 +327,6 @@ var main = {
 
 				}
 
-
 			}
 
 			return !(e.remove);
@@ -330,27 +334,31 @@ var main = {
 		});
 
 		if (Math.random () < 0.001) {
+
 			this.addTarget();
+
 		}
 
 	},
 
 	render: function () {
 
+		this.renderHealthBars();
 		this.renderer.render(this.stage);
 
-		if (this.t1Health) {
+	},
 
-			this.t1Health.clear();
-			this.t2Health.clear();
-			this.t1Health.beginFill(this.tank.sprite.ref.tint);
-			this.t2Health.beginFill(this.tank2.sprite.ref.tint);
-			this.t1Health.drawRect(5, 5, 100 * (this.tank.health.amount / 100), 5);
-			this.t2Health.drawRect(this.w - 105, this.h - 8, 100 * (this.tank2.health.amount / 100), 5);
-			this.t1Health.endFill();
+	renderHealthBars: function () {
 
-		}
+		// Health bars
+		this.t1Health.clear();
+		this.t2Health.clear();
 
+		this.t1Health.beginFill(this.tank.sprite.ref.tint);
+		this.t2Health.beginFill(this.tank2.sprite.ref.tint);
+		this.t1Health.drawRect(5, 5, 100 * (this.tank.health.amount / 100), 5);
+		this.t2Health.drawRect(this.w - 105, this.h - 8, 100 * (this.tank2.health.amount / 100), 5);
+		this.t1Health.endFill();
 
 	}
 
