@@ -3,6 +3,7 @@
 var sys = (window.sys = window.sys || {});
 
 sys.Move = {
+
 	update: function (e) {
 
 		if (e.spin && e.rot) {
@@ -74,4 +75,5 @@ sys.Move = {
 		}
 
 	}
+
 };

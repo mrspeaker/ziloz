@@ -3,6 +3,7 @@
 var sys = (window.sys = window.sys || {});
 
 sys.Collision = {
+
 	update: function (e, ents) {
 
 		if (e.remove) { return; }
@@ -51,5 +52,5 @@ sys.Collision = {
 		}
 
 	}
-};
 
+};

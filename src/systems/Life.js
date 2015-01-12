@@ -8,7 +8,7 @@ sys.Life = {
 
 		if (!e.life) return;
 
-		if(e.life.count-- <= 0) {
+		if (e.life.count-- <= 0) {
 			e.remove = true;
 		}
 

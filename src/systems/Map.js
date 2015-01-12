@@ -3,6 +3,7 @@
 var sys = (window.sys = window.sys || {});
 
 sys.Map = {
+
 	update: function (e, map) {
 
 		var run = e.map;
@@ -59,8 +60,8 @@ sys.Map = {
 				}
 
 			}
+
 		}
 
 	}
 };
-

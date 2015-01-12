@@ -55,7 +55,10 @@ var main = {
 			for (var x = 0; x < this.map.w; x++) {
 
 				var block = map.blocks[y][x];
-				if (block.type === 0) continue;
+
+				if (block.type === 0) {
+					continue;
+				}
 
 				var tile = PIXI.Sprite.fromFrame("f" + (block.type - 1) + "_" + 0);
 				tile.position.x = x * map.tileW;
@@ -138,7 +141,9 @@ var main = {
 				[5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,5,5,5,5,5,5,5],
 				[5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5]
 			].map(function (row) {
+
 				return row.map(function (col) {
+
 					return {
 						type: col,
 						health: 10,
@@ -146,7 +151,9 @@ var main = {
 						destructible: [1].indexOf(col) > -1,
 						sprite: null
 					};
+
 				});
+
 			}),
 
 			getBlockAt: function (x, y) {
