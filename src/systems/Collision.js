@@ -20,8 +20,8 @@ sys.Collision = {
 
 				if (Math.sqrt(dx * dx + dy * dy) < 15) {
 
-					e2.remove = !e2.health ? true : (e2.health.amount -= e.collision.damage) <= 0;
-					e.remove = !e.health ? true : e.remove;
+					e2.remove = !e2.health ? false : (e2.health.amount -= e.collision.damage) <= 0;
+					e.remove = !e.health ? false : (e.health.amount -= e.collision.damage) <= 0;
 
 					main.addExplosion(e2);
 
@@ -40,7 +40,17 @@ sys.Collision = {
 
 				if (Math.sqrt(dx * dx + dy * dy) < 15) {
 
-					e.remove = true;
+					//e.remove = true;
+					if (e.refill) {
+
+						if (e2.ammo) {
+							e2.ammo.amount = e.refill.amount;
+						}
+
+					} else {
+						e.remove = true;
+					}
+
 
 				}
 

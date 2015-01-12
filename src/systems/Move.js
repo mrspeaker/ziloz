@@ -60,7 +60,8 @@ sys.Move = {
 
 				}
 
-			} else if (key.up || key.down) {
+			}
+			else if (key.up || key.down) {
 
 				e.vel.x = 0;
 
@@ -83,8 +84,24 @@ sys.Move = {
 			if (key.fire || e.autofire) {
 
 				if (!e.lastFire || now - e.lastFire > 200) {
-					main.addBullet(e);
-					e.lastFire = now;
+
+					var doFire = true;
+
+					if (e.ammo) {
+						if (e.ammo.amount > 0) {
+							e.ammo.amount--;
+						}
+						else {
+							doFire = false;
+						}
+					}
+
+					if (doFire) {
+
+					  	main.addBullet(e);
+						e.lastFire = now;
+
+					}
 				}
 
 			}

@@ -13,6 +13,7 @@ prefabs.tank = {
 	sprite: {},
 	collision: {},
 	health: {},
+	ammo: {},
 	map: {}
 };
 
@@ -33,6 +34,9 @@ prefabs.bullet = {
 	map: {
 		destroy: true,
 		destroyedBy: false
+	},
+	health: {
+		amount: 1
 	}
 };
 

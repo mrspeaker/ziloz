@@ -30,7 +30,24 @@ function removeComponent (e, name) {
 
 }
 
-function createEntity (type, conf) {
+function createEntity (conf) {
+
+	var entity = merge({}, conf);
+
+	for (var key in conf) {
+
+		entity[key] = merge(entity[key], window.components[key]); // merge comp defaults
+		entity[key] = merge(entity[key], conf[key]); // merge instant settings
+
+	}
+
+	entity.remove = false;
+
+	return entity;
+
+}
+
+function createPrefab (type, conf) {
 
 	// TODO: more efficient way to do this? Lot's of merging!
 	var prefab = window.prefabs[type],

@@ -39,6 +39,13 @@ components.health = {
 	amount: 100
 };
 
+components.ammo = {
+	amount: 10
+};
+components.refill = {
+	amount: 10
+};
+
 components.autofire = {};
 
 components.spin = {

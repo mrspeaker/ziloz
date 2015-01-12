@@ -66,6 +66,28 @@ var main = {
 				this.stage.addChild(tile);
 				this.map.blocks[y][x].sprite = tile;
 
+				if (block.refill) {
+					this.ents_to_add.push(createEntity({
+						pos: {
+							x: tile.position.x + 16,
+							y: tile.position.y + 16
+						},
+						sprite: {
+							scale:0.5
+						},
+						size: {
+							w: 10,
+							h: 10
+						},
+						refill: {
+							ammo: 10
+						},
+						collision: {
+							group: "pickup"
+						}
+					}));
+				}
+
 			}
 
 		}
@@ -108,7 +130,7 @@ var main = {
 
 	add: function (type, conf) {
 
-		var e = createEntity(type, conf);
+		var e = createPrefab(type, conf);
 		this.ents_to_add.push(e);
 
 		return e;
