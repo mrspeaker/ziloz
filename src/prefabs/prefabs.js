@@ -61,5 +61,3 @@ prefabs.target = {
 		freq: 30
 	}
 };
-
-

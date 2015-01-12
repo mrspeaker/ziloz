@@ -36,6 +36,7 @@ sys.Map = {
 			run.hit = true;
 			run.touching = [tl, tm, tr, lm, false, rm, bl, bm, br];
 
+
 			if (e.bouncer) {
 
 				e.rot.angle += Math.PI / 4;
