@@ -60,7 +60,9 @@ var main = {
 					continue;
 				}
 
-				var tile = PIXI.Sprite.fromFrame("f" + (block.type - 1) + "_" + 0);
+				var tx = (block.type - 1) % 5 | 0,
+					ty = (block.type - 1) / 5 | 0,
+					tile = PIXI.Sprite.fromFrame("f" + tx + "_" + ty);
 				tile.position.x = x * map.tileW;
 				tile.position.y = y * map.tileH;
 				this.stage.addChild(tile);
