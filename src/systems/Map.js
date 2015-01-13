@@ -26,7 +26,7 @@ sys.Map = {
 			rm = map.getBlockAt(x + w, y).walkable;
 
 		run.hit = false;
-		run.touching = [];
+		run.touching = {tl: tl, tm: tm, tr:tr, bl:bl, bm:bm, br:br, lm: lm, rm: rm};
 
 		if (!(tl && tm && tr && bl && bm && br && lm && rm)) {
 
@@ -34,8 +34,7 @@ sys.Map = {
 			e.pos.y = e.pos.lastY;
 
 			run.hit = true;
-			run.touching = [tl, tm, tr, lm, false, rm, bl, bm, br];
-
+			//run.touching = [tl, tm, tr, lm, false, rm, bl, bm, br];
 
 			if (e.bouncer) {
 

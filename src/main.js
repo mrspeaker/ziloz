@@ -60,8 +60,8 @@ var main = {
 					continue;
 				}
 
-				var tx = (block.type - 1) % 5 | 0,
-					ty = (block.type - 1) / 5 | 0,
+				var tx = (block.type - 1) % 8 | 0,
+					ty = (block.type - 1) / 8 | 0,
 					tile = PIXI.Sprite.fromFrame("f" + tx + "_" + ty);
 				tile.position.x = x * map.tileW;
 				tile.position.y = y * map.tileH;
@@ -126,8 +126,8 @@ var main = {
 				team: 2
 			},
 			input: this.input2,
-			autofire: {},
-			spin:{}
+			//autofire: {}//,
+			//spin:{}
 		});
 		this.t2Health = new PIXI.Graphics();
 		this.stage.addChild(this.t2Health);

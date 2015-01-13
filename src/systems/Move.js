@@ -40,9 +40,16 @@ sys.Move = {
 
 			var input = e.input,
 				key = input.key,
-				speed = input.power;
+				speed = input.power,
+				hit = e.map.hit,
+				touch = e.map.touching;
 
-			if (key.left || key.right) {
+			var walledLeft = hit && key.left && (touch.tr || touch.rm || touch.br),
+				walledRight = hit && key.right && (touch.tl || touch.lm || touch.bl),
+				walledUp = false, //hit && key.up && (touch.bl || touch.bm || touch.br),
+				walledDown = false; //hit && key.down && (touch.tl || touch.tm || touch.tr);
+
+			if ((key.left && !walledLeft) || (key.right && !walledRight)) {
 
 				e.vel.y = 0;
 
@@ -61,7 +68,7 @@ sys.Move = {
 				}
 
 			}
-			else if (key.up || key.down) {
+			else if ((key.up && !walledUp) || (key.down && !walledDown)) {
 
 				e.vel.x = 0;
 
