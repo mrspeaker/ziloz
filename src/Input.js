@@ -22,7 +22,11 @@ window.Input = {
 		fire2: 70
 	},
 
+	down: null,
+
 	init: function (keyset) {
+
+		this.down = [];
 
 		this.key = {
 			up: false,
@@ -30,6 +34,13 @@ window.Input = {
 			left: false,
 			right: false
 		};
+
+		this.key_was = {
+			up: false,
+			down: false,
+			left: false,
+			right: false
+		}
 
 		this.keyset = this["keyset" + keyset];
 
@@ -51,32 +62,59 @@ window.Input = {
 
 	keyDown: function (e) {
 
-		var set = this.keyset;
+		var set = this.keyset,
+			code = e.keyCode,
+			toAdd = this.down.slice(),
+			add = function (code) {
+				if (!toAdd.some(function (k) {
+					return k === code;
+				})){
+					toAdd.push(code);
+				}
+			};
 
-		if (e.keyCode === set.fire) { this.key.fire = true; }
-		if (e.keyCode === set.fire2) { this.key.fire = true; }
-		if (e.keyCode === set.up) { this.key.up = true; }
-		if (e.keyCode === set.down) { this.key.down = true; }
-		if (e.keyCode === set.left) { this.key.left = true; }
-		if (e.keyCode === set.right) { this.key.right = true; }
+		if (code === set.fire) { this.key.fire = true; }
+		if (code === set.fire2) { this.key.fire = true; }
+		if (code === set.up) { this.key.up = true; add(code); }
+		if (code === set.down) { this.key.down = true; add(code); }
+		if (code === set.left) { this.key.left = true; add(code); }
+		if (code === set.right) { this.key.right = true; add(code); }
+
+		this.down = toAdd;
 
 	},
 
 	keyUp: function (e) {
 
-		var set = this.keyset;
+		var set = this.keyset,
+			code = e.keyCode,
+			toRemove = this.down.slice(),
+			clear = function (code) {
+				toRemove = toRemove.filter(function (k) {
+					return k !== code;
+				});
+			};
 
-		if (e.keyCode === set.fire) { this.key.fire = false; }
-		if (e.keyCode === set.fire2) { this.key.fire = false; }
-		if (e.keyCode === set.up) { this.key.up = false; }
-		if (e.keyCode === set.down) { this.key.down = false; }
-		if (e.keyCode === set.left) { this.key.left = false; }
-		if (e.keyCode === set.right) { this.key.right = false; }
+		if (code === set.fire) { this.key.fire = false; }
+		if (code === set.fire2) { this.key.fire = false; }
+		if (code === set.up) { this.key.up = false; clear(code); }
+		if (code === set.down) { this.key.down = false; clear(code); }
+		if (code === set.left) { this.key.left = false; clear(code); }
+		if (code === set.right) { this.key.right = false; clear(code); }
+
+		this.down = toRemove;
 
 	},
 
-	tick: function () {
+	tick: function (a) {
 
+		var was = this.key_was,
+			is = this.key;
+
+		was.up = is.up;
+		was.down = is.down;
+		was.left = is.left;
+		was.right = is.right;
 	}
 
 };

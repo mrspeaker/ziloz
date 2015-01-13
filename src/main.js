@@ -106,9 +106,11 @@ var main = {
 			},
 			sprite: {
 				tint: 0x88ffff
-			},
-			input: this.input1
+			}
 		});
+		this.tank.input = this.input1;
+		this.input1.power = 1.4; // TODO: fix obj ref in components with arrays
+
 		this.t1Health = new PIXI.Graphics();
 		this.stage.addChild(this.t1Health);
 
@@ -125,10 +127,12 @@ var main = {
 			refillGroup: {
 				team: 2
 			},
-			input: this.input2,
-			//autofire: {}//,
-			//spin:{}
+			autofire: {},
+			spin:{}
 		});
+		this.tank2.input = this.input2;
+		this.input2.power = 1.4; // TODO: fix obj ref in components with arrays
+
 		this.t2Health = new PIXI.Graphics();
 		this.stage.addChild(this.t2Health);
 
@@ -242,6 +246,9 @@ var main = {
 
 		var ents = this.ents,
 			self = this;
+
+		this.input1.tick();
+		this.input2.tick(true);
 
 		this.ents_to_add = this.ents_to_add.filter(function (e) {
 
