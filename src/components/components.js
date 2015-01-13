@@ -47,7 +47,12 @@ components.fuel = {
 	amount: 100
 };
 
-components.refill = {};
+components.refill = {
+	group: 1
+};
+components.refillGroup = {
+	team: 1
+};
 
 components.autofire = {};
 

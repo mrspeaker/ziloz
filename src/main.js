@@ -80,9 +80,10 @@ var main = {
 							h: 10
 						},
 						refill: {
-							ammo: block.refill === 1 ? 10 : 0,
-							fuel: block.refill === 2 ? 100 : 0,
-							health: block.refill === 3 ? 100 : 0
+							ammo: block.refill.type === 1 ? 10 : 0,
+							fuel: block.refill.type === 2 ? 100 : 0,
+							health: block.refill.type === 3 ? 100 : 0,
+							group: block.refill.group
 						},
 						collision: {
 							group: "pickup"
@@ -118,6 +119,9 @@ var main = {
 			},
 			sprite: {
 				tint: 0xffff55
+			},
+			refillGroup: {
+				team: 2
 			},
 			input: this.input2,
 			autofire: {},
@@ -310,9 +314,6 @@ var main = {
 		this.t2Health.drawRect(this.w - 138, this.h - 40, 120 * (this.tank2.health.amount / 100), 5);
 		this.t2Health.drawRect(this.w - 138, this.h - 30, 120 * (this.tank2.ammo.amount / 10), 5);
 		this.t2Health.drawRect(this.w - 138, this.h - 20, 120 * (this.tank2.fuel.amount / 100), 5);
-
-		//this.t1Health.endFill();
-
 
 	}
 
