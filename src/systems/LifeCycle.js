@@ -2,7 +2,7 @@
 
 var sys = (window.sys = window.sys || {});
 
-sys.Life = {
+sys.LifeCycle = {
 
 	update: function (e) {
 

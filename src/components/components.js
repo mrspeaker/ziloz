@@ -44,7 +44,9 @@ components.ammo = {
 };
 
 components.fuel = {
-	amount: 100
+	amount: 100,
+	burnRate: 0.05,
+	refreshRate: 0.01
 };
 
 components.refill = {

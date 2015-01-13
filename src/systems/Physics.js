@@ -24,14 +24,21 @@ sys.Physics = {
 
 		// Hmmm... fuel stuff here? Really?
 		if (e.fuel) {
-			var moving = (Math.abs(dx) > 0.1 || Math.abs(dy) > 0.1);
-			if (moving) {
-				e.fuel.amount = Math.max(0, e.fuel.amount - 0.05);
+
+			var distance = Math.sqrt(dx * dx + dy * dy);
+			if (distance > 0.1) {
+
+				e.fuel.amount = Math.max(0, e.fuel.amount - (distance * e.fuel.burnRate));
 				if (e.fuel.amount <= 0) {
+
 					main.outOfFuel(e);
+
 				}
-			} else {
-				e.fuel.amount = Math.min(100, e.fuel.amount + 0.01);
+
+			} else if (e.fuel.refreshRate) {
+
+				e.fuel.amount = Math.min(100, e.fuel.amount + e.fuel.refreshRate);
+
 			}
 		}
 
