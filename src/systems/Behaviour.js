@@ -20,11 +20,61 @@ sys.Behaviour = {
 
 		if (!e.behaviours) { return; }
 
+		var newBehaviours = [];
+
 		e.behaviours = e.behaviours.filter(function (b) {
 
-			return true;
+			var keep = true;
 
-		});
+			switch (b.type) {
+
+			case "timer":
+				keep = this.timerTick(e, b);
+				break;
+
+			case "behaviour":
+				if (this[b.name]) {
+					var add = this[b.name](b.params);
+					if (add.length) {
+						newBehaviours = newBehaviours.concat(add);
+					}
+					keep = false;
+				}
+				break;
+
+			default:
+				console.log("unknown behvaviour: ", b);
+			}
+
+			return keep;
+
+		}, this);
+
+		if (newBehaviours.length) {
+
+			e.behaviours = e.behaviours.concat(newBehaviours);
+
+		}
+
+	},
+
+	timerTick: function (e, t) {
+
+		if (!t._start) { t._start = Date.now(); }
+
+		var elapsed = Date.now() - t._start,
+			finished = elapsed > t.time;
+
+		if (finished) {
+			if (t.done === "addComponent") {
+				addComponent(e, t.params.name, t.params.conf);
+			}
+			if (t.done === "removeComponent") {
+				removeComponent(e, t.params.name);
+			}
+		}
+
+		return !finished;
 
 	},
 
@@ -54,6 +104,18 @@ sys.Behaviour = {
 		b.remove = !b.health ? false : (b.health.amount -= damage) <= 0;
 
 		main.addExplosion(a);
+
+		if (a.shakesWhenHit) {
+
+			a.behaviours.push({
+				type: "behaviour",
+				name: "addShake",
+				params: {
+					time: 2000
+				}
+			});
+
+		}
 
 	},
 
@@ -148,6 +210,33 @@ sys.Behaviour = {
 			}
 
 		}
+
+	},
+
+	addShake: function (params) {
+
+		var b = [];
+
+		b.push({
+			type: "timer",
+			time: 0,
+			done: "addComponent",
+			params: {
+				name: "jiggle",
+				conf: { rate: 1}
+			}
+		});
+
+		b.push({
+			type: "timer",
+			time: params.time,
+			done: "removeComponent",
+			params: {
+				name: "jiggle"
+			}
+		});
+
+		return b;
 
 	}
 

@@ -90,8 +90,11 @@ var main = {
 				tint: 0x88ffff
 			}
 		});
+
 		this.tank.input = this.input1;
 		this.input1.power = 1.4; // TODO: fix obj ref in components with arrays
+		// arrays are getting turned into objects.
+		this.tank.behaviours = [];
 
 		this.guiTank1 = new PIXI.Graphics();
 		this.stage.addChild(this.guiTank1);
@@ -114,6 +117,7 @@ var main = {
 		});
 		this.tank2.input = this.input2;
 		this.input2.power = 1.4; // TODO: fix obj ref in components with arrays
+		this.tank2.behaviours = [];
 
 		this.guiTank2 = new PIXI.Graphics();
 		this.stage.addChild(this.guiTank2);

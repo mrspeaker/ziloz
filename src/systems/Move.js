@@ -77,8 +77,8 @@ sys.Move = {
 			}
 
 			// TODO: 0.5?
-			if (Math.abs(e.vel.x) < 0.5) e.vel.x = 0;
-			if (Math.abs(e.vel.y) < 0.5) e.vel.y = 0;
+			if (Math.abs(e.vel.x) < 0.1) e.vel.x = 0;
+			if (Math.abs(e.vel.y) < 0.1) e.vel.y = 0;
 
 			if (key.fire || e.autofire) {
 

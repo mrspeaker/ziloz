@@ -56,6 +56,8 @@ components.refillGroup = {
 	team: 1
 };
 
+components.shakesWhenHit = {};
+
 components.autofire = {};
 
 components.spin = {
