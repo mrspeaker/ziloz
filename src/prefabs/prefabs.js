@@ -33,10 +33,10 @@ prefabs.bullet = {
 		group: "projectile",
 		damage: 10
 	},
-	bouncer: {},
+//	bouncer: {},
 	map: {
 		destroy: true,
-		destroyedBy: false
+		destroyedBy: true
 	},
 	health: {
 		amount: 1

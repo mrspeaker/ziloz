@@ -182,7 +182,7 @@ sys.Behaviour = {
 	entityWallHit: function (params) {
 
 		var e = params.e,
-			block = params.block;
+			blocks = params.blocks || [];
 
 		if (e.bouncer) {
 
@@ -192,18 +192,32 @@ sys.Behaviour = {
 
 		if (e.map.destroy) {
 
-			if (block.destructible) {
+			blocks.forEach(function (b) {
 
-				block.type = 0;
-				block.walkable = true;
-				if (block.sprite) {
+				if (b.destructible) {
 
-					main.stage.removeChild(block.sprite);
-					block.sprite = null;
+					b.health -= 1;
+
+					// todo: getting double hits! fix...
+					if (b.sprite) b.sprite.alpha = b.health / 10;
+
+					if (b.health <= 0) {
+
+						b.type = 0;
+						b.walkable = true;
+
+						if (b.sprite) {
+
+							main.stage.removeChild(b.sprite);
+							b.sprite = null;
+
+						}
+
+					}
 
 				}
 
-			}
+			});
 
 			if (e.map.destroyedBy) {
 

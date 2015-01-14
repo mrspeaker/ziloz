@@ -13,17 +13,21 @@ sys.Map = {
 		var neighbours = function (x, y, w, h) {
 
 			var hits = {
-				tl: map.getBlockAt(x - w, y - h).walkable,
-				tm: map.getBlockAt(x, y - h).walkable,
-				tr: map.getBlockAt(x + w, y - h).walkable,
-				bl: map.getBlockAt(x - w, y + h).walkable,
-				bm: map.getBlockAt(x, y + h).walkable,
-				br: map.getBlockAt(x + w, y + h).walkable,
-				lm: map.getBlockAt(x - w, y).walkable,
-				rm: map.getBlockAt(x + w, y).walkable
+				tl: map.getBlockAt(x - w, y - h),
+				tm: map.getBlockAt(x, y - h),
+				tr: map.getBlockAt(x + w, y - h),
+				bl: map.getBlockAt(x - w, y + h),
+				bm: map.getBlockAt(x, y + h),
+				br: map.getBlockAt(x + w, y + h),
+				lm: map.getBlockAt(x - w, y),
+				rm: map.getBlockAt(x + w, y)
 			};
 
-			hits.hit = !(hits.tl && hits.tm && hits.tr && hits.bl && hits.bm && hits.br && hits.lm && hits.rm);
+			hits.hit = !(hits.tl.walkable && hits.tm.walkable && hits.tr.walkable &&
+				hits.bl.walkable && hits.bm.walkable && hits.br.walkable &&
+				hits.lm.walkable && hits.rm.walkable);
+
+			hits.hits = [hits.tl, hits.tm, hits.tr, hits.lm, hits.rm, hits.bl, hits.bm, hits.br];
 
 			return hits;
 
@@ -108,6 +112,9 @@ sys.Map = {
 			e.pos.y = y;
 
 			run.hit = moved ? false : hit;
+			if (run.hit) {
+				run.hits = ns.hits;
+			}
 
 		} else {
 
@@ -115,6 +122,7 @@ sys.Map = {
 			run.hit = ns.hit;
 			if (run.hit) {
 
+				run.hits = ns.hits;
 				e.pos.x = e.pos.lastX;
 				e.pos.y = e.pos.lastY;
 
@@ -124,11 +132,13 @@ sys.Map = {
 
 		if (run.hit) {
 
-			var block = map.blocks[e.pos.y / map.tileH | 0][e.pos.x / map.tileW | 0];
+			var blocks = run.hits ? run.hits.filter(function (b) {
+				return !b.walkable;
+			}) : [];
 
 			this.fire("entityWallHit", {
 				e: e,
-				block: block
+				blocks: blocks
 			});
 
 		}

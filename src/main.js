@@ -105,8 +105,6 @@ var main = {
 					ty = (block.type - 20) / 2 | 0;
 					tile = PIXI.Sprite.fromFrame(frameName + tx + "_" + ty);
 
-					console.log(tx, ty)
-
 				}
 
 				tile.position.x = x * map.tileW;
