@@ -34,11 +34,15 @@ sys.Behaviour = {
 
 			case "behaviour":
 				if (this[b.name]) {
+
 					var add = this[b.name](b.params);
 					if (add.length) {
+
 						newBehaviours = newBehaviours.concat(add);
+
 					}
 					keep = false;
+
 				}
 				break;
 
@@ -66,12 +70,18 @@ sys.Behaviour = {
 			finished = elapsed > t.time;
 
 		if (finished) {
+
 			if (t.done === "addComponent") {
+
 				addComponent(e, t.params.name, t.params.conf);
+
 			}
 			if (t.done === "removeComponent") {
+
 				removeComponent(e, t.params.name);
+
 			}
+
 		}
 
 		return !finished;
@@ -94,11 +104,48 @@ sys.Behaviour = {
 
 	},
 
+	entityWallHit: function (params) {
+
+		var e = params.e,
+			block = params.block;
+
+		if (e.bouncer) {
+
+			e.rot.angle += Math.PI / 4;
+
+		}
+
+		if (e.map.destroy) {
+
+			if (block.destructible) {
+
+				block.type = 0;
+				block.walkable = true;
+				if (block.sprite) {
+
+					main.stage.removeChild(block.sprite);
+					block.sprite = null;
+
+				}
+
+			}
+
+			if (e.map.destroyedBy) {
+
+				e.remove = true;
+				main.addExplosion(e);
+
+			}
+
+		}
+
+	},
+
 	collide: function (params) {
 
 		var a = params.a,
 			b = params.b,
-			damage = Math.max(a.damage || b.damage || 1);
+			damage = Math.max(a.collision.damage || b.collision.damage || 1);
 
 		a.remove = !a.health ? false : (a.health.amount -= damage) <= 0;
 		b.remove = !b.health ? false : (b.health.amount -= damage) <= 0;

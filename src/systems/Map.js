@@ -124,39 +124,20 @@ sys.Map = {
 
 		if (run.hit) {
 
-			if (e.bouncer) {
+			var block = map.blocks[e.pos.y / map.tileH | 0][e.pos.x / map.tileW | 0];
 
-				e.rot.angle += Math.PI / 4;
-
-			}
-
-			if (run.destroy) {
-
-				var block = map.blocks[e.pos.y / map.tileH | 0][e.pos.x / map.tileW | 0];
-
-				if (block.destructible) {
-
-					block.type = 0;
-					block.walkable = true;
-					if (block.sprite) {
-
-						main.stage.removeChild(block.sprite);
-						block.sprite = null;
-
-					}
-
-				}
-
-				if (run.destroyedBy) {
-
-					e.remove = true;
-					main.addExplosion(e);
-
-				}
-
-			}
+			this.fire("entityWallHit", {
+				e: e,
+				block: block
+			});
 
 		}
+
+	},
+
+	fire: function (event, params) {
+
+		sys.Behaviour.entityWallHit(params);
 
 	}
 };
