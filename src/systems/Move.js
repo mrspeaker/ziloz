@@ -6,8 +6,6 @@ sys.Move = {
 
 	update: function (e) {
 
-		var now = Date.now();
-
 		if (e.spin && e.rot) {
 
 			e.rot.angle += e.spin.rate;
@@ -84,35 +82,19 @@ sys.Move = {
 
 			if (key.fire || e.autofire) {
 
-				if (!e.lastFire || now - e.lastFire > 200) {
-
-					var doFire = true;
-
-					if (e.ammo) {
-
-						if (e.ammo.amount > 0) {
-
-							e.ammo.amount--;
-
-						}
-						else {
-
-							doFire = false;
-
-						}
-
-					}
-
-					if (doFire) {
-
-					  	main.addBullet(e);
-						e.lastFire = now;
-
-					}
-
-				}
+				this.fire(e, "entityFired");
 
 			}
+
+		}
+
+	},
+
+	fire: function (e, event, params) {
+
+		if (event === "entityFired") {
+
+			sys.Behaviour.fireWeapon(e, params);
 
 		}
 

@@ -274,7 +274,7 @@ var main = {
 
 		this.ents = this.ents.filter(function (e) {
 
-			sys.LifeCycle.update(e);
+			sys.Behaviour.update(e);
 			sys.Move.update(e);
 			sys.Physics.update(e, self.map, 1);
 			sys.Map.update(e, self.map);
