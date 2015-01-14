@@ -5,41 +5,53 @@
 </head>
 <body>
 	<script>
-		/*
 
-			Slicer to generate simple tilemap JSON for pixi.js
+		function slice (tileW, tileH, imgW, imgH, imgName, frameName) {
+			/*
 
-		*/
-		var tileW = 16,
-			tileH = 16;
+				Slicer to generate simple tilemap JSON for pixi.js
 
-		var obj = {
-			meta: {
-				image: "tanktiles.png",
-				size: {w: 128, h: 32}
-			},
-			frames: {}
-		}
+			*/
+			var obj = {
+				meta: {
+					image: imgName,
+					size: {w: imgW, h: imgH}
+				},
+				frames: {}
+			}
 
-		// Add frames
-		for (var j = 0; j < Math.floor(obj.meta.size.h / tileH); j++) {
+			// Add frames
+			for (var j = 0; j < Math.floor(obj.meta.size.h / tileH); j++) {
 
-			for (var i = 0; i < Math.floor(obj.meta.size.w / tileW); i++) {
+				for (var i = 0; i < Math.floor(obj.meta.size.w / tileW); i++) {
 
-				obj.frames["f" + i + "_" + j] = {
-					"frame": {
-						x: i * tileW,
-						y: j * tileH,
-						w: tileW,
-						h: tileH
+					obj.frames[frameName + i + "_" + j] = {
+						"frame": {
+							x: i * tileW,
+							y: j * tileH,
+							w: tileW,
+							h: tileH
+						}
 					}
+
 				}
 
 			}
 
+			var json = JSON.stringify(obj),
+				div = document.createElement("div"),
+				h = document.createElement("h3");
+			h.innerHTML = imgName;
+			div.innerHTML = json;
+			document.body.appendChild(h);
+			document.body.appendChild(div);
+
 		}
 
-		console.log(JSON.stringify(obj));
+		slice(16, 16, 128, 32, "tanktiles.png", "f");
+
+		slice(32, 32, 64, 64, "tiles-large.png", "large");
+
 
 	</script>
 </body>

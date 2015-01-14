@@ -66,7 +66,8 @@ var main = {
 		};
 
 		var loader = new PIXI.AssetLoader([
-			"res/images/tanktiles.json"
+			"res/images/tanktiles.json",
+			"res/images/tiles-large.json"
 		]);
 		loader.onComplete = this.onAssetsLoaded.bind(this);
 		loader.load();
@@ -88,13 +89,30 @@ var main = {
 					continue;
 				}
 
-				var tx = (block.type - 1) % 8 | 0,
-					ty = (block.type - 1) / 8 | 0,
+				var frameName = block.type >= 20 && block.type <= 23 ? "large" : "f";
+
+				var tx, ty, tile;
+
+				if (frameName === "f") {
+
+					tx = (block.type - 1) % 8 | 0;
+					ty = (block.type - 1) / 8 | 0;
 					tile = PIXI.Sprite.fromFrame("f" + tx + "_" + ty);
+
+				} else {
+
+					tx = (block.type - 20) % 2 | 0;
+					ty = (block.type - 20) / 2 | 0;
+					tile = PIXI.Sprite.fromFrame(frameName + tx + "_" + ty);
+
+					console.log(tx, ty)
+
+				}
 
 				tile.position.x = x * map.tileW;
 				tile.position.y = y * map.tileH;
-				this.stage.addChild(tile);
+				if (block.type !== 3 && block.type !== 4)
+					this.stage.addChild(tile);
 				this.map.blocks[y][x].sprite = tile;
 
 				if (block.refill) {
@@ -115,7 +133,7 @@ var main = {
 				y: free.y
 			},
 			sprite: {
-				tint: 0x88ffff
+				tint: 0x88ff88
 			}
 		});
 
@@ -135,7 +153,7 @@ var main = {
 				y: free.y
 			},
 			sprite: {
-				tint: 0xffff55
+				tint: 0xffff88
 			},
 			refillGroup: {
 				team: 2
@@ -194,9 +212,7 @@ var main = {
 				x: pos.x + 16,
 				y: pos.y + 16
 			},
-			sprite: {
-				scale: 0.5
-			},
+
 			size: {
 				w: 10,
 				h: 10
