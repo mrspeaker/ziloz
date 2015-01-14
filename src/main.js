@@ -34,13 +34,16 @@ var main = {
 				args: [
 					"target",
 					{
-						pos: main.map.findFreeSpot(),
+						pos: {},
 						sprite: {
-							tint: Math.random() * 0xffffff,
 							scale: 0.5
 						},
 						rot: {},
 						spin: {}
+					},
+					function (conf) {
+						conf.pos = main.map.findFreeSpot();
+						conf.sprite.tint = Math.random() * 0xffffff;
 					}
 				]
 			}

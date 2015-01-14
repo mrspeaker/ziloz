@@ -21,8 +21,6 @@ sys.Behaviour = {
 		if (!e.behaviours) { return; }
 		if (!e.behaviours_to_add) { e.behaviours_to_add = []; } // todo... ergh.
 
-		var newBehaviours = [];
-
 		e.behaviours = e.behaviours.filter(function (b) {
 
 			var keep = true;
@@ -36,11 +34,10 @@ sys.Behaviour = {
 			case "behaviour":
 				if (this[b.name]) {
 
-					// todo: just push to entity, remove "newBehav"
 					var add = this[b.name].apply(this, b.args);
 					if (add && add.length) {
 
-						newBehaviours = newBehaviours.concat(add);
+						e.behaviours_to_add = e.behaviours_to_add.concat(add);
 
 					}
 					keep = false;
@@ -56,13 +53,6 @@ sys.Behaviour = {
 			return keep;
 
 		}, this);
-
-		// Todo: remove when changed to behav_to_add
-		if (newBehaviours.length) {
-
-			e.behaviours = e.behaviours.concat(newBehaviours);
-
-		}
 
 		e.behaviours_to_add = e.behaviours_to_add.filter(function (b) {
 
@@ -111,6 +101,12 @@ sys.Behaviour = {
 		return !finished;
 
 	},
+
+	/*
+
+		Game specific behaviour logic
+
+	*/
 
 	entityMoved: function (e, params) {
 
@@ -284,7 +280,14 @@ sys.Behaviour = {
 
 	},
 
-	spawn: function (prefab, conf) {
+	spawn: function (prefab, conf, init) {
+
+
+		if (init) {
+
+			init(conf);
+
+		}
 
 		main.add(prefab, conf);
 
