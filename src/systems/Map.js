@@ -11,6 +11,7 @@ sys.Map = {
 		if (!run) { return };
 
 		var neighbours = function (x, y, w, h) {
+
 			var hits = {
 				tl: map.getBlockAt(x - w, y - h).walkable,
 				tm: map.getBlockAt(x, y - h).walkable,
@@ -23,7 +24,9 @@ sys.Map = {
 			};
 
 			hits.hit = !(hits.tl && hits.tm && hits.tr && hits.bl && hits.bm && hits.br && hits.lm && hits.rm);
+
 			return hits;
+
 		}
 
 		// Check if move valid...
@@ -42,45 +45,63 @@ sys.Map = {
 				movedBoth = false,
 				dir = e.input.down.length ? e.input.down[e.input.down.length - 1] : 0;
 
-
 			// BUG: if DOWN then LEFT then slide past down entrance, doesn't go down.
 			//      if LEFT then DOWN then does... can fix this?
 
-			// If x moved, check if x-only is ok
-				// ... check x only
-				// ... if move is valid, set moved = true
+			// Check left/right
 			if (xd !== 0) {
+
 				ns = neighbours(x, e.pos.lastY, w, h);
 				if (ns.hit) {
+
 					x = e.pos.lastX;
 					hit = true;
+
 				} else {
+
 					moved = true;
+
 				}
+
 			}
 
-			// If !moved, check y pos (maybe with partially updated x).
+			// Check up/down
 			if (yd !== 0) {
+
 				ns = neighbours(x, y, w, h);
 				if (ns.hit) {
+
 					y = e.pos.lastY;
 					hit = true;
+
 				} else {
+
 					if (moved) { movedBoth = true; }
 					moved = true;
+
 				}
+
 			} else {
+
 				y = e.pos.lastY;
+
 			}
 
+			// If we've moved both, lock to one!
 			if (movedBoth && dir) {
+
 				if (dir === e.input.keyset.up || dir === e.input.keyset.down) {
+
 					x = e.pos.lastX;
 					e.rot.angle = dir === e.input.keyset.up ? 0 : Math.PI;
+
 				} else {
+
 					y = e.pos.lastY;
 					e.rot.angle = dir === e.input.keyset.left ? -Math.PI / 2 : Math.PI / 2;
+
 				}
+
 			}
 
 			e.pos.x = x;
@@ -93,8 +114,10 @@ sys.Map = {
 			ns = neighbours(x, y, w, h);
 			run.hit = ns.hit;
 			if (run.hit) {
+
 				e.pos.x = e.pos.lastX;
 				e.pos.y = e.pos.lastY;
+
 			}
 
 		}
@@ -115,7 +138,6 @@ sys.Map = {
 
 					block.type = 0;
 					block.walkable = true;
-
 					if (block.sprite) {
 
 						main.stage.removeChild(block.sprite);

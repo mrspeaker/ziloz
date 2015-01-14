@@ -55,7 +55,11 @@ window.Map = {
 				// Team 2 refils
 				if ([22, 23].indexOf(col) > -1) {
 					refill = col - 21;
-					col = 3;
+					if (col === 22) {
+						col = 3;
+					} else {
+						col = 3;
+					}
 					refillGroup = 2;
 				}
 

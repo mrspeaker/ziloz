@@ -46,6 +46,8 @@ sys.Collision = {
 
 				if (Math.sqrt(dx * dx + dy * dy) < 15) {
 
+					// TODO: fire this collision, and handle in other system
+
 					if (e.refill) {
 
 						if (e.refill.group && e2.refillGroup && e2.refillGroup.team !== e.refill.group) {
@@ -55,16 +57,23 @@ sys.Collision = {
 						} else {
 
 							if (e.refill.ammo && e2.ammo) {
+
 								e2.ammo.amount = e.refill.ammo;
+
 							}
 
 							if (e.refill.fuel && e2.fuel) {
+
 								e2.fuel.amount = e.refill.fuel;
+
 							}
 
 							if (e.refill.health && e2.health) {
+
 								e2.health.amount = e.refill.health;
+
 							}
+
 						}
 
 					} else {

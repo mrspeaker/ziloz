@@ -63,34 +63,16 @@ var main = {
 				var tx = (block.type - 1) % 8 | 0,
 					ty = (block.type - 1) / 8 | 0,
 					tile = PIXI.Sprite.fromFrame("f" + tx + "_" + ty);
+
 				tile.position.x = x * map.tileW;
 				tile.position.y = y * map.tileH;
 				this.stage.addChild(tile);
 				this.map.blocks[y][x].sprite = tile;
 
 				if (block.refill) {
-					this.ents_to_add.push(createEntity({
-						pos: {
-							x: tile.position.x + 16,
-							y: tile.position.y + 16
-						},
-						sprite: {
-							scale:0.5
-						},
-						size: {
-							w: 10,
-							h: 10
-						},
-						refill: {
-							ammo: block.refill.type === 1 ? 10 : 0,
-							fuel: block.refill.type === 2 ? 100 : 0,
-							health: block.refill.type === 3 ? 100 : 0,
-							group: block.refill.group
-						},
-						collision: {
-							group: "pickup"
-						}
-					}));
+
+					this.addRefill(block.refill, tile.position);
+
 				}
 
 			}
@@ -111,8 +93,8 @@ var main = {
 		this.tank.input = this.input1;
 		this.input1.power = 1.4; // TODO: fix obj ref in components with arrays
 
-		this.t1Health = new PIXI.Graphics();
-		this.stage.addChild(this.t1Health);
+		this.guiTank1 = new PIXI.Graphics();
+		this.stage.addChild(this.guiTank1);
 
 		// Player 2
 		free = this.map.findFreeSpot();
@@ -133,8 +115,8 @@ var main = {
 		this.tank2.input = this.input2;
 		this.input2.power = 1.4; // TODO: fix obj ref in components with arrays
 
-		this.t2Health = new PIXI.Graphics();
-		this.stage.addChild(this.t2Health);
+		this.guiTank2 = new PIXI.Graphics();
+		this.stage.addChild(this.guiTank2);
 
 		this.run();
 
@@ -209,6 +191,34 @@ var main = {
 		});
 
 	},
+
+	addRefill: function (refill, pos) {
+
+		this.ents_to_add.push(createEntity({
+			pos: {
+				x: pos.x + 16,
+				y: pos.y + 16
+			},
+			sprite: {
+				scale: 0.5
+			},
+			size: {
+				w: 10,
+				h: 10
+			},
+			refill: {
+				ammo: refill.type === 1 ? 10 : 0,
+				fuel: refill.type === 2 ? 100 : 0,
+				health: refill.type === 3 ? 100 : 0,
+				group: refill.group
+			},
+			collision: {
+				group: "pickup"
+			}
+		}));
+
+	},
+
 
 	makeSprite: function (texture, x, y, col, sx, sy) {
 
@@ -310,19 +320,24 @@ var main = {
 	renderHealthBars: function () {
 
 		// Health bars
-		this.t1Health.clear();
-		this.t2Health.clear();
+		var aGui = this.guiTank1,
+			aTank = this.tank,
+			bGui = this.guiTank2,
+			bTank = this.tank2;
 
-		this.t1Health.beginFill(this.tank.sprite.ref.tint);
-		this.t2Health.beginFill(this.tank2.sprite.ref.tint);
+		aGui.clear();
+		bGui.clear();
 
-		this.t1Health.drawRect(15, 15, 120 * (this.tank.health.amount / 100), 5);
-		this.t1Health.drawRect(15, 25, 120 * (this.tank.ammo.amount / 10), 5);
-		this.t1Health.drawRect(15, 35, 120 * (this.tank.fuel.amount / 100), 5);
+		aGui.beginFill(aTank.sprite.ref.tint);
+		bGui.beginFill(bTank.sprite.ref.tint);
 
-		this.t2Health.drawRect(this.w - 138, this.h - 40, 120 * (this.tank2.health.amount / 100), 5);
-		this.t2Health.drawRect(this.w - 138, this.h - 30, 120 * (this.tank2.ammo.amount / 10), 5);
-		this.t2Health.drawRect(this.w - 138, this.h - 20, 120 * (this.tank2.fuel.amount / 100), 5);
+		aGui.drawRect(15, 15, 120 * (aTank.health.amount / 100), 5);
+		aGui.drawRect(15, 25, 120 * (aTank.ammo.amount / 10), 5);
+		aGui.drawRect(15, 35, 120 * (aTank.fuel.amount / 100), 5);
+
+		bGui.drawRect(this.w - 138, this.h - 40, 120 * (bTank.health.amount / 100), 5);
+		bGui.drawRect(this.w - 138, this.h - 30, 120 * (bTank.ammo.amount / 10), 5);
+		bGui.drawRect(this.w - 138, this.h - 20, 120 * (bTank.fuel.amount / 100), 5);
 
 	}
 

@@ -89,12 +89,18 @@ sys.Move = {
 					var doFire = true;
 
 					if (e.ammo) {
+
 						if (e.ammo.amount > 0) {
+
 							e.ammo.amount--;
+
 						}
 						else {
+
 							doFire = false;
+
 						}
+
 					}
 
 					if (doFire) {
@@ -103,6 +109,7 @@ sys.Move = {
 						e.lastFire = now;
 
 					}
+
 				}
 
 			}

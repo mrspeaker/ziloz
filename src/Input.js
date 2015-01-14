@@ -66,11 +66,17 @@ window.Input = {
 			code = e.keyCode,
 			toAdd = this.down.slice(),
 			add = function (code) {
+
 				if (!toAdd.some(function (k) {
+
 					return k === code;
+
 				})){
+
 					toAdd.push(code);
+
 				}
+
 			};
 
 		if (code === set.fire) { this.key.fire = true; }
@@ -90,9 +96,13 @@ window.Input = {
 			code = e.keyCode,
 			toRemove = this.down.slice(),
 			clear = function (code) {
+
 				toRemove = toRemove.filter(function (k) {
+
 					return k !== code;
+
 				});
+
 			};
 
 		if (code === set.fire) { this.key.fire = false; }
@@ -115,6 +125,7 @@ window.Input = {
 		was.down = is.down;
 		was.left = is.left;
 		was.right = is.right;
+
 	}
 
 };
