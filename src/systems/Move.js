@@ -94,7 +94,7 @@ sys.Move = {
 
 		if (event === "entityFired") {
 
-			sys.Behaviour.fireWeapon(e, params);
+			sys.Behaviour.entityFired(e, params);
 
 		}
 

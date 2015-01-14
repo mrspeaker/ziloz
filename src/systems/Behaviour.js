@@ -19,6 +19,7 @@ sys.Behaviour = {
 		}
 
 		if (!e.behaviours) { return; }
+		if (!e.behaviours_to_add) { e.behaviours_to_add = []; } // todo... ergh.
 
 		var newBehaviours = [];
 
@@ -35,8 +36,9 @@ sys.Behaviour = {
 			case "behaviour":
 				if (this[b.name]) {
 
-					var add = this[b.name](b.params);
-					if (add.length) {
+					// todo: just push to entity, remove "newBehav"
+					var add = this[b.name].apply(this, b.args);
+					if (add && add.length) {
 
 						newBehaviours = newBehaviours.concat(add);
 
@@ -48,17 +50,28 @@ sys.Behaviour = {
 
 			default:
 				console.log("unknown behvaviour: ", b);
+
 			}
 
 			return keep;
 
 		}, this);
 
+		// Todo: remove when changed to behav_to_add
 		if (newBehaviours.length) {
 
 			e.behaviours = e.behaviours.concat(newBehaviours);
 
 		}
+
+		e.behaviours_to_add = e.behaviours_to_add.filter(function (b) {
+
+			e.behaviours.push(b);
+
+			return false;
+
+		});
+
 
 	},
 
@@ -71,15 +84,26 @@ sys.Behaviour = {
 
 		if (finished) {
 
-			if (t.done === "addComponent") {
-
+			switch (t.done) {
+			case "addComponent":
 				addComponent(e, t.params.name, t.params.conf);
+				break;
 
-			}
-			if (t.done === "removeComponent") {
-
+			case "removeComponent":
 				removeComponent(e, t.params.name);
+				break;
 
+			case "addBehaviour":
+				e.behaviours_to_add.push({
+					type: "behaviour",
+					name: t.params.name,
+					args: t.params.args
+				});
+			}
+
+			if (t.repeat) {
+				t._start = Date.now();
+				finished = false;
 			}
 
 		}
@@ -92,7 +116,20 @@ sys.Behaviour = {
 
 		if (e.fuel) {
 
-			this.useFuel(e, params);
+			var dx = params.dx,
+				dy = params.dy,
+				distance = Math.sqrt(dx * dx + dy * dy);
+
+			if (distance > 0.1) {
+
+				e.fuel.amount = Math.max(0, e.fuel.amount - (distance * e.fuel.burnRate));
+				if (e.fuel.amount <= 0) {
+
+					main.outOfFuel(e);
+
+				}
+
+			}
 
 		}
 
@@ -100,7 +137,49 @@ sys.Behaviour = {
 
 	entityFired: function (e, params) {
 
-		this.fireWeapon(e);
+		var now = Date.now();
+
+		if (!e.lastFire || now - e.lastFire > 200) {
+
+			var doFire = true;
+
+			if (e.ammo) {
+
+				if (e.ammo.amount > 0) {
+
+					e.ammo.amount--;
+
+				}
+				else {
+
+					doFire = false;
+
+				}
+
+			}
+
+			if (doFire) {
+
+			  	var rot = e.rot ? e.rot.angle - Math.PI / 2 : 0;
+
+			  	this.spawn("bullet", {
+			  		pos: {
+			  			x: e.pos.x + (Math.cos(rot) * 18),
+			  			y: e.pos.y + (Math.sin(rot) * 18)
+			  		},
+			  		sprite: {
+			  			scale: 0.5
+			  		},
+			  		rot: {
+			  			angle: rot
+			  		}
+			  	});
+
+				e.lastFire = now;
+
+			}
+
+		}
 
 	},
 
@@ -157,9 +236,7 @@ sys.Behaviour = {
 			a.behaviours.push({
 				type: "behaviour",
 				name: "addShake",
-				params: {
-					time: 2000
-				}
+				args: [2000]
 			});
 
 		}
@@ -207,60 +284,13 @@ sys.Behaviour = {
 
 	},
 
-	useFuel: function (e, params) {
+	spawn: function (prefab, conf) {
 
-		var dx = params.dx,
-			dy = params.dy,
-			distance = Math.sqrt(dx * dx + dy * dy);
-
-		if (distance > 0.1) {
-
-			e.fuel.amount = Math.max(0, e.fuel.amount - (distance * e.fuel.burnRate));
-			if (e.fuel.amount <= 0) {
-
-				main.outOfFuel(e);
-
-			}
-
-		}
+		main.add(prefab, conf);
 
 	},
 
-	fireWeapon: function (e) {
-
-		var now = Date.now();
-
-		if (!e.lastFire || now - e.lastFire > 200) {
-
-			var doFire = true;
-
-			if (e.ammo) {
-
-				if (e.ammo.amount > 0) {
-
-					e.ammo.amount--;
-
-				}
-				else {
-
-					doFire = false;
-
-				}
-
-			}
-
-			if (doFire) {
-
-			  	main.addBullet(e);
-				e.lastFire = now;
-
-			}
-
-		}
-
-	},
-
-	addShake: function (params) {
+	addShake: function (time) {
 
 		var b = [];
 
@@ -276,7 +306,7 @@ sys.Behaviour = {
 
 		b.push({
 			type: "timer",
-			time: params.time,
+			time: time || 1000,
 			done: "removeComponent",
 			params: {
 				name: "jiggle"

@@ -17,7 +17,8 @@ sys.Collision = {
 			ents.forEach(function (e2) {
 
 				if (e2.remove || e2 === e || !e2.collision) { return; }
-				if (e2.collision.group === "projectile" ) { return; }
+				// Hit other projectiles?
+				// if (e2.collision.group === "projectile" ) { return; }
 
 				var dx = e2.pos.x - e.pos.x,
 					dy = e2.pos.y - e.pos.y;
@@ -54,15 +55,9 @@ sys.Collision = {
 
 				}
 
-
 			});
 
 		}
-
-		// If a "trigger"
-		/// if (e.collision && e.collision.group === "trigger") {
-
-		//}
 
 	},
 

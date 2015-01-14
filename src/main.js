@@ -22,6 +22,31 @@ var main = {
 
 		this.map = Object.create(Map).init();
 
+		// Testing behaviour system
+		var targetSpawner = {};
+		targetSpawner.behaviours = [{
+			type: "timer",
+			time: 8000,
+			repeat: true,
+			done: "addBehaviour",
+			params: {
+				name: "spawn",
+				args: [
+					"target",
+					{
+						pos: main.map.findFreeSpot(),
+						sprite: {
+							tint: Math.random() * 0xffffff,
+							scale: 0.5
+						},
+						rot: {},
+						spin: {}
+					}
+				]
+			}
+		}];
+		this.ents_to_add.push(targetSpawner);
+
 	},
 
 	initPixi: function () {
@@ -112,7 +137,7 @@ var main = {
 			refillGroup: {
 				team: 2
 			},
-			autofire: {},
+			//autofire: {},
 			spin:{}
 		});
 		this.tank2.input = this.input2;
@@ -132,29 +157,6 @@ var main = {
 		this.ents_to_add.push(e);
 
 		return e;
-
-	},
-
-	addBullet: function (e) {
-
-		var rot = e.rot ? e.rot.angle - Math.PI / 2 : 0,
-			x = e.pos.x + (Math.cos(rot) * 18),
-			y = e.pos.y + (Math.sin(rot) * 18);
-
-		return this.add("bullet", {
-			pos: {
-				x: x,
-				y: y
-			},
-			sprite: {
-				texture: "main",
-				scale: 0.5,
-				rot: Math.PI
-			},
-			rot: {
-				angle: rot
-			}
-		});
 
 	},
 
@@ -179,20 +181,6 @@ var main = {
 			});
 
 		}
-
-	},
-
-	addTarget: function () {
-
-		return this.add("target", {
-			pos: this.map.findFreeSpot(),
-			sprite: {
-				tint: Math.random() * 0xffffff,
-				scale: 0.5
-			},
-			rot: {},
-			spin: {}
-		});
 
 	},
 
@@ -262,7 +250,7 @@ var main = {
 			self = this;
 
 		this.input1.tick();
-		this.input2.tick(true);
+		this.input2.tick();
 
 		this.ents_to_add = this.ents_to_add.filter(function (e) {
 
@@ -298,12 +286,6 @@ var main = {
 			return !(e.remove);
 
 		});
-
-		if (Math.random () < 0.001) {
-
-			this.addTarget();
-
-		}
 
 	},
 

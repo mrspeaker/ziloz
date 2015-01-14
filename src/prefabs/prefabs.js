@@ -30,7 +30,7 @@ prefabs.bullet = {
 	shoot: {},
 	life: {},
 	collision: {
-		group: "projectiles",
+		group: "projectile",
 		damage: 10
 	},
 	bouncer: {},
