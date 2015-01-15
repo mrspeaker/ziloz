@@ -130,7 +130,7 @@ sys.Behaviour = {
 				e.fuel.amount = Math.max(0, e.fuel.amount - (distance * e.fuel.burnRate));
 				if (e.fuel.amount <= 0) {
 
-					main.outOfFuel(e);
+					main.level.outOfFuel(e);
 
 				}
 
@@ -203,15 +203,15 @@ sys.Behaviour = {
 
 			blocks.forEach(function (b) {
 
-				// Eeww.. main.map?
-				main.map.tileHit(b, e);
+				// Eeww.. main.level.map?
+				main.level.map.tileHit(b, e);
 
 			});
 
 			if (e.map.destroyedBy) {
 
 				e.remove = true;
-				main.addExplosion(e);
+				main.level.addExplosion(e);
 
 			}
 
@@ -228,7 +228,7 @@ sys.Behaviour = {
 		a.remove = !a.health ? false : (a.health.amount -= damage) <= 0;
 		b.remove = !b.health ? false : (b.health.amount -= damage) <= 0;
 
-		main.addExplosion(a);
+		main.level.addExplosion(a);
 
 		if (a.shakesWhenHit) {
 
@@ -292,7 +292,7 @@ sys.Behaviour = {
 
 		}
 
-		main.add(prefab, conf);
+		main.level.add(prefab, conf);
 
 	},
 
