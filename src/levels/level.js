@@ -29,10 +29,10 @@ window.Level = {
 
 	createLevel: function () {
 
-		// Testing behaviour system
-		var targetSpawner = addComponent({}, "behaviour"),
-			freeSpot = this.map.findFreeSpot.bind(this.map);
+		var freeSpot = this.map.findFreeSpot.bind(this.map),
+			targetSpawner = core.addComponent({}, "behaviour");
 
+		// Testing behaviour system
 		targetSpawner.behaviour.stack.push({
 			type: "timer",
 			time: 8000,
@@ -51,8 +51,10 @@ window.Level = {
 						spin: {}
 					},
 					function (conf) {
+
 						conf.pos = freeSpot();
 						conf.sprite.tint = Math.random() * 0xffffff;
+
 					}
 				]
 			}
@@ -117,7 +119,7 @@ window.Level = {
 
 	add: function (type, conf) {
 
-		var e = createPrefab(type, conf);
+		var e = core.createPrefab(type, conf);
 		this.ents_to_add.push(e);
 
 		return e;
@@ -151,7 +153,7 @@ window.Level = {
 
 	addRefill: function (refill, pos) {
 
-		this.ents_to_add.push(createEntity({
+		this.ents_to_add.push(core.createEntity({
 			pos: {
 				x: pos.x + 16,
 				y: pos.y + 16

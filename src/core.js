@@ -2,8 +2,9 @@
 
 window.prefabs = {};
 window.components = {};
+window.core = {};
 
-function merge (a, b) {
+core.merge = function (a, b) {
 
 	var out = {};
 
@@ -14,13 +15,13 @@ function merge (a, b) {
 
 }
 
-function addComponent (e, name, conf) {
+core.addComponent = function (e, name, conf) {
 
-	e[name] = merge({}, window.components[name]);
+	e[name] = core.merge({}, window.components[name]);
 
 	if (conf) {
 
-		e[name] = merge(e[name], conf);
+		e[name] = core.merge(e[name], conf);
 
 	}
 
@@ -28,7 +29,7 @@ function addComponent (e, name, conf) {
 
 }
 
-function removeComponent (e, name) {
+core.removeComponent = function (e, name) {
 
 	delete e[name];
 
@@ -36,9 +37,10 @@ function removeComponent (e, name) {
 
 }
 
-function createEntity (conf) {
+core.createEntity = function (conf) {
 
-	var entity = merge({}, conf);
+	var merge = core.merge,
+		entity = merge({}, conf);
 
 	for (var key in conf) {
 
@@ -53,10 +55,10 @@ function createEntity (conf) {
 
 }
 
-function createPrefab (type, conf) {
+core.createPrefab = function (type, conf) {
 
-	// TODO: more efficient way to do this? Lot's of merging!
-	var prefab = window.prefabs[type],
+	var merge = core.merge,
+		prefab = window.prefabs[type],
 		entity = merge(conf, prefab);
 
 	for (var key in entity) {

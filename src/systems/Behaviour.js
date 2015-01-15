@@ -75,11 +75,11 @@ sys.Behaviour = {
 
 			switch (t.done) {
 			case "addComponent":
-				addComponent(e, t.params.name, t.params.conf);
+				core.addComponent(e, t.params.name, t.params.conf);
 				break;
 
 			case "removeComponent":
-				removeComponent(e, t.params.name);
+				core.removeComponent(e, t.params.name);
 				break;
 
 			case "addBehaviour":
@@ -200,8 +200,7 @@ sys.Behaviour = {
 				})
 				.forEach(function (b) {
 
-					// Eeww.. main.level.map?
-					// don't really know where tile behaviour should go.
+					// Don't really know where tile behaviour should go.
 					main.listen("tileHit", { block: b, e: e });
 
 				});
@@ -209,7 +208,6 @@ sys.Behaviour = {
 			if (e.map.destroyedBy) {
 
 				// TODO: some kind of behaviour?
-				// same as "outOfFuel"
 				main.listen("removeAndExplode", e);
 
 			}
@@ -306,7 +304,7 @@ sys.Behaviour = {
 			done: "addComponent",
 			params: {
 				name: "jiggle",
-				conf: { rate: 1}
+				conf: { rate: 1 }
 			}
 		});
 
