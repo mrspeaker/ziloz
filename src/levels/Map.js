@@ -160,6 +160,57 @@ window.Map = {
 			}
 
 		}
+	},
+
+	render: function (stage, level) {
+
+		// Render the map
+		for (var y = 0; y < this.h; y++) {
+
+			for (var x = 0; x < this.w; x++) {
+
+				var block = this.blocks[y][x];
+
+				if (block.type === 0) { continue; }
+
+				// TODO: lol lol
+				var frameName = block.type >= 20 && block.type <= 23 ? "large" : "f";
+
+				var tx, ty, tile;
+
+				if (frameName === "f") {
+
+					tx = (block.type - 1) % 8 | 0;
+					ty = (block.type - 1) / 8 | 0;
+					tile = PIXI.Sprite.fromFrame("f" + tx + "_" + ty);
+
+				} else {
+
+					tx = (block.type - 20) % 2 | 0;
+					ty = (block.type - 20) / 2 | 0;
+					tile = PIXI.Sprite.fromFrame(frameName + tx + "_" + ty);
+
+				}
+
+				tile.position.x = x * this.tileW;
+				tile.position.y = y * this.tileH;
+				if (block.type !== 3 && block.type !== 4) {
+
+					stage.addChild(tile);
+
+				}
+				this.blocks[y][x].sprite = tile;
+
+				if (block.refill) {
+
+					level.addRefill(block.refill, tile.position);
+
+				}
+
+			}
+
+		}
+
 	}
 
 };

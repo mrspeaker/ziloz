@@ -130,7 +130,7 @@ sys.Behaviour = {
 				e.fuel.amount = Math.max(0, e.fuel.amount - (distance * e.fuel.burnRate));
 				if (e.fuel.amount <= 0) {
 
-					main.level.outOfFuel(e);
+					main.listen("outOfFuel", e);
 
 				}
 
@@ -201,17 +201,26 @@ sys.Behaviour = {
 
 		if (e.map.destroy) {
 
-			blocks.forEach(function (b) {
+			blocks
+				.filter(function (b, i, self) {
 
-				// Eeww.. main.level.map?
-				main.level.map.tileHit(b, e);
+					// Unique
+					return self.indexOf(b) === i;
 
-			});
+				})
+				.forEach(function (b) {
+
+					// Eeww.. main.level.map?
+					// don't really know where tile behaviour should go.
+					main.listen("tileHit", { block: b, e: e });
+
+				});
 
 			if (e.map.destroyedBy) {
 
-				e.remove = true;
-				main.level.addExplosion(e);
+				// TODO: some kind of behaviour?
+				// same as "outOfFuel"
+				main.listen("removeAndExplode", e);
 
 			}
 
@@ -228,7 +237,7 @@ sys.Behaviour = {
 		a.remove = !a.health ? false : (a.health.amount -= damage) <= 0;
 		b.remove = !b.health ? false : (b.health.amount -= damage) <= 0;
 
-		main.level.addExplosion(a);
+		main.listen("explode", a);
 
 		if (a.shakesWhenHit) {
 
@@ -292,7 +301,8 @@ sys.Behaviour = {
 
 		}
 
-		main.level.add(prefab, conf);
+		// Could be event... but ergh, events...
+		main.listen("addEntity", { prefab: prefab, conf: conf });
 
 	},
 

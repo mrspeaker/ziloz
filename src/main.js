@@ -42,7 +42,7 @@ var main = {
 
 	onAssetsLoaded: function () {
 
-		this.level = Object.create(Level).init();
+		this.level = Object.create(Level).init(this.w, this.h, this.stage);
 
 		this.run();
 
@@ -72,6 +72,38 @@ var main = {
 
 		this.level.render();
 		this.renderer.render(this.stage);
+
+	},
+
+	listen: function (event, data) {
+
+		switch (event) {
+
+		case "addEntity":
+
+			this.level.add(data.prefab, data.conf);
+
+			break;
+
+		case "explode":
+
+			this.level.addExplosion(data);
+
+			break;
+
+		case "removeAndExplode":
+
+			// TODO: this should be behaviour?
+			this.level.removeAndExplode(data);
+
+			break;
+
+		case "tileHit":
+
+			this.level.map.tileHit(data.block, data.e);
+
+			break;
+		}
 
 	}
 

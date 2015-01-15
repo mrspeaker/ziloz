@@ -4,6 +4,24 @@ var sys = (window.sys = window.sys || {});
 
 sys.Render = {
 
+	initSys: function (stage) {
+
+		this.stage = stage;
+
+	},
+
+	addSprite: function (sprite) {
+
+		this.stage.addChild(sprite);
+
+	},
+
+	removeSprite: function (sprite) {
+
+		this.stage.removeChild(sprite);
+
+	},
+
 	init: function (e) {
 
 		if (!e.sprite) { return; }
@@ -28,7 +46,7 @@ sys.Render = {
 
 		def.ref = sprite;
 
-		main.stage.addChild(sprite);
+		this.addSprite(sprite);
 
 	},
 
@@ -72,7 +90,7 @@ sys.Render = {
 
 	remove: function (e) {
 
-		main.stage.removeChild(e.sprite.ref);
+		this.stage.removeChild(e.sprite.ref);
 
 	}
 

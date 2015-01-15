@@ -2,18 +2,25 @@
 
 window.Level = {
 
+	w: 0,
+	h: 0,
+
 	ents: null,
 	ents_to_add: null,
 
 	map: null,
 
-	init: function () {
+	init: function (w, h, stage) {
+
+		this.w = w;
+		this.h = h;
 
 		this.ents = [];
 		this.ents_to_add = [];
 
-		this.map = Object.create(Map).init();
+		sys.Render.initSys(stage);
 
+		this.map = Object.create(Map).init();
 		this.createLevel();
 
 		return this;
@@ -23,7 +30,9 @@ window.Level = {
 	createLevel: function () {
 
 		// Testing behaviour system
-		var targetSpawner = {};
+		var targetSpawner = {},
+			freeSpot = this.map.findFreeSpot.bind(this.map);
+
 		targetSpawner.behaviours = [{
 			type: "timer",
 			time: 8000,
@@ -42,7 +51,7 @@ window.Level = {
 						spin: {}
 					},
 					function (conf) {
-						conf.pos = main.level.map.findFreeSpot();
+						conf.pos = freeSpot();
 						conf.sprite.tint = Math.random() * 0xffffff;
 					}
 				]
@@ -50,60 +59,10 @@ window.Level = {
 		}];
 		this.ents_to_add.push(targetSpawner);
 
-		var map = this.map;
-
-		// Render the map
-		for (var y = 0; y < this.map.h; y++) {
-
-			for (var x = 0; x < this.map.w; x++) {
-
-				var block = map.blocks[y][x];
-
-				if (block.type === 0) {
-					continue;
-				}
-
-				// TODO: lol lol
-				var frameName = block.type >= 20 && block.type <= 23 ? "large" : "f";
-
-				var tx, ty, tile;
-
-				if (frameName === "f") {
-
-					tx = (block.type - 1) % 8 | 0;
-					ty = (block.type - 1) / 8 | 0;
-					tile = PIXI.Sprite.fromFrame("f" + tx + "_" + ty);
-
-				} else {
-
-					tx = (block.type - 20) % 2 | 0;
-					ty = (block.type - 20) / 2 | 0;
-					tile = PIXI.Sprite.fromFrame(frameName + tx + "_" + ty);
-
-				}
-
-				tile.position.x = x * map.tileW;
-				tile.position.y = y * map.tileH;
-				if (block.type !== 3 && block.type !== 4) {
-
-					// todo: ooh.
-					main.stage.addChild(tile);
-
-				}
-				this.map.blocks[y][x].sprite = tile;
-
-				if (block.refill) {
-
-					this.addRefill(block.refill, tile.position);
-
-				}
-
-			}
-
-		}
+		this.map.render(sys.Render.stage, this);
 
 		// Player 1
-		var free = this.map.findFreeSpot();
+		var free = freeSpot();
 		this.tank = this.add("tank", {
 			pos: {
 				x: free.x,
@@ -115,15 +74,14 @@ window.Level = {
 		});
 
 		this.tank.input = main.input1; // grr
-		main.input1.power = 1.4; // TODO: fix obj ref in components with arrays
-		// arrays are getting turned into objects.
-		this.tank.behaviours = [];
+		this.tank.input.power = 1.4; // TODO: fix obj ref in components with arrays
+		this.tank.behaviours = []; // TODO: arrays are getting turned into objects.
 
 		this.guiTank1 = new PIXI.Graphics();
-		main.stage.addChild(this.guiTank1);
+		sys.Render.addSprite(this.guiTank1);
 
 		// Player 2
-		free = this.map.findFreeSpot();
+		free = freeSpot()
 		this.tank2 = this.add("tank", {
 			pos: {
 				x: free.x,
@@ -139,11 +97,11 @@ window.Level = {
 			spin:{}
 		});
 		this.tank2.input = main.input2;
-		main.input2.power = 1.4; // TODO: fix obj ref in components with arrays
-		this.tank2.behaviours = [];
+		this.tank2.input.power = 1.4; // TODO: fix obj ref in components with arrays
+		this.tank2.behaviours = []; // TODO: arrays are getting turned into objects.
 
 		this.guiTank2 = new PIXI.Graphics();
-		main.stage.addChild(this.guiTank2);
+		sys.Render.addSprite(this.guiTank2);
 
 	},
 
@@ -153,7 +111,7 @@ window.Level = {
 		... should it be... somewhere else?
 
 	*/
-	outOfFuel: function (e) {
+	removeAndExplode: function (e) {
 
 		e.remove = true;
 		this.addExplosion(e);
@@ -169,6 +127,7 @@ window.Level = {
 
 	},
 
+	// TODO: should be behaviour
 	addExplosion: function (e) {
 
 		for (var i = 0; i < 10; i++) {
@@ -287,9 +246,9 @@ window.Level = {
 		aGui.drawRect(15, 25, 120 * (aTank.ammo.amount / 10), 5);
 		aGui.drawRect(15, 35, 120 * (aTank.fuel.amount / 100), 5);
 
-		bGui.drawRect(main.w - 138, main.h - 40, 120 * (bTank.health.amount / 100), 5);
-		bGui.drawRect(main.w - 138, main.h - 30, 120 * (bTank.ammo.amount / 10), 5);
-		bGui.drawRect(main.w - 138, main.h - 20, 120 * (bTank.fuel.amount / 100), 5);
+		bGui.drawRect(this.w - 138, this.h - 40, 120 * (bTank.health.amount / 100), 5);
+		bGui.drawRect(this.w - 138, this.h - 30, 120 * (bTank.ammo.amount / 10), 5);
+		bGui.drawRect(this.w - 138, this.h - 20, 120 * (bTank.fuel.amount / 100), 5);
 
 	}
 
