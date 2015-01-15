@@ -89,6 +89,7 @@ var main = {
 					continue;
 				}
 
+				// TODO: lol lol
 				var frameName = block.type >= 20 && block.type <= 23 ? "large" : "f";
 
 				var tx, ty, tile;
@@ -170,6 +171,19 @@ var main = {
 
 	},
 
+	/*
+
+		This is the only peice of game logic here...
+		... should it be... somewhere else?
+
+	*/
+	outOfFuel: function (e) {
+
+		e.remove = true;
+		this.addExplosion(e);
+
+	},
+
 	add: function (type, conf) {
 
 		var e = createPrefab(type, conf);
@@ -228,28 +242,6 @@ var main = {
 
 	},
 
-
-	makeSprite: function (texture, x, y, col, sx, sy) {
-
-		var sprite = new PIXI.Sprite(texture);
-
-		sprite.anchor.x = 0.5;
-		sprite.anchor.y = 0.5;
-
-		sprite.position.x = x;
-		sprite.position.y = y;
-
-		sprite.scale.x = sx || 1;
-		sprite.scale.y = sy || 1;
-
-		if (col) {
-			sprite.tint = col;
-		}
-
-		return sprite;
-
-	},
-
 	run: function (now, last) {
 
 		var dt = now - (last || now);
@@ -271,9 +263,9 @@ var main = {
 
 		this.ents_to_add = this.ents_to_add.filter(function (e) {
 
-			if (e.sprite) {
-				sys.Render.init(e);
-			}
+			// Any system init calls
+			sys.Render.init(e);
+			sys.Behaviour.init(e);
 
 			this.ents.push(e);
 
@@ -283,6 +275,7 @@ var main = {
 
 		this.ents = this.ents.filter(function (e) {
 
+			// Any system update calls
 			sys.Behaviour.update(e);
 			sys.Move.update(e);
 			sys.Physics.update(e, self.map, 1);
@@ -294,6 +287,7 @@ var main = {
 
 				if (e.sprite) {
 
+					// Any system remove calls
 					sys.Render.remove(e);
 
 				}
@@ -303,13 +297,6 @@ var main = {
 			return !(e.remove);
 
 		});
-
-	},
-
-	outOfFuel: function (e) {
-
-		e.remove = true;
-		this.addExplosion(e);
 
 	},
 

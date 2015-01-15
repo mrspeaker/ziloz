@@ -45,6 +45,8 @@ window.Map = {
 				var refill = null,
 					refillGroup = 0;
 
+				// TODO: lolol
+
 				// Team 1 refils
 				if ([20, 21].indexOf(col) > -1) {
 					refill = col - 19;
@@ -63,6 +65,7 @@ window.Map = {
 					refill = 3;
 				}
 
+				// TODO: hmm..... should tiles be entities?
 				var tile = {
 					type: col,
 					health: 10,
@@ -131,6 +134,32 @@ window.Map = {
 
 		return { x: x * tw, y: y * th };
 
+	},
+
+	tileHit: function (b, e) {
+
+		if (b.destructible) {
+
+			b.health -= 1;
+
+			// todo: getting double hits! fix...
+			if (b.sprite) b.sprite.alpha = b.health / 10;
+
+			if (b.health <= 0) {
+
+				b.type = 0;
+				b.walkable = true;
+
+				if (b.sprite) {
+
+					main.stage.removeChild(b.sprite);
+					b.sprite = null;
+
+				}
+
+			}
+
+		}
 	}
 
 };

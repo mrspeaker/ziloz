@@ -6,8 +6,10 @@ sys.Render = {
 
 	init: function (e) {
 
+		if (!e.sprite) { return; }
+
 		var def = e.sprite,
-			sprite = main.makeSprite(
+			sprite = this.makeSprite(
 				main.textures[def.texture],
 				0,
 				0,
@@ -44,6 +46,27 @@ sys.Render = {
 			sprite.rotation = e.rot.angle + e.rot.offset;
 
 		}
+
+	},
+
+	makeSprite: function (texture, x, y, col, sx, sy) {
+
+		var sprite = new PIXI.Sprite(texture);
+
+		sprite.anchor.x = 0.5;
+		sprite.anchor.y = 0.5;
+
+		sprite.position.x = x;
+		sprite.position.y = y;
+
+		sprite.scale.x = sx || 1;
+		sprite.scale.y = sy || 1;
+
+		if (col) {
+			sprite.tint = col;
+		}
+
+		return sprite;
 
 	},
 

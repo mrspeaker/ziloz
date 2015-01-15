@@ -4,6 +4,16 @@ var sys = (window.sys = window.sys || {});
 
 sys.Behaviour = {
 
+	init: function (e) {
+
+		if (e.behaviours && !e.behaviours_to_add) {
+
+			e.behaviours_to_add = [];
+
+		}
+
+	},
+
 	update: function (e) {
 
 		if (e.life && e.life.count-- <= 0) {
@@ -19,7 +29,6 @@ sys.Behaviour = {
 		}
 
 		if (!e.behaviours) { return; }
-		if (!e.behaviours_to_add) { e.behaviours_to_add = []; } // todo... ergh.
 
 		e.behaviours = e.behaviours.filter(function (b) {
 
@@ -194,28 +203,8 @@ sys.Behaviour = {
 
 			blocks.forEach(function (b) {
 
-				if (b.destructible) {
-
-					b.health -= 1;
-
-					// todo: getting double hits! fix...
-					if (b.sprite) b.sprite.alpha = b.health / 10;
-
-					if (b.health <= 0) {
-
-						b.type = 0;
-						b.walkable = true;
-
-						if (b.sprite) {
-
-							main.stage.removeChild(b.sprite);
-							b.sprite = null;
-
-						}
-
-					}
-
-				}
+				// Eeww.. main.map?
+				main.map.tileHit(b, e);
 
 			});
 
