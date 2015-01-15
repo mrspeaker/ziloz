@@ -30,10 +30,10 @@ window.Level = {
 	createLevel: function () {
 
 		// Testing behaviour system
-		var targetSpawner = {},
+		var targetSpawner = addComponent({}, "behaviour"),
 			freeSpot = this.map.findFreeSpot.bind(this.map);
 
-		targetSpawner.behaviours = [{
+		targetSpawner.behaviour.stack.push({
 			type: "timer",
 			time: 8000,
 			repeat: true,
@@ -56,7 +56,7 @@ window.Level = {
 					}
 				]
 			}
-		}];
+		});
 		this.ents_to_add.push(targetSpawner);
 
 		this.map.render(sys.Render.stage, this);
@@ -72,10 +72,8 @@ window.Level = {
 				tint: 0x88ff88
 			}
 		});
-
 		this.tank.input = main.input1; // grr
 		this.tank.input.power = 1.4; // TODO: fix obj ref in components with arrays
-		this.tank.behaviours = []; // TODO: arrays are getting turned into objects.
 
 		this.guiTank1 = new PIXI.Graphics();
 		sys.Render.addSprite(this.guiTank1);
@@ -98,7 +96,6 @@ window.Level = {
 		});
 		this.tank2.input = main.input2;
 		this.tank2.input.power = 1.4; // TODO: fix obj ref in components with arrays
-		this.tank2.behaviours = []; // TODO: arrays are getting turned into objects.
 
 		this.guiTank2 = new PIXI.Graphics();
 		sys.Render.addSprite(this.guiTank2);
@@ -187,7 +184,6 @@ window.Level = {
 
 			// Any system init calls
 			sys.Render.init(e);
-			sys.Behaviour.init(e);
 
 			this.ents.push(e);
 

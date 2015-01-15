@@ -8,6 +8,7 @@ prefabs.tank = {
 		w: 22,
 		h: 22
 	},
+	behaviour: {},
 	rot: {},
 	vel: {},
 	sprite: {},

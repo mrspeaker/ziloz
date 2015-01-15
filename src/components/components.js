@@ -9,6 +9,11 @@ components.sprite = {
 	rot: 0
 };
 
+components.behaviour = {
+	stack: [],
+	toAdd: []
+};
+
 components.pos = {
 	x: 0,
 	y: 0,

@@ -4,16 +4,6 @@ var sys = (window.sys = window.sys || {});
 
 sys.Behaviour = {
 
-	init: function (e) {
-
-		if (e.behaviours && !e.behaviours_to_add) {
-
-			e.behaviours_to_add = [];
-
-		}
-
-	},
-
 	update: function (e) {
 
 		if (e.life && e.life.count-- <= 0) {
@@ -28,9 +18,9 @@ sys.Behaviour = {
 
 		}
 
-		if (!e.behaviours) { return; }
+		if (!e.behaviour) { return; }
 
-		e.behaviours = e.behaviours.filter(function (b) {
+		e.behaviour.stack = e.behaviour.stack.filter(function (b) {
 
 			var keep = true;
 
@@ -46,7 +36,7 @@ sys.Behaviour = {
 					var add = this[b.name].apply(this, b.args);
 					if (add && add.length) {
 
-						e.behaviours_to_add = e.behaviours_to_add.concat(add);
+						e.behaviour.toAdd = behaviour.toAdd.concat(add);
 
 					}
 					keep = false;
@@ -63,9 +53,9 @@ sys.Behaviour = {
 
 		}, this);
 
-		e.behaviours_to_add = e.behaviours_to_add.filter(function (b) {
+		e.behaviour.toAdd = e.behaviour.toAdd.filter(function (b) {
 
-			e.behaviours.push(b);
+			e.behaviour.stack.push(b);
 
 			return false;
 
@@ -93,7 +83,7 @@ sys.Behaviour = {
 				break;
 
 			case "addBehaviour":
-				e.behaviours_to_add.push({
+				e.behaviour.toAdd.push({
 					type: "behaviour",
 					name: t.params.name,
 					args: t.params.args
@@ -241,7 +231,7 @@ sys.Behaviour = {
 
 		if (a.shakesWhenHit) {
 
-			a.behaviours.push({
+			a.behaviour.stack.push({
 				type: "behaviour",
 				name: "addShake",
 				args: [2000]
