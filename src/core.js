@@ -13,7 +13,7 @@ core.merge = function (a, b) {
 
 	return out;
 
-}
+};
 
 core.addComponent = function (e, name, conf) {
 
@@ -27,7 +27,7 @@ core.addComponent = function (e, name, conf) {
 
 	return e;
 
-}
+};
 
 core.removeComponent = function (e, name) {
 
@@ -35,7 +35,7 @@ core.removeComponent = function (e, name) {
 
 	return e;
 
-}
+};
 
 core.createEntity = function (conf) {
 
@@ -53,7 +53,7 @@ core.createEntity = function (conf) {
 
 	return entity;
 
-}
+};
 
 core.createPrefab = function (type, conf) {
 
@@ -81,4 +81,4 @@ core.createPrefab = function (type, conf) {
 
 	return entity;
 
-}
+};

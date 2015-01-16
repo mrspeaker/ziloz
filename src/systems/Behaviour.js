@@ -6,6 +6,7 @@ sys.Behaviour = {
 
 	update: function (e) {
 
+		// Hmm... life & fuel refresh should be here?
 		if (e.life && e.life.count-- <= 0) {
 
 			e.remove = true;
@@ -36,7 +37,7 @@ sys.Behaviour = {
 					var add = this[b.name].apply(this, b.args);
 					if (add && add.length) {
 
-						e.behaviour.toAdd = behaviour.toAdd.concat(add);
+						e.behaviour.toAdd = e.behaviour.toAdd.concat(add);
 
 					}
 					keep = false;
@@ -216,7 +217,7 @@ sys.Behaviour = {
 
 	},
 
-	collide: function (params) {
+	hitByProjectile: function (params) {
 
 		var a = params.a,
 			b = params.b,
@@ -226,6 +227,28 @@ sys.Behaviour = {
 		b.remove = !b.health ? false : (b.health.amount -= damage) <= 0;
 
 		main.listen("explode", a);
+
+		if (a.shakesWhenHit) {
+
+			a.behaviour.stack.push({
+				type: "behaviour",
+				name: "addShake",
+				args: [2000]
+			});
+
+		}
+
+	},
+
+	collide: function (params) {
+
+		var a = params.a,
+			b = params.b;
+
+		a.pos.x = a.pos.lastX;
+		a.pos.y = a.pos.lastY;
+		b.pos.x = b.pos.lastX;
+		b.pos.y = b.pos.lastY;
 
 		if (a.shakesWhenHit) {
 

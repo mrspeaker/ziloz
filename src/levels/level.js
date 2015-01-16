@@ -75,13 +75,10 @@ window.Level = {
 			}
 		});
 		this.tank.input = main.input1; // grr
-		this.tank.input.power = 1.4; // TODO: fix obj ref in components with arrays
-
-		this.guiTank1 = new PIXI.Graphics();
-		sys.Render.addSprite(this.guiTank1);
+		this.tank.input.power = 1.4; // TODO: fix obj ref in components
 
 		// Player 2
-		free = freeSpot()
+		free = freeSpot();
 		this.tank2 = this.add("tank", {
 			pos: {
 				x: free.x,
@@ -97,16 +94,21 @@ window.Level = {
 			spin:{}
 		});
 		this.tank2.input = main.input2;
-		this.tank2.input.power = 1.4; // TODO: fix obj ref in components with arrays
+		this.tank2.input.power = 1.4; // TODO: fix obj ref in components
 
+		// Tank GUIs
 		this.guiTank2 = new PIXI.Graphics();
 		sys.Render.addSprite(this.guiTank2);
+
+		this.guiTank1 = new PIXI.Graphics();
+		sys.Render.addSprite(this.guiTank1);
+
 
 	},
 
 	/*
 
-		This is the only peice of game logic here...
+		This is the only piece of game logic here...
 		... should it be... somewhere else?
 
 	*/

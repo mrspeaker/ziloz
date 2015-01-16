@@ -12,7 +12,9 @@ prefabs.tank = {
 	rot: {},
 	vel: {},
 	sprite: {},
-	collision: {},
+	collision: {
+		group: "tank"
+	},
 	health: {},
 	ammo: {},
 	fuel: {},

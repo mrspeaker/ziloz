@@ -11,21 +11,21 @@ sys.Collision = {
 		var col = e.collision,
 			fireEvent = this.fire;
 
-		// If can do damage...
-		if (col.damage) {
+		if (col.group === "projectile" ) {
 
 			ents.forEach(function (e2) {
 
 				if (e2.remove || e2 === e || !e2.collision) { return; }
 				// Hit other projectiles?
 				// if (e2.collision.group === "projectile" ) { return; }
+				if (e2.collision.group !== "tank" ) { return; }
 
 				var dx = e2.pos.x - e.pos.x,
 					dy = e2.pos.y - e.pos.y;
 
 				if (Math.sqrt(dx * dx + dy * dy) < 15) {
 
-					fireEvent("collision", {
+					fireEvent("hitByProjectile", {
 						a: e2,
 						b: e
 					});
@@ -36,7 +36,6 @@ sys.Collision = {
 
 		}
 
-		// If a "pickup"
 		if (col.group === "pickup") {
 
 			ents.forEach(function (e2) {
@@ -59,9 +58,38 @@ sys.Collision = {
 
 		}
 
+		if (col.group === "tank") {
+
+			ents.forEach(function (e2) {
+
+				if (e2.remove || !e2.collision || e2.collision.group !== "tank" || e2 === e ) { return; }
+
+				var dx = e2.pos.x - e.pos.x,
+					dy = e2.pos.y - e.pos.y;
+
+				if (Math.sqrt(dx * dx + dy * dy) < 20) {
+
+					fireEvent("collision", {
+						a: e,
+						b: e2
+					});
+
+				}
+
+			});
+
+		}
+
 	},
 
 	fire: function (event, params) {
+
+		if (event === "hitByProjectile") {
+
+			sys.Behaviour.hitByProjectile(params);
+
+		}
+
 
 		if (event === "collision") {
 
