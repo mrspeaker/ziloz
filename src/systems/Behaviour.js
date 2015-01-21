@@ -13,9 +13,26 @@ sys.Behaviour = {
 
 		}
 
-		if (e.fuel && e.fuel.refreshRate) {
+		if (e.fuel) {
 
-			e.fuel.amount = Math.min(100, e.fuel.amount + e.fuel.refreshRate);
+			if (e.fuel.amount <= 0) {
+
+				main.listen("die", e);
+
+			}
+
+			else if (e.fuel.refreshRate) {
+
+				e.fuel.amount = Math.min(e.fuel.max, e.fuel.amount + e.fuel.refreshRate);
+
+			}
+
+
+		}
+
+		if (e.health && e.health.amount <= 0) {
+
+			main.listen("die", e);
 
 		}
 
@@ -45,8 +62,13 @@ sys.Behaviour = {
 				}
 				break;
 
+			case "script":
+				b.func.apply(b.func, b.args);
+				keep = false;
+				break;
+
 			default:
-				console.log("unknown behvaviour: ", b);
+				console.log("unknown behaviour: ", b);
 
 			}
 
@@ -61,7 +83,6 @@ sys.Behaviour = {
 			return false;
 
 		});
-
 
 	},
 
@@ -89,6 +110,13 @@ sys.Behaviour = {
 					name: t.params.name,
 					args: t.params.args
 				});
+
+			case "script":
+				e.behaviour.toAdd.push({
+					type: "script",
+					func: t.params.func,
+					args: t.params.args
+				})
 			}
 
 			if (t.repeat) {
@@ -119,11 +147,6 @@ sys.Behaviour = {
 			if (distance > 0.1) {
 
 				e.fuel.amount = Math.max(0, e.fuel.amount - (distance * e.fuel.burnRate));
-				if (e.fuel.amount <= 0) {
-
-					main.listen("outOfFuel", e);
-
-				}
 
 			}
 
@@ -223,8 +246,8 @@ sys.Behaviour = {
 			b = params.b,
 			damage = Math.max(a.collision.damage || b.collision.damage || 1);
 
-		a.remove = !a.health ? false : (a.health.amount -= damage) <= 0;
-		b.remove = !b.health ? false : (b.health.amount -= damage) <= 0;
+		if (a.health) { a.health.amount -= damage; }
+		if (b.health) { b.health.amount -= damage; }
 
 		main.listen("explode", a);
 

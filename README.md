@@ -2,7 +2,6 @@
 
 ## Next todos
 
-- player/player collisions
 - game play
 	- lives
 	- destory base

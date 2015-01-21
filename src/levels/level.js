@@ -29,11 +29,11 @@ window.Level = {
 
 	createLevel: function () {
 
-		var freeSpot = this.map.findFreeSpot.bind(this.map),
+		var spawn = this.spawn.bind(this),
 			targetSpawner = core.addComponent({}, "behaviour");
 
 		// Testing behaviour system
-		targetSpawner.behaviour.stack.push({
+		/*targetSpawner.behaviour.stack.push({
 			type: "timer",
 			time: 8000,
 			repeat: true,
@@ -52,38 +52,30 @@ window.Level = {
 					},
 					function (conf) {
 
-						conf.pos = freeSpot();
 						conf.sprite.tint = Math.random() * 0xffffff;
+						spawn(conf);
 
 					}
 				]
 			}
-		});
-		this.ents_to_add.push(targetSpawner);
+		});*/
+		//this.ents_to_add.push(targetSpawner);
 
 		this.map.render(sys.Render.stage, this);
 
 		// Player 1
-		var free = freeSpot();
-		this.tank = this.add("tank", {
-			pos: {
-				x: free.x,
-				y: free.y
-			},
+
+		var tank = this.tank = this.add("tank", {
 			sprite: {
 				tint: 0x88ff88
 			}
 		});
-		this.tank.input = main.input1; // grr
-		this.tank.input.power = 1.4; // TODO: fix obj ref in components
+		tank.input = main.input1; // grr
+		tank.input.power = 1.4; // TODO: fix obj ref in components
+		this.spawn(tank);
 
 		// Player 2
-		free = freeSpot();
-		this.tank2 = this.add("tank", {
-			pos: {
-				x: free.x,
-				y: free.y
-			},
+		var tank2 = this.tank2 = this.add("tank", {
 			sprite: {
 				tint: 0xffff88
 			},
@@ -93,8 +85,9 @@ window.Level = {
 			//autofire: {},
 			spin:{}
 		});
-		this.tank2.input = main.input2;
-		this.tank2.input.power = 1.4; // TODO: fix obj ref in components
+		tank2.input = main.input2;
+		tank2.input.power = 1.4; // TODO: fix obj ref in components
+		this.spawn(tank2);
 
 		// Tank GUIs
 		this.guiTank2 = new PIXI.Graphics();
@@ -106,16 +99,69 @@ window.Level = {
 
 	},
 
-	/*
+	spawn: function (e) {
 
-		This is the only piece of game logic here...
-		... should it be... somewhere else?
+		var free = this.map.findFreeSpot();
 
-	*/
+		e.pos.x = free.x;
+		e.pos.y = free.y;
+
+		if (e.fuel) {
+
+			e.fuel.amount = e.fuel.max;
+
+		}
+
+		if (e.health) {
+
+			e.health.amount = 100;
+
+		}
+
+		e.remove = false;
+
+	},
+
 	removeAndExplode: function (e) {
 
 		e.remove = true;
 		this.addExplosion(e);
+
+	},
+
+	die: function (e) {
+
+		var respawn = this.spawn.bind(this);
+
+		if (e.lives && e.lives.number-- > 0) {
+
+			this.addExplosion(e);
+
+			e.behaviour.toAdd.push({
+				type: "timer",
+				time: 2000,
+				done: "script",
+				params: {
+					func: function (e) {
+
+						core.addComponent(e, "fuel");
+						respawn(e);
+
+					},
+					args: [
+						e
+					]
+				}
+			});
+
+			core.removeComponent(e, "fuel");
+
+
+		} else {
+
+			this.removeAndExplode(e);
+
+		}
 
 	},
 
@@ -244,11 +290,11 @@ window.Level = {
 
 		aGui.drawRect(15, 15, 120 * (aTank.health.amount / 100), 5);
 		aGui.drawRect(15, 25, 120 * (aTank.ammo.amount / 10), 5);
-		aGui.drawRect(15, 35, 120 * (aTank.fuel.amount / 100), 5);
+		if (aTank.fuel) aGui.drawRect(15, 35, 120 * (aTank.fuel.amount / aTank.fuel.max), 5);
 
 		bGui.drawRect(this.w - 138, this.h - 40, 120 * (bTank.health.amount / 100), 5);
 		bGui.drawRect(this.w - 138, this.h - 30, 120 * (bTank.ammo.amount / 10), 5);
-		bGui.drawRect(this.w - 138, this.h - 20, 120 * (bTank.fuel.amount / 100), 5);
+		if (bTank.fuel) bGui.drawRect(this.w - 138, this.h - 20, 120 * (bTank.fuel.amount / bTank.fuel.max), 5);
 
 	}
 

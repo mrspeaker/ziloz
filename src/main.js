@@ -103,6 +103,17 @@ var main = {
 			this.level.map.tileHit(data.block, data.e);
 
 			break;
+
+		case "die":
+
+			this.level.die(data);
+
+			break;
+
+		default:
+
+			console.error("what the heck is ", event, "?");
+
 		}
 
 	}

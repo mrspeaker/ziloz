@@ -15,6 +15,7 @@ prefabs.tank = {
 	collision: {
 		group: "tank"
 	},
+	lives: {},
 	health: {},
 	ammo: {},
 	fuel: {},

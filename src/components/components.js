@@ -41,6 +41,7 @@ components.input = {
 };
 
 components.health = {
+	lives: 5,
 	amount: 100
 };
 
@@ -50,8 +51,13 @@ components.ammo = {
 
 components.fuel = {
 	amount: 100,
-	burnRate: 0.05,
+	max: 100,
+	burnRate: 0.5,
 	refreshRate: 0.01
+};
+
+components.lives = {
+	number: 3
 };
 
 components.refill = {
