@@ -145,6 +145,7 @@ window.Level = {
 					func: function (e) {
 
 						core.addComponent(e, "fuel");
+						core.addComponent(e, "vel");
 						respawn(e);
 
 					},
@@ -155,6 +156,7 @@ window.Level = {
 			});
 
 			core.removeComponent(e, "fuel");
+			core.removeComponent(e, "vel");
 
 
 		} else {

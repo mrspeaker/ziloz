@@ -52,7 +52,7 @@ components.ammo = {
 components.fuel = {
 	amount: 100,
 	max: 100,
-	burnRate: 0.5,
+	burnRate: 0.05,
 	refreshRate: 0.01
 };
 
