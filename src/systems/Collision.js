@@ -40,7 +40,7 @@ sys.Collision = {
 
 			ents.forEach(function (e2) {
 
-				if (e2.remove || !e2.collision || e2.collision.group !== "default") { return; }
+				if (e2.remove || !e2.collision || e2.collision.group !== "tank") { return; }
 
 				var dx = e2.pos.x - e.pos.x,
 					dy = e2.pos.y - e.pos.y;
