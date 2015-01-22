@@ -33,7 +33,7 @@ var main = {
 
 		var loader = new PIXI.AssetLoader([
 			"res/images/tanktiles.json",
-			"res/images/tiles-large.json?a=b"
+			"res/images/tiles-large.json"
 		]);
 		loader.onComplete = this.onAssetsLoaded.bind(this);
 		loader.load();

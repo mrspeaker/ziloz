@@ -33,7 +33,7 @@ window.Level = {
 			targetSpawner = core.addComponent({}, "behaviour");
 
 		// Testing behaviour system
-		/*targetSpawner.behaviour.stack.push({
+		targetSpawner.behaviour.stack.push({
 			type: "timer",
 			time: 8000,
 			repeat: true,
@@ -58,8 +58,8 @@ window.Level = {
 					}
 				]
 			}
-		});*/
-		//this.ents_to_add.push(targetSpawner);
+		});
+		this.ents_to_add.push(targetSpawner);
 
 		this.map.render(sys.Render.stage, this);
 
