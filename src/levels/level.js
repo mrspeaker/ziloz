@@ -81,11 +81,11 @@ window.Level = {
 			},
 			refillGroup: {
 				team: 2
-			},
+			}//,
 			//autofire: {},
-			spin:{}
+			//spin:{}
 		});
-		tank2.input = main.input2;
+		tank2.input = Object.create(AIInput).init();//main.input2;
 		tank2.input.power = 1.4; // TODO: fix obj ref in components
 		this.spawn(tank2);
 
@@ -267,6 +267,8 @@ window.Level = {
 			return !(e.remove);
 
 		});
+
+		this.tank2.input.tick();
 
 	},
 
