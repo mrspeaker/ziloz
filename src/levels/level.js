@@ -151,6 +151,7 @@ window.Level = {
 				params: {
 					func: function (e) {
 
+						core.addComponent(e, "health");
 						core.addComponent(e, "fuel");
 						core.addComponent(e, "vel");
 						respawn(e);
@@ -162,6 +163,7 @@ window.Level = {
 				}
 			});
 
+			core.removeComponent(e, "health");
 			core.removeComponent(e, "fuel");
 			core.removeComponent(e, "vel");
 
@@ -275,8 +277,6 @@ window.Level = {
 
 		});
 
-		this.tank2.input.tick();
-
 	},
 
 	render: function () {
@@ -299,12 +299,12 @@ window.Level = {
 		aGui.beginFill(aTank.sprite.ref.tint);
 		bGui.beginFill(bTank.sprite.ref.tint);
 
-		aGui.drawRect(15, 15, 120 * (aTank.health.amount / aTank.health.max), 5);
-		aGui.drawRect(15, 25, 120 * (aTank.ammo.amount / aTank.ammo.amount), 5);
+		if (aTank.health) aGui.drawRect(15, 15, 120 * (aTank.health.amount / aTank.health.max), 5);
+		if (aTank.ammo) aGui.drawRect(15, 25, 120 * (aTank.ammo.amount / aTank.ammo.max), 5);
 		if (aTank.fuel) aGui.drawRect(15, 35, 120 * (aTank.fuel.amount / aTank.fuel.max), 5);
 
-		bGui.drawRect(this.w - 138, this.h - 40, 120 * (bTank.health.amount / bTank.health.max), 5);
-		bGui.drawRect(this.w - 138, this.h - 30, 120 * (bTank.ammo.amount / bTank.ammo.amount), 5);
+		if (bTank.health) bGui.drawRect(this.w - 138, this.h - 40, 120 * (bTank.health.amount / bTank.health.max), 5);
+		if (bTank.ammo) bGui.drawRect(this.w - 138, this.h - 30, 120 * (bTank.ammo.amount / bTank.ammo.max), 5);
 		if (bTank.fuel) bGui.drawRect(this.w - 138, this.h - 20, 120 * (bTank.fuel.amount / bTank.fuel.max), 5);
 
 	}

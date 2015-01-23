@@ -40,6 +40,8 @@ sys.Move = {
 				key = input.key,
 				speed = input.power;
 
+			e.input.tick();
+
 			if (key.left || key.right) {
 
 				if (key.right) {

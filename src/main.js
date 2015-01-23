@@ -16,6 +16,7 @@ var main = {
 		this.input1 = Object.create(Input).init(1);
 		this.input2 = Object.create(Input).init(2);
 
+		Network.init();
 	},
 
 	initPixi: function () {
