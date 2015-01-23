@@ -3,14 +3,14 @@
 ## Next todos
 
 - game play
-	- lives
 	- destory base
 	- game over
 	- destroy stations
-- simple ai
-- controls v2
 - screens
 	- title
+	- main
+- simple ai
+- controls v2
 
 ## ECS fixes
 

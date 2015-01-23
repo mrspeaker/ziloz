@@ -94,7 +94,6 @@ sys.Behaviour = {
 			finished = elapsed > t.time;
 
 		if (finished) {
-
 			switch (t.done) {
 			case "addComponent":
 				core.addComponent(e, t.params.name, t.params.conf);
@@ -110,6 +109,7 @@ sys.Behaviour = {
 					name: t.params.name,
 					args: t.params.args
 				});
+				break;
 
 			case "script":
 				e.behaviour.toAdd.push({
