@@ -42,11 +42,13 @@ components.input = {
 
 components.health = {
 	lives: 5,
-	amount: 100
+	amount: 100,
+	max: 100
 };
 
 components.ammo = {
-	amount: 10
+	amount: 10,
+	max: 10
 };
 
 components.fuel = {

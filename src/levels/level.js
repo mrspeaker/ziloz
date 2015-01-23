@@ -112,9 +112,16 @@ window.Level = {
 
 		}
 
+		if (e.ammo) {
+
+			e.ammo.amount = e.ammo.max;
+
+		}
+
+
 		if (e.health) {
 
-			e.health.amount = 100;
+			e.health.amount = e.health.max;
 
 		}
 
@@ -214,9 +221,9 @@ window.Level = {
 				h: 10
 			},
 			refill: {
-				ammo: refill.type === 1 ? 10 : 0,
-				fuel: refill.type === 2 ? 100 : 0,
-				health: refill.type === 3 ? 100 : 0,
+				ammo: refill.type === 1 ? components.ammo.max : 0,
+				fuel: refill.type === 2 ? components.fuel.max : 0,
+				health: refill.type === 3 ? components.health.max : 0,
 				group: refill.group
 			},
 			collision: {
@@ -292,12 +299,12 @@ window.Level = {
 		aGui.beginFill(aTank.sprite.ref.tint);
 		bGui.beginFill(bTank.sprite.ref.tint);
 
-		aGui.drawRect(15, 15, 120 * (aTank.health.amount / 100), 5);
-		aGui.drawRect(15, 25, 120 * (aTank.ammo.amount / 10), 5);
+		aGui.drawRect(15, 15, 120 * (aTank.health.amount / aTank.health.max), 5);
+		aGui.drawRect(15, 25, 120 * (aTank.ammo.amount / aTank.ammo.amount), 5);
 		if (aTank.fuel) aGui.drawRect(15, 35, 120 * (aTank.fuel.amount / aTank.fuel.max), 5);
 
-		bGui.drawRect(this.w - 138, this.h - 40, 120 * (bTank.health.amount / 100), 5);
-		bGui.drawRect(this.w - 138, this.h - 30, 120 * (bTank.ammo.amount / 10), 5);
+		bGui.drawRect(this.w - 138, this.h - 40, 120 * (bTank.health.amount / bTank.health.max), 5);
+		bGui.drawRect(this.w - 138, this.h - 30, 120 * (bTank.ammo.amount / bTank.ammo.amount), 5);
 		if (bTank.fuel) bGui.drawRect(this.w - 138, this.h - 20, 120 * (bTank.fuel.amount / bTank.fuel.max), 5);
 
 	}
