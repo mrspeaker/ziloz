@@ -6,7 +6,7 @@ var express = require("express"),
 	io = require("socket.io")(http),
 	port = 3002;
 
-var games = {};
+var games = [];
 
 app.get("/", function(req, res){
 	res.sendFile("index.html", {"root": "../"});
@@ -17,22 +17,32 @@ app.use("/lib", express.static(__dirname + "/../lib/"));
 
 io.on("connection", function (client) {
 
-	client.on("join", function (data) {
+	var game = games.reduce(function (ac, el) {
 
-		console.log("joiny");
-		console.log(io.sockets.adapter.rooms);
-		var game = games[data.room];
-		if (game) {
+		if (ac) return ac;
+		if (el.players.length < 2) {
 
-		} else {
+			console.log("Joining game:", el.id);
+			return el;
 
 		}
 
-	});
+	}, null);
 
-	client.join("lobby");
+	// ... or create a new one.
+	if (!game) {
+		console.log("create enw game");
+		game = {
+			players: [],
+			id: Math.random() * 999999 | 0
+		}
+		games.push(game);
+	}
 
-	io.sockets.in("lobby").emit("lobby/welcome");
+	game.players.push(client);
+
+	client.join(game.id);
+	io.sockets.in(game.id).emit("game/welcome", game.id);
 
 });
 
