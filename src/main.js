@@ -29,7 +29,9 @@ var main = {
 		document.body.appendChild(this.renderer.view);
 
 		this.textures = {
-			"main":  PIXI.Texture.fromImage("res/images/tank.png")
+			"main":  PIXI.Texture.fromImage("res/images/tank.png"),
+			"base": PIXI.Texture.fromImage("res/images/tank-base.png"),
+			"top": PIXI.Texture.fromImage("res/images/tank-top.png")
 		};
 
 		var loader = new PIXI.AssetLoader([

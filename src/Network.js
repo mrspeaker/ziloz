@@ -34,8 +34,8 @@
 
 			socket.io.on("reconnect", function () {
 
-				// TODO: lol.
-				console.log("DISCON AND RREFRESH");
+				// TODO
+				console.log("Disconnect/refresh");
 				socket.io.disconnect();
 				setTimeout(function () {
 
@@ -45,15 +45,9 @@
 
 			});
 
-			socket.on("lobby/welcome", function () {
+			socket.on("game/welcome", function (d) {
 
-				console.log("Welcome to the lobby!");
-
-			});
-
-			socket.on("world/welcome", function () {
-
-				console.log("All you've got to lose is your viginity.");
+				console.log("Welcome to the game!", d);
 
 			});
 

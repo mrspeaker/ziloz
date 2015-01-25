@@ -89,6 +89,9 @@ window.Level = {
 		tank2.input.power = 1.4; // TODO: fix obj ref in components
 		this.spawn(tank2);
 
+		tank.sprite.turret = true;
+		tank2.sprite.turret = true;
+
 		// Tank GUIs
 		this.guiTank2 = new PIXI.Graphics();
 		sys.Render.addSprite(this.guiTank2);

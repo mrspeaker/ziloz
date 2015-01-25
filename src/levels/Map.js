@@ -164,6 +164,8 @@ window.Map = {
 
 	render: function (stage, level) {
 
+		var mapContainer = new PIXI.DisplayObjectContainer();
+
 		// Render the map
 		for (var y = 0; y < this.h; y++) {
 
@@ -192,11 +194,17 @@ window.Map = {
 
 				}
 
-				tile.position.x = x * this.tileW;
-				tile.position.y = y * this.tileH;
+				//tile.rotation = Math.random() * 0.8 - 0.4;
+				//var scale = Math.random () * 0.2 - 0.1;
+				//tile.scale.x = scale + 1;
+				//tile.scale.y = scale + 1;
+				//tile.tint = (Date.now() * 1000) ^ 0xffffff;
+
+				tile.position.x = x * this.tileW;//+ ((scale * this.tileW) / 2);
+				tile.position.y = y * this.tileH;//+ ((scale * this.tileH) / 2);
 				if (block.type !== 3 && block.type !== 4) {
 
-					stage.addChild(tile);
+					mapContainer.addChild(tile);
 
 				}
 				this.blocks[y][x].sprite = tile;
@@ -210,6 +218,8 @@ window.Map = {
 			}
 
 		}
+
+		stage.addChild(mapContainer);
 
 	}
 

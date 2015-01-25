@@ -27,6 +27,7 @@ sys.Render = {
 		if (!e.sprite) { return; }
 
 		var def = e.sprite,
+			cont = new PIXI.DisplayObjectContainer(),
 			sprite = this.makeSprite(
 				main.textures[def.texture],
 				0,
@@ -36,7 +37,21 @@ sys.Render = {
 				def.scale
 			);
 
-		sprite.rotation = def.rot;
+		cont.addChild(sprite);
+
+		if (def.turret) {
+			var turret = this.makeSprite(
+				main.textures["top"],
+				0, 0,
+				def.tint - 20000,
+				def.scale, def.scale
+			);
+
+			turret.position.y -= 5;
+			cont.addChild(turret);
+		}
+
+		cont.rotation = def.rot;
 
 		if (def.blend) {
 
@@ -45,8 +60,9 @@ sys.Render = {
 		}
 
 		def.ref = sprite;
+		def.cont = cont;
 
-		this.addSprite(sprite);
+		this.addSprite(cont);
 
 	},
 
@@ -54,7 +70,7 @@ sys.Render = {
 
 		if (!e.sprite) { return };
 
-		var sprite = e.sprite.ref;
+		var sprite = e.sprite.cont;//sprite.ref;
 
 		sprite.position.x = e.pos.x | 0;
 		sprite.position.y = e.pos.y | 0;
@@ -91,6 +107,7 @@ sys.Render = {
 	remove: function (e) {
 
 		this.stage.removeChild(e.sprite.ref);
+		this.stage.removeChild(e.sprite.cont);
 
 	}
 

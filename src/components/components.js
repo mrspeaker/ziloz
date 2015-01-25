@@ -4,7 +4,7 @@ var components = window.components || {};
 
 components.sprite = {
 	ref: null,
-	texture: "main",
+	texture: "base",
 	scale: 1,
 	rot: 0
 };

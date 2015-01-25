@@ -5,8 +5,8 @@ var prefabs = window.prefabs || {};
 prefabs.tank = {
 	pos: {},
 	size: {
-		w: 22,
-		h: 22
+		w: 24,
+		h: 24
 	},
 	behaviour: {},
 	rot: {},
@@ -35,7 +35,7 @@ prefabs.bullet = {
 	life: {},
 	collision: {
 		group: "projectile",
-		damage: 10
+		damage: 102
 	},
 //	bouncer: {},
 	map: {
