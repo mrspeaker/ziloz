@@ -35,7 +35,7 @@ prefabs.bullet = {
 	life: {},
 	collision: {
 		group: "projectile",
-		damage: 102
+		damage: 10
 	},
 //	bouncer: {},
 	map: {

@@ -7,6 +7,8 @@ var main = {
 
 	level: null,
 
+	screen: null,
+
 	textures: null,
 
 	init: function () {
@@ -45,7 +47,7 @@ var main = {
 
 	onAssetsLoaded: function () {
 
-		this.level = Object.create(Level).init(this.w, this.h, this.stage);
+		this.setScreen(TitleScreen);
 
 		this.run();
 
@@ -62,62 +64,35 @@ var main = {
 
 	},
 
+	setScreen: function (scr) {
+
+		if (this.screen) {
+			this.stage.removeChild(this.screen.stage);
+		}
+		this.screen = Object.create(scr).init(this.w, this.h, this.stage);
+		this.screen.tick(0)
+
+	},
+
 	tick: function (dt) {
 
 		this.input1.tick();
 		this.input2.tick();
 
-		this.level.tick(dt);
+		this.screen.tick(dt);
 
 	},
 
 	render: function () {
 
-		this.level.render();
+		this.screen.render();
 		this.renderer.render(this.stage);
 
 	},
 
 	listen: function (event, data) {
 
-		switch (event) {
-
-		case "addEntity":
-
-			this.level.add(data.prefab, data.conf);
-
-			break;
-
-		case "explode":
-
-			this.level.addExplosion(data);
-
-			break;
-
-		case "removeAndExplode":
-
-			// TODO: this should be behaviour?
-			this.level.removeAndExplode(data);
-
-			break;
-
-		case "tileHit":
-
-			this.level.map.tileHit(data.block, data.e);
-
-			break;
-
-		case "die":
-
-			this.level.die(data);
-
-			break;
-
-		default:
-
-			console.error("what the heck is ", event, "?");
-
-		}
+		this.screen.listen(event, data);
 
 	}
 

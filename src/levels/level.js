@@ -143,33 +143,40 @@ window.Level = {
 
 		var respawn = this.spawn.bind(this);
 
-		if (e.lives && e.lives.number-- > 0) {
+		if (e.lives) {
 
-			this.addExplosion(e);
+			if (e.lives.number-- > 0) {
 
-			e.behaviour.toAdd.push({
-				type: "timer",
-				time: 2000,
-				done: "script",
-				params: {
-					func: function (e) {
+				this.addExplosion(e);
 
-						core.addComponent(e, "health");
-						core.addComponent(e, "fuel");
-						core.addComponent(e, "vel");
-						respawn(e);
+				e.behaviour.toAdd.push({
+					type: "timer",
+					time: 2000,
+					done: "script",
+					params: {
+						func: function (e) {
 
-					},
-					args: [
-						e
-					]
-				}
-			});
+							core.addComponent(e, "health");
+							core.addComponent(e, "fuel");
+							core.addComponent(e, "vel");
+							respawn(e);
 
-			core.removeComponent(e, "health");
-			core.removeComponent(e, "fuel");
-			core.removeComponent(e, "vel");
+						},
+						args: [
+							e
+						]
+					}
+				});
 
+				core.removeComponent(e, "health");
+				core.removeComponent(e, "fuel");
+				core.removeComponent(e, "vel");
+
+			} else {
+
+				main.setScreen(TitleScreen);
+
+			}
 
 		} else {
 
