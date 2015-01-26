@@ -10,6 +10,9 @@ window.Level = {
 
 	map: null,
 
+	tank1: null,
+	tank2: null,
+
 	init: function (w, h, stage) {
 
 		this.w = w;
@@ -67,14 +70,14 @@ window.Level = {
 
 		// Player 1
 
-		var tank = this.tank = this.add("tank", {
+		var tank1 = this.tank1 = this.add("tank", {
 			sprite: {
 				tint: 0x88ff88
 			}
 		});
-		tank.input = main.input1; // grr
-		tank.input.power = 1.4; // TODO: fix obj ref in components
-		this.spawn(tank);
+		// tank.input = main.input1; // grr
+		// tank.input.power = 1.4; // TODO: fix obj ref in components
+		this.spawn(tank1);
 
 		// Player 2
 		var tank2 = this.tank2 = this.add("tank", {
@@ -87,11 +90,11 @@ window.Level = {
 			//autofire: {},
 			//spin:{}
 		});
-		tank2.input = Object.create(AIInput).init();//main.input2;
-		tank2.input.power = 1.4; // TODO: fix obj ref in components
+		//tank2.input = Object.create(AIInput).init();//main.input2;
+		//tank2.input.power = 1.4; // TODO: fix obj ref in components
 		this.spawn(tank2);
 
-		tank.sprite.turret = true;
+		tank1.sprite.turret = true;
 		tank2.sprite.turret = true;
 
 		// Tank GUIs
@@ -289,6 +292,10 @@ window.Level = {
 
 		});
 
+		Network.tick({
+			lol: Math.random()
+		});
+
 	},
 
 	render: function () {
@@ -301,7 +308,7 @@ window.Level = {
 
 		// Health bars
 		var aGui = this.guiTank1,
-			aTank = this.tank,
+			aTank = this.tank1,
 			bGui = this.guiTank2,
 			bTank = this.tank2;
 

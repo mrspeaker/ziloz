@@ -2,13 +2,10 @@
 
 ## Next todos
 
+- AABB instead of distance collisions
 - game play
-	- destory base
-	- game over
 	- destroy stations
-- screens
-	- title
-	- main
+- can't shoot "through" blocks
 - simple ai
 - controls v2
 

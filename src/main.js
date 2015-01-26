@@ -5,8 +5,6 @@ var main = {
 	w: 30 * 16,
 	h: 24 * 16,
 
-	level: null,
-
 	screen: null,
 
 	textures: null,

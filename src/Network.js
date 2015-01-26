@@ -45,9 +45,9 @@
 
 			});
 
-			socket.on("game/welcome", function (d) {
+			socket.on("game/start", function (d) {
 
-				console.log("Welcome to the game!", d);
+				main.screen.listen("net/game/start", d);
 
 			});
 
@@ -78,6 +78,12 @@
 		send_ping: function (model) {
 
 			this.socket.emit("ping", model);
+
+		},
+
+		send_join_request: function () {
+
+			this.socket.emit("join_request");
 
 		}
 

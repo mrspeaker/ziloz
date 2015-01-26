@@ -8,7 +8,7 @@ window.TitleScreen = {
 
 		this.view = new PIXI.DisplayObjectContainer();
 
-		var text = new PIXI.Text("Zilok", {font:"50px Arial", fill:"#030"});
+		var text = new PIXI.Text("Zilok", { font:"50px Arial", fill:"#030" });
 		this.view.addChild(text);
 
 		this.w = w;
@@ -17,15 +17,13 @@ window.TitleScreen = {
 
 		this.stage.addChild(this.view);
 
+		Network.send_join_request();
+
 		return this;
 
 	},
 
 	tick: function (dt) {
-
-		if (this.count-- <= 0) {
-			main.setScreen(GameScreen);
-		}
 
 	},
 
@@ -33,7 +31,21 @@ window.TitleScreen = {
 
 	},
 
-	listen: function (event, data) {
+	listen: function (e, data) {
+
+		switch (e) {
+		case "net/game/start":
+			console.log(data.p1, data.p2);
+
+			main.setScreen(GameScreen);
+			var level = main.screen.level;
+			level.player = data.p1 === Network.socket.id ? level.tank1 : level.tank2;
+			level.networkPlayer = level.player === level.tank1 ? level.tank2 : level.tank1;
+
+			level.player.input = main.input1; // grr
+			level.player.input.power = 1.4; // TODO: fix obj ref in components
+			break;
+		}
 
 	}
 

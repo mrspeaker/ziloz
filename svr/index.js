@@ -4,6 +4,7 @@ var express = require("express"),
 	app = express(),
 	http = require("http").Server(app),
 	io = require("socket.io")(http),
+	UUID = require("node-uuid"),
 	port = 3002;
 
 var games = [];
@@ -17,37 +18,71 @@ app.use("/lib", express.static(__dirname + "/../lib/"));
 
 io.on("connection", function (client) {
 
-	var game = games.reduce(function (ac, el) {
+	console.log("client", client.id);
 
-		if (ac) return ac;
-		if (el.players.length < 2) {
+	client.on("ping", function (d) {
+		//console.log(d);
+	});
 
-			console.log("Joining game:", el.id);
-			return el;
+	client.on("join_request", function () {
+
+		var game = games.reduce(function (ac, el) {
+
+			if (ac) return ac;
+			if (el.players.length < 2) {
+
+				console.log("Joining game:", el.id);
+				return el;
+
+			}
+
+		}, null);
+
+		// ... or create a new one.
+		if (!game) {
+			console.log("create new game");
+			game = {
+				players: [],
+				id: Math.random() * 999999 | 0
+			}
+			games.push(game);
+		}
+
+		game.players.push(client);
+
+		client.join(game.id);
+
+		if (game.players.length == 2) {
+
+			io.sockets.in(game.id).emit("game/start", {
+				p1: game.players[0].id,
+				p2: game.players[1].id
+			});
 
 		}
 
-	}, null);
-
-	// ... or create a new one.
-	if (!game) {
-		console.log("create enw game");
-		game = {
-			players: [],
-			id: Math.random() * 999999 | 0
-		}
-		games.push(game);
-	}
-
-	game.players.push(client);
-
-	client.join(game.id);
-	io.sockets.in(game.id).emit("game/welcome", game.id);
+	});
 
 });
 
 http.listen(port, function () {
 
 	console.log("listening on *:" + port);
+	loopTick();
+	loopPing();
 
 });
+
+function loopPing () {
+
+	//Worlds.ping();
+	setTimeout(loopPing, 40);
+
+}
+
+function loopTick () {
+
+	//Worlds.tick();
+	setTimeout(loopTick, 1000 / 60);
+
+}

@@ -183,8 +183,8 @@ sys.Behaviour = {
 
 			  	this.spawn("bullet", {
 			  		pos: {
-			  			x: e.pos.x + (Math.cos(rot) * 18),
-			  			y: e.pos.y + (Math.sin(rot) * 18)
+			  			x: e.pos.x + (Math.cos(rot) * (e.size.w)),
+			  			y: e.pos.y + (Math.sin(rot) * (e.size.w))
 			  		},
 			  		sprite: {
 			  			scale: 0.5

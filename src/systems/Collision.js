@@ -20,10 +20,7 @@ sys.Collision = {
 				// if (e2.collision.group === "projectile" ) { return; }
 				if (e2.collision.group !== "tank" ) { return; }
 
-				var dx = e2.pos.x - e.pos.x,
-					dy = e2.pos.y - e.pos.y;
-
-				if (Math.sqrt(dx * dx + dy * dy) < 15) {
+				if (utils.aabb(e, e2)) {
 
 					fireEvent("hitByProjectile", {
 						a: e2,
@@ -42,10 +39,7 @@ sys.Collision = {
 
 				if (e2.remove || !e2.collision || e2.collision.group !== "tank") { return; }
 
-				var dx = e2.pos.x - e.pos.x,
-					dy = e2.pos.y - e.pos.y;
-
-				if (Math.sqrt(dx * dx + dy * dy) < 15) {
+				if (utils.dist(e.pos, e2.pos) < 15) {
 
 					fireEvent("pickup", {
 						e: e2,
@@ -64,10 +58,7 @@ sys.Collision = {
 
 				if (e2.remove || !e2.collision || e2.collision.group !== "tank" || e2 === e ) { return; }
 
-				var dx = e2.pos.x - e.pos.x,
-					dy = e2.pos.y - e.pos.y;
-
-				if (Math.sqrt(dx * dx + dy * dy) < 20) {
+				if (utils.aabb(e, e2)) {
 
 					fireEvent("collision", {
 						a: e,
