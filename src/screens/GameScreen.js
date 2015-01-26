@@ -51,6 +51,12 @@ window.GameScreen = {
 		case "tileHit":
 
 			this.level.map.tileHit(data.block, data.e);
+			if (data.block.type === 10) {
+				alert("game over A");
+			}
+			if (data.block.type === 11) {
+				alert("game over B");
+			}
 
 			break;
 

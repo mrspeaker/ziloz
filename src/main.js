@@ -70,7 +70,7 @@ var main = {
 			this.stage.removeChild(this.screen.stage);
 		}
 		this.screen = Object.create(scr).init(this.w, this.h, this.stage);
-		this.screen.tick(0)
+		this.screen.tick(16); // Lol.
 
 	},
 

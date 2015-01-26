@@ -29,6 +29,7 @@ window.Level = {
 
 	createLevel: function () {
 
+		/*
 		var spawn = this.spawn.bind(this),
 			targetSpawner = core.addComponent({}, "behaviour");
 
@@ -60,6 +61,7 @@ window.Level = {
 			}
 		});
 		this.ents_to_add.push(targetSpawner);
+		*/
 
 		this.map.render(sys.Render.stage, this);
 
