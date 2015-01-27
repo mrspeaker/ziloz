@@ -296,8 +296,11 @@ window.Level = {
 		});
 
 		if (this.player) {
+
 			Network.tick({
-				pos: this.player.pos
+				pos: this.player.pos,
+				rot: this.player.rot.angle
+
 			});
 		}
 

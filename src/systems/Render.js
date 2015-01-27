@@ -70,7 +70,7 @@ sys.Render = {
 
 		if (!e.sprite) { return };
 
-		var sprite = e.sprite.cont;//sprite.ref;
+		var sprite = e.sprite.cont; //sprite.ref;
 
 		sprite.position.x = e.pos.x | 0;
 		sprite.position.y = e.pos.y | 0;

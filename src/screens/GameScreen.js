@@ -71,6 +71,7 @@ window.GameScreen = {
 			var np = this.level.networkPlayer;
 
 			np.pos = data.pos;
+			np.rot.angle = data.rot;
 
 			break;
 
