@@ -21,7 +21,9 @@ io.on("connection", function (client) {
 	console.log("client", client.id);
 
 	client.on("ping", function (d) {
-		//console.log(d);
+
+		this.broadcast.to(this.gameId).emit("game/recPing", d);
+
 	});
 
 	client.on("join_request", function () {
@@ -49,12 +51,14 @@ io.on("connection", function (client) {
 		}
 
 		game.players.push(client);
+		client.gameId = game.id;
 
 		client.join(game.id);
 
 		if (game.players.length == 2) {
 
 			io.sockets.in(game.id).emit("game/start", {
+				game: game.id,
 				p1: game.players[0].id,
 				p2: game.players[1].id
 			});

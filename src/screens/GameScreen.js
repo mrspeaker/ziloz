@@ -66,6 +66,14 @@ window.GameScreen = {
 
 			break;
 
+		case "net/game/ping":
+
+			var np = this.level.networkPlayer;
+
+			np.pos = data.pos;
+
+			break;
+
 		default:
 
 			console.error("what the heck is ", event, "?");

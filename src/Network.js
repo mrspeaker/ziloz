@@ -51,6 +51,12 @@
 
 			});
 
+			socket.on("game/recPing", function (d) {
+
+				main.screen.listen("net/game/ping", d);
+
+			});
+
 		},
 
 		tick: function (model) {
@@ -64,14 +70,6 @@
 				this.send_ping(model);
 
 			}
-
-		},
-
-		receive_ping: function (ping) {
-
-			// Get delta since last ping
-			this.delta = (ping.elapsed - this.lastPingRec) * 1000;
-			this.lastPingRec = ping.elapsed;
 
 		},
 

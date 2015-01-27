@@ -13,6 +13,9 @@ window.Level = {
 	tank1: null,
 	tank2: null,
 
+	player: null,
+	networkPlayer: null,
+
 	init: function (w, h, stage) {
 
 		this.w = w;
@@ -292,9 +295,11 @@ window.Level = {
 
 		});
 
-		Network.tick({
-			lol: Math.random()
-		});
+		if (this.player) {
+			Network.tick({
+				pos: this.player.pos
+			});
+		}
 
 	},
 
