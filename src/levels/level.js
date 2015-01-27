@@ -219,7 +219,7 @@ window.Level = {
 					blend: "ADD"
 				},
 				life: {
-					count: (Math.random() * 30) + 40 | 0
+					count: (Math.random() * 10) + 10 | 0
 				}
 
 			});
@@ -235,7 +235,6 @@ window.Level = {
 				x: pos.x + 16,
 				y: pos.y + 16
 			},
-
 			size: {
 				w: 10,
 				h: 10
@@ -297,11 +296,16 @@ window.Level = {
 
 		if (this.player) {
 
-			Network.tick({
+			var playerModel = {
 				pos: this.player.pos,
 				rot: this.player.rot.angle
+			}
 
-			});
+			if (this.player.health) { playerModel.health = this.player.health.amount; }
+			if (this.player.ammo) { playerModel.ammo = this.player.ammo.amount; }
+			if (this.player.fuel) { playerModel.fuel = this.player.fuel.amount; }
+
+			Network.tick(playerModel);
 		}
 
 	},

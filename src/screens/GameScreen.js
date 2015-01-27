@@ -73,6 +73,27 @@ window.GameScreen = {
 			np.pos = data.pos;
 			np.rot.angle = data.rot;
 
+			if (data.health) { np.health.amount = data.health; }
+			if (data.ammo) { np.ammo.amount = data.ammo; }
+			if (data.fuel) { np.fuel.amount = data.fuel; }
+
+			break;
+
+		case "net/game/fire":
+
+			var np = this.level.networkPlayer;
+			var mod = {
+				pos: data.pos,
+				sprite: {
+					scale: 0.5
+				},
+				rot: {
+					angle: data.rot
+				}
+			};
+
+			this.listen("addEntity", { prefab: "bullet", conf: mod });
+
 			break;
 
 		default:

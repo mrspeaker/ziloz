@@ -67,6 +67,12 @@ io.on("connection", function (client) {
 
 	});
 
+	client.on("fire_one", function (posRot) {
+
+		this.broadcast.to(this.gameId).emit("game/recFire", posRot);
+
+	});
+
 });
 
 http.listen(port, function () {

@@ -6,7 +6,7 @@
 
 		dist: function (a, b) {
 			var dx = b.x - a.x,
-				dy = b.y - b.y;
+				dy = b.y - a.y;
 
 			return Math.sqrt(dx * dx + dy * dy);
 		},

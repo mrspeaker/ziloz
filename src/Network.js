@@ -57,6 +57,12 @@
 
 			});
 
+			socket.on("game/recFire", function (d) {
+
+				main.screen.listen("net/game/fire", d);
+
+			});
+
 		},
 
 		tick: function (model) {
@@ -82,6 +88,12 @@
 		send_join_request: function () {
 
 			this.socket.emit("join_request");
+
+		},
+
+		send_fire: function (posRot) {
+
+			this.socket.emit("fire_one", posRot);
 
 		}
 

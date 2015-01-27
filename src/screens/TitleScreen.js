@@ -35,8 +35,6 @@ window.TitleScreen = {
 
 		switch (e) {
 		case "net/game/start":
-			console.log(data.p1, data.p2);
-
 			main.setScreen(GameScreen);
 			var level = main.screen.level;
 			level.player = data.p1 === Network.socket.id ? level.tank1 : level.tank2;

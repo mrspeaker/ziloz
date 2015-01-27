@@ -181,7 +181,7 @@ sys.Behaviour = {
 
 			  	var rot = e.rot ? e.rot.angle - Math.PI / 2 : 0;
 
-			  	this.spawn("bullet", {
+			  	var mod = {
 			  		pos: {
 			  			x: e.pos.x + (Math.cos(rot) * (e.size.w)),
 			  			y: e.pos.y + (Math.sin(rot) * (e.size.w))
@@ -192,6 +192,13 @@ sys.Behaviour = {
 			  		rot: {
 			  			angle: rot
 			  		}
+			  	};
+
+			  	this.spawn("bullet", mod);
+
+			  	Network.send_fire({
+			  		pos: mod.pos,
+			  		rot: mod.rot.angle
 			  	});
 
 				e.lastFire = now;
