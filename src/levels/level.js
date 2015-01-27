@@ -230,7 +230,7 @@ window.Level = {
 
 	addRefill: function (refill, pos) {
 
-		this.ents_to_add.push(core.createEntity({
+		var idx = this.ents_to_add.push(core.createEntity({
 			pos: {
 				x: pos.x + 24,
 				y: pos.y + 24
@@ -249,6 +249,8 @@ window.Level = {
 				group: "pickup"
 			}
 		}));
+
+		return this.ents_to_add[idx - 1];
 
 	},
 

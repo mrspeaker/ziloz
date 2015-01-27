@@ -9,6 +9,8 @@ window.Map = {
 
 	blocks: null,
 
+	refills: [],
+
 	init: function (blocks) {
 
 		var _ = 0;
@@ -18,8 +20,8 @@ window.Map = {
 			[5, 5, 5, 5, 5, 5, 5, 5, 5, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, 5],
 			[5, 5, 5, 5, 5, 5, 5, 5, 5, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, 5],
 			[5, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, 1, 1, _, _, 5],
-			[5, _, _, _, _, _, _, _, _, _, _, 2,22, 3, 2, _, _, _, _, _, _, _, _, _, _,21, 4, _, _, 5],
-			[5, _, _, 1,21, 4,20, 4, 1, _, _, 2, 3, 3, 2, _, _, _, _, _, _, _, _, _, _, 4, 4, _, _, 5],
+			[5, _, _, _, _, _, _, _, _, _, _, 1,22, 3, 1, _, _, _, _, _, _, _, _, _, _,21, 4, _, _, 5],
+			[5, _, _, 1,21, 4,20, 4, 1, _, _, 1, 3, 3, 1, _, _, _, _, _, _, _, _, _, _, 4, 4, _, _, 5],
 			[5, _, _, 1, 4, 4, 4, 4, 1, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, 1, 1, _, _, 5],
 			[5, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, 2, 2, _, _, _, _, _, _, _, _, 5],
 			[5, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, 6, 6, _, _, _, _, _, _, _, _, 5],
@@ -32,8 +34,8 @@ window.Map = {
 			[5, _, _, _, _, _, _, _, _, 6, 6, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, 5],
 			[5, _, _, _, _, _, _, _, _, 2, 2, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, 5],
 			[5, _, _, 1, 1, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, 1,22, 3,23, 3, 1, _, _, 5],
-			[5, _, _,23, 3, _, _, _, _, _, _, _, _, _, _, 2,20, 4, 2, _, _, 1, 3, 3, 3, 3, 1, _, _, 5],
-			[5, _, _, 3, 3, _, _, _, _, _, _, _, _, _, _, 2, 4, 4, 2, _, _, _, _, _, _, _, _, _, _, 5],
+			[5, _, _,23, 3, _, _, _, _, _, _, _, _, _, _, 1,20, 4, 1, _, _, 1, 3, 3, 3, 3, 1, _, _, 5],
+			[5, _, _, 3, 3, _, _, _, _, _, _, _, _, _, _, 1, 4, 4, 1, _, _, _, _, _, _, _, _, _, _, 5],
 			[5, _, _, 1, 1, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, 5],
 			[5, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, 5, 5, 5, 5, 5, 5, 5, 5, 5],
 			[5, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, 5, 5, 5, 5, 5, 5, 5, 5, 5],
@@ -161,6 +163,47 @@ window.Map = {
 
 				}
 
+				// If it's part of a refill structure, destroy the strucutre.
+				// Crappy way to handle structures... but no time!
+
+				var getRefill = function (x, y) {
+					return this.refills.filter(function (r) {
+						return r.tile.x / 16 === x && r.tile.y / 16 === y;
+					});
+				}.bind(this);
+
+				//["12:4", "25:4", "4:5", "6:5", "14:11", "22:17", "24:17", "3:18", "16:18"]
+
+				var breaks = [
+					{ station: [12, 4], tiles: [[11, 4], [11, 5], [14, 4], [14, 5]] },
+					{ station: [25, 4], tiles: [[25, 3], [26, 3], [25, 6], [26, 6]] },
+
+					{ station: [4, 5], tiles: [[3, 5], [3, 6]] }, // green base ammo
+					{ station: [6, 5], tiles: [[8, 5], [8, 6]] }, // green base fuel
+
+					{ station: [14, 11], tiles: [[13, 11], [13, 12], [16, 11], [16, 12]] }, // Health
+
+					{ station: [22, 17], tiles: [[21, 17], [21, 18]] },  // yellow base ammo
+					{ station: [24, 17], tiles: [[26, 17], [26, 18]] },  // yellow base fuel
+
+					{ station: [3, 18], tiles: [[3, 17], [4, 17], [3, 20], [4, 20]] },
+					{ station: [16, 18], tiles: [[15, 18], [15, 19], [18, 18], [18, 19]] } // green ammo
+				].forEach(function (e) {
+
+					var destroyedRefill = e.tiles.some(function (t) {
+						return b.pos.x === t[0] && b.pos.y === t[1];
+					});
+
+					if (destroyedRefill) {
+						var ref = getRefill(e.station[0], e.station[1]);
+						if (ref) {
+							this.view.removeChild(ref[0].tile);
+							ref[0].refill.remove = true;
+						}
+					}
+
+				}, this);
+
 			}
 
 		}
@@ -169,6 +212,7 @@ window.Map = {
 	render: function (stage, level) {
 
 		var mapContainer = new PIXI.DisplayObjectContainer();
+		this.view = mapContainer;
 
 		// Render the map
 		for (var y = 0; y < this.h; y++) {
@@ -209,13 +253,19 @@ window.Map = {
 
 				if (block.refill) {
 
-					level.addRefill(block.refill, tile.position);
+					this.refills.push({
+						tile: tile,
+						refill: level.addRefill(block.refill, tile.position)
+					});
 
 				}
 
 			}
 
 		}
+			console.log(this.refills.map(function (r) {
+				return "" + (r.tile.position.x / 16) + ":" + (r.tile.position.y / 16) ;
+			}));
 
 		stage.addChild(mapContainer);
 
