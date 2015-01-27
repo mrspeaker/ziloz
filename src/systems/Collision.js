@@ -39,7 +39,7 @@ sys.Collision = {
 
 				if (e2.remove || !e2.collision || e2.collision.group !== "tank") { return; }
 
-				if (utils.dist(e.pos, e2.pos) < 3) {
+				if (utils.aabb(e, e2)) {
 
 					fireEvent("pickup", {
 						e: e2,

@@ -232,12 +232,12 @@ window.Level = {
 
 		this.ents_to_add.push(core.createEntity({
 			pos: {
-				x: pos.x + 16,
-				y: pos.y + 16
+				x: pos.x + 24,
+				y: pos.y + 24
 			},
 			size: {
-				w: 10,
-				h: 10
+				w: 8,
+				h: 8
 			},
 			refill: {
 				ammo: refill.type === 1 ? components.ammo.max : 0,
