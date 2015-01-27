@@ -49,6 +49,7 @@ sys.Render = {
 
 			turret.position.y -= 5;
 			cont.addChild(turret);
+
 		}
 
 		cont.rotation = def.rot;

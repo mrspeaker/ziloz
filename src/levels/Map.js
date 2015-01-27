@@ -27,8 +27,8 @@ window.Map = {
 			[5, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, 6, 6, _, _, _, _, _, _, _, _, 5],
 			[5, 1, 1, 1, 1, _, _, _, _, _, _, _, _, _, _, _, _, _, _, 6, 6, _, _, _, _, 1, 1, 1, 1, 5],
 			[5,10,10,10, 1, _, _, _, _, 2, 2, _, _, _, _, _, _, _, _, 2, 2, _, _, _, _, 1,11,11,11, 5],
-			[5,10,10,10, 1, _, _, _, _, 6, 6, _, _, 1, 9, 6, 1, _, _, 6, 6, _, _, _, _, 1,11,11,11, 5],
-			[5,10,10,10, 1, _, _, _, _, 6, 6, _, _, 1, 6, 6, 1, _, _, 6, 6, _, _, _, _, 1,11,11,11, 5],
+			[5,10,10,10, 1, _, _, _, _, 6, 6, _, _, 1,24, _, 1, _, _, 6, 6, _, _, _, _, 1,11,11,11, 5],
+			[5,10,10,10, 1, _, _, _, _, 6, 6, _, _, 1, _, _, 1, _, _, 6, 6, _, _, _, _, 1,11,11,11, 5],
 			[5,10,10,10, 1, _, _, _, _, 2, 2, _, _, _, _, _, _, _, _, 2, 2, _, _, _, _, 1,11,11,11, 5],
 			[5, 1, 1, 1, 1, _, _, _, _, 6, 6, _, _, _, _, _, _, _, _, _, _, _, _, _, _, 1, 1, 1, 1, 5],
 			[5, _, _, _, _, _, _, _, _, 6, 6, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, 5],
@@ -63,7 +63,7 @@ window.Map = {
 				}
 
 				// Health
-				if (col === 9) {
+				if (col === 24) {
 					refill = 3;
 				}
 
@@ -75,7 +75,7 @@ window.Map = {
 					},
 					type: col,
 					health: 10,
-					walkable: [0, 3, 4, 6, 9, 20, 21, 22, 23].indexOf(col) > -1,
+					walkable: [0, 3, 4, 6, 9, 20, 21, 22, 23, 24].indexOf(col) > -1,
 					destructible: [1].indexOf(col) > -1,
 					sprite: null
 				};
@@ -172,9 +172,7 @@ window.Map = {
 					});
 				}.bind(this);
 
-				//["12:4", "25:4", "4:5", "6:5", "14:11", "22:17", "24:17", "3:18", "16:18"]
-
-				var breaks = [
+				[
 					{ station: [12, 4], tiles: [[11, 4], [11, 5], [14, 4], [14, 5]] },
 					{ station: [25, 4], tiles: [[25, 3], [26, 3], [25, 6], [26, 6]] },
 
@@ -188,6 +186,7 @@ window.Map = {
 
 					{ station: [3, 18], tiles: [[3, 17], [4, 17], [3, 20], [4, 20]] },
 					{ station: [16, 18], tiles: [[15, 18], [15, 19], [18, 18], [18, 19]] } // green ammo
+
 				].forEach(function (e) {
 
 					var destroyedRefill = e.tiles.some(function (t) {
@@ -224,7 +223,7 @@ window.Map = {
 				if (block.type === 0) { continue; }
 
 				// TODO: lol lol
-				var frameName = block.type >= 20 && block.type <= 23 ? "large" : "f";
+				var frameName = block.type >= 20 && block.type <= 24 ? "large" : "f";
 
 				var tx, ty, tile;
 
@@ -236,8 +235,8 @@ window.Map = {
 
 				} else {
 
-					tx = (block.type - 20) % 2 | 0;
-					ty = (block.type - 20) / 2 | 0;
+					tx = (block.type - 20) % 4 | 0;
+					ty = (block.type - 20) / 4 | 0;
 					tile = PIXI.Sprite.fromFrame(frameName + tx + "_" + ty);
 
 				}
@@ -263,9 +262,6 @@ window.Map = {
 			}
 
 		}
-			console.log(this.refills.map(function (r) {
-				return "" + (r.tile.position.x / 16) + ":" + (r.tile.position.y / 16) ;
-			}));
 
 		stage.addChild(mapContainer);
 

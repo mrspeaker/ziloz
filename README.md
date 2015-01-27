@@ -2,10 +2,21 @@
 
 ## Next todos
 
-- AABB instead of distance collisions
-- game play
-	- destroy stations
-- can't shoot "through" blocks
+### required:
+
+- player spawn location.
+- remove player when dead before respwan
+- explosion on other screen when player dies.
+- gameover screen
+- sounds
+
+### Then:
+
+- knockback?
+- improve gfx
+	- better tiles
+	- bullet gfx
+	- better lives icon
 - simple ai
 - controls v2
 
@@ -20,3 +31,4 @@
 		hits: ["plyaer", "wall"],
 		hitBy: ["player", "wall"]
 	}
+- way too many... ran out of time, when hack-mode.

@@ -31,7 +31,8 @@ var main = {
 		this.textures = {
 			"main":  PIXI.Texture.fromImage("res/images/tank.png"),
 			"base": PIXI.Texture.fromImage("res/images/tank-base.png"),
-			"top": PIXI.Texture.fromImage("res/images/tank-top.png")
+			"top": PIXI.Texture.fromImage("res/images/tank-top.png"),
+			"nm": PIXI.Texture.fromImage("res/images/nm.png")
 		};
 
 		var loader = new PIXI.AssetLoader([

@@ -340,6 +340,18 @@ window.Level = {
 		if (bTank.ammo) bGui.drawRect(this.w - 138, this.h - 30, 120 * (bTank.ammo.amount / bTank.ammo.max), 5);
 		if (bTank.fuel) bGui.drawRect(this.w - 138, this.h - 20, 120 * (bTank.fuel.amount / bTank.fuel.max), 5);
 
+		if (aTank.lives) {
+			for(var i = 0; i < aTank.lives.number; i++) {
+				aGui.drawRect((14 * i) + 20, 185, 12, 12);
+			}
+		}
+
+		if (bTank.lives) {
+			for(var i = 0; i < bTank.lives.number; i++) {
+				bGui.drawRect((14 * i) + (this.w - 60), 185, 12, 12);
+			}
+		}
+
 	}
 
 };
