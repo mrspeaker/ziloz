@@ -222,13 +222,48 @@ sys.Behaviour = {
 
 		if (e.map.destroy) {
 
-			blocks
+			var bounds = {
+				minX: blocks[0].pos.x,
+				maxX: blocks[0].pos.x,
+				minY: blocks[0].pos.y,
+				maxY: blocks[0].pos.y
+			};
+
+			blocks = blocks
 				.filter(function (b, i, self) {
+
+					if (b.pos.x < bounds.minX) { bounds.minX = b.pos.x; }
+					if (b.pos.x > bounds.maxX) { bounds.maxX = b.pos.x; }
+					if (b.pos.y < bounds.minY) { bounds.minY = b.pos.y; }
+					if (b.pos.y > bounds.maxY) { bounds.maxY = b.pos.y; }
 
 					// Unique
 					return self.indexOf(b) === i;
 
 				})
+				.filter(function (b, i) {
+
+					// down
+					if (e.rot.angle == Math.PI / 2) {
+						return b.pos.y === bounds.minY;
+					}
+					// up
+					if (e.rot.angle == -Math.PI / 2) {
+						return b.pos.y === bounds.maxY;
+					}
+					// right
+					if (e.rot.angle == 0) {
+						return b.pos.x === bounds.minX;
+					}
+					// left
+					if (e.rot.angle == -Math.PI) {
+						return b.pos.x === bounds.maxX;
+					}
+
+					return true;
+				})
+
+			blocks
 				.forEach(function (b) {
 
 					// Don't really know where tile behaviour should go.

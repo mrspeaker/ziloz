@@ -38,9 +38,9 @@ window.Map = {
 			[5, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, 5, 5, 5, 5, 5, 5, 5, 5, 5],
 			[5, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, 5, 5, 5, 5, 5, 5, 5, 5, 5],
 			[5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5]
-		].map(function (row) {
+		].map(function (row, y) {
 
-			return row.map(function (col) {
+			return row.map(function (col, x) {
 
 				var refill = null,
 					refillGroup = 0;
@@ -67,6 +67,10 @@ window.Map = {
 
 				// TODO: hmm..... should tiles be entities?
 				var tile = {
+					pos: {
+						x: x,
+						y: y
+					},
 					type: col,
 					health: 10,
 					walkable: [0, 3, 4, 6, 9, 20, 21, 22, 23].indexOf(col) > -1,
