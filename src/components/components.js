@@ -105,3 +105,8 @@ components.map = {
    	destroy: false,
    	destroyedBy: false
 };
+
+components.noLoitering = {
+	lastMovedAt: 0,
+	bustedAfter: 30 * 1000
+}

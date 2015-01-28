@@ -34,6 +34,15 @@ sys.Move = {
 
 		}
 
+		if (e.noLoitering) {
+
+			if (!e.noLoitering.lastMovedAt) { e.noLoitering.lastMovedAt = Date.now(); }
+
+			if (Date.now() - e.noLoitering.lastMovedAt > e.noLoitering.bustedAfter) {
+				e.fuel.amount = 0;
+			}
+		}
+
 		if (e.input) {
 
 			var input = e.input,
@@ -78,9 +87,14 @@ sys.Move = {
 
 			}
 
-			// TODO: 0.5?
+			// TODO: 0.1 what detlat??
 			if (Math.abs(e.vel.x) < 0.1) e.vel.x = 0;
 			if (Math.abs(e.vel.y) < 0.1) e.vel.y = 0;
+
+			// Update loitering if moved
+			if (e.noLoitering && (e.vel.x !== 0 || e.vel.y !== 0)) {
+				e.noLoitering.lastMovedAt = Date.now();
+			}
 
 			if (key.fire || e.autofire) {
 

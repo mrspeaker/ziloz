@@ -152,6 +152,8 @@ sys.Behaviour = {
 
 		}
 
+		e._lastMovedAt = Date.now();
+
 	},
 
 	entityFired: function (e, params) {
@@ -232,6 +234,9 @@ sys.Behaviour = {
 			blocks = blocks
 				.filter(function (b, i, self) {
 
+					if (!b.pos) {
+						return false;
+					}
 					if (b.pos.x < bounds.minX) { bounds.minX = b.pos.x; }
 					if (b.pos.x > bounds.maxX) { bounds.maxX = b.pos.x; }
 					if (b.pos.y < bounds.minY) { bounds.minY = b.pos.y; }
@@ -260,7 +265,7 @@ sys.Behaviour = {
 						return b.pos.x === bounds.maxX;
 					}
 
-					return true;
+					return false;
 				})
 
 			blocks
@@ -290,6 +295,14 @@ sys.Behaviour = {
 
 		if (a.health) { a.health.amount -= damage; }
 		if (b.health) { b.health.amount -= damage; }
+
+		if (b.rot && a.vel) {
+			var knockback = 10;
+			if (b.rot.angle === -Math.PI) a.vel.x = -knockback;
+			if (b.rot.angle === 0) a.vel.x = knockback;
+			if (b.rot.angle === Math.PI / 2) a.vel.y = knockback;
+			if (b.rot.angle === -Math.PI / 2) a.vel.y = -knockback;
+		}
 
 		main.listen("explode", a);
 

@@ -6,16 +6,20 @@ window.TitleScreen = {
 
 	init: function (w, h, stage) {
 
-		this.view = new PIXI.DisplayObjectContainer();
+		this.stage = new PIXI.DisplayObjectContainer();
 
 		var text = new PIXI.Text("Zilok", { font:"50px Arial", fill:"#030" });
-		this.view.addChild(text);
+		var text2 = new PIXI.Text("waiting for player 2...", { font:"20px Arial", fill:"#070" });
+		text2.position.x = w / 2 - 100;
+		text2.position.y = h / 2;
+		this.stage.addChild(text);
+		this.stage.addChild(text2);
 
 		this.w = w;
 		this.h = h;
-		this.stage = stage;
+		//this.stage = stage;
 
-		this.stage.addChild(this.view);
+		stage.addChild(this.stage);
 
 		Network.send_join_request();
 

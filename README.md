@@ -4,11 +4,14 @@
 
 ### required:
 
-- player spawn location.
-- remove player when dead before respwan
 - explosion on other screen when player dies.
-- gameover screen
+- gameover screen/winner
+- countdown getready
 - sounds
+	- shoot
+	- hit
+	- explode
+	- move
 
 ### Then:
 
@@ -17,8 +20,10 @@
 	- better tiles
 	- bullet gfx
 	- better lives icon
+- base explosion
 - simple ai
 - controls v2
+- stalemate if both out of ammo and no refills?
 
 ## ECS fixes
 

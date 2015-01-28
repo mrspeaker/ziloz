@@ -112,10 +112,32 @@ window.Level = {
 
 	spawn: function (e) {
 
-		var free = this.map.findFreeSpot();
+		var spot = {};
 
-		e.pos.x = free.x;
-		e.pos.y = free.y;
+		if (e === this.tank1 || e === this.tank2) {
+
+			if (e === this.tank1) {
+
+				spot.x = 2 * 16;
+				spot.y = 8 * 16;
+				e.rot.angle = Math.PI / 2;
+
+			} else {
+
+				spot.x = this.w - 32;
+				spot.y = this.h - (16 * 8);
+				e.rot.angle = -Math.PI / 2;
+
+			}
+
+		} else {
+
+			spot = this.map.findFreeSpot();
+
+		}
+
+		e.pos.x = spot.x;
+		e.pos.y = spot.y;
 
 		if (e.fuel) {
 
@@ -134,6 +156,10 @@ window.Level = {
 
 			e.health.amount = e.health.max;
 
+		}
+
+		if (e.noLoitering) {
+			e.noLoitering.lastMovedAt = Date.now();
 		}
 
 		e.remove = false;
@@ -167,6 +193,7 @@ window.Level = {
 							core.addComponent(e, "health");
 							core.addComponent(e, "fuel");
 							core.addComponent(e, "vel");
+							e.sprite.ref.alpha = 1;
 							respawn(e);
 
 						},
@@ -176,13 +203,14 @@ window.Level = {
 					}
 				});
 
+				e.sprite.ref.alpha = 0;
 				core.removeComponent(e, "health");
 				core.removeComponent(e, "fuel");
 				core.removeComponent(e, "vel");
 
 			} else {
 
-				main.setScreen(TitleScreen);
+				main.screen.listen("gameover", e === this.tank1 ? 2 : 1);
 
 			}
 
