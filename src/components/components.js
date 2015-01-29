@@ -43,7 +43,8 @@ components.input = {
 components.health = {
 	lives: 5,
 	amount: 100,
-	max: 100
+	max: 100,
+	dead: false
 };
 
 components.ammo = {

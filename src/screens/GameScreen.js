@@ -82,7 +82,23 @@ window.GameScreen = {
 
 		case "die":
 
-			this.level.die(data);
+			if (data.health) {
+				if (data.health.dead) {
+					console.log("already dead.");
+					break;
+				}
+				data.health.dead = true;
+			}
+			if (data.collision.group === "tank") {
+				if (data === this.level.player) {
+					console.log("sent my death");
+					Network.send_die();
+				}
+			} else {
+				// console.log("don't care", data.collision.group);
+				this.level.die(data);
+			}
+
 
 			break;
 
@@ -91,20 +107,16 @@ window.GameScreen = {
 			if (this.gameover) { break; }
 			this.gameover = true;
 
-			console.log("game over yo!");
-
 			var tank = data === 2 ? this.level.tank2 : this.level.tank1;
 
 			core.addComponent(tank, "spin");
 			core.removeComponent(this.level.tank1, "input");
 			core.removeComponent(this.level.tank2, "input");
 
-			console.log("thing.")
-
 			this.dialog = Object.create(Dialog).init(this.stage, function (container, w, h) {
-				var text = new PIXI.Text("GAME OVER", { font:"20px Arial", fill:"#090" });
-				text.position.x = w / 2 - 30;
-				text.position.y = h / 2 - 60;
+				var text = new PIXI.Text("GAME OVER", { font:"80px Arial", fill:"#090" });
+				//text.position.x = w / 2 - 30;
+				//text.position.y = h / 2 - 60;
 				container.addChild(text);
 			}, true);
 
@@ -142,6 +154,13 @@ window.GameScreen = {
 
 			this.listen("addEntity", { prefab: "bullet", conf: mod });
 
+			break;
+
+		case "net/game/die":
+			var e = data === Network.socket.id ? this.level.player : this.level.networkPlayer;
+			console.log("lcoa?", data === Network.socket.id)
+
+			this.level.die(e);
 			break;
 
 		default:

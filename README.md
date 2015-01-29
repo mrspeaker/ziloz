@@ -11,11 +11,14 @@
 	- shoot
 	- hit
 	- explode
+	- ammo refill
+	- fuel refile
+	- health refill
 	- move
 
 ### Then:
 
-- knockback?
+- shoot knockback
 - improve gfx
 	- better tiles
 	- bullet gfx
@@ -24,6 +27,7 @@
 - simple ai
 - controls v2
 - stalemate if both out of ammo and no refills?
+- send local hit?
 
 ## ECS fixes
 

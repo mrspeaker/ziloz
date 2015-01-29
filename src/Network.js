@@ -63,6 +63,12 @@
 
 			});
 
+			socket.on("game/die", function (d) {
+
+				main.screen.listen("net/game/die", d);
+
+			})
+
 		},
 
 		tick: function (model) {
@@ -94,6 +100,12 @@
 		send_fire: function (posRot) {
 
 			this.socket.emit("fire_one", posRot);
+
+		},
+
+		send_die: function () {
+
+			this.socket.emit("die");
 
 		}
 

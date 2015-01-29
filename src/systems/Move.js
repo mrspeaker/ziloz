@@ -39,7 +39,7 @@ sys.Move = {
 			if (!e.noLoitering.lastMovedAt) { e.noLoitering.lastMovedAt = Date.now(); }
 
 			if (Date.now() - e.noLoitering.lastMovedAt > e.noLoitering.bustedAfter) {
-				e.fuel.amount = 0;
+				e.health.amount = 0;
 			}
 		}
 

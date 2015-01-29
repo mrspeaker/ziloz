@@ -116,6 +116,8 @@ window.Level = {
 
 		if (e === this.tank1 || e === this.tank2) {
 
+			console.log("spawn!", e === this.tank1)
+
 			if (e === this.tank1) {
 
 				spot.x = 2 * 16;
@@ -155,6 +157,7 @@ window.Level = {
 		if (e.health) {
 
 			e.health.amount = e.health.max;
+			e.dead = false;
 
 		}
 
@@ -179,7 +182,7 @@ window.Level = {
 
 		if (e.lives) {
 
-			if (e.lives.number-- > 0) {
+			if (--e.lives.number > 0) {
 
 				this.addExplosion(e);
 

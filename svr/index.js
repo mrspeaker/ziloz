@@ -73,6 +73,14 @@ io.on("connection", function (client) {
 
 	});
 
+	client.on("die", function () {
+
+		console.log("got die on sever.")
+
+		io.sockets.in(this.gameId).emit("game/die", client.id);
+
+	});
+
 });
 
 http.listen(port, function () {
