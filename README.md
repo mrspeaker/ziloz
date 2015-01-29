@@ -4,9 +4,8 @@
 
 ### required:
 
-- explosion on other screen when player dies.
-- gameover screen/winner
-- countdown getready
+- ammo network amount is off.
+- gui icons
 - sounds
 	- shoot
 	- hit
@@ -18,16 +17,18 @@
 
 ### Then:
 
-- shoot knockback
+- balance
+- shoot knockback?
 - improve gfx
 	- better tiles
 	- bullet gfx
 	- better lives icon
-- base explosion
-- simple ai
-- controls v2
+
+### Probably not
+
 - stalemate if both out of ammo and no refills?
-- send local hit?
+- controls v2
+- simple ai
 
 ## ECS fixes
 

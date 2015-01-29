@@ -116,8 +116,6 @@ window.Level = {
 
 		if (e === this.tank1 || e === this.tank2) {
 
-			console.log("spawn!", e === this.tank1)
-
 			if (e === this.tank1) {
 
 				spot.x = 2 * 16;
@@ -182,9 +180,10 @@ window.Level = {
 
 		if (e.lives) {
 
-			if (--e.lives.number > 0) {
+			this.addExplosion(e, true);
+			e.sprite.ref.alpha = 0;
 
-				this.addExplosion(e);
+			if (--e.lives.number > 0) {
 
 				e.behaviour.toAdd.push({
 					type: "timer",
@@ -206,14 +205,14 @@ window.Level = {
 					}
 				});
 
-				e.sprite.ref.alpha = 0;
+				//e.sprite.ref.alpha = 0;
 				core.removeComponent(e, "health");
 				core.removeComponent(e, "fuel");
 				core.removeComponent(e, "vel");
 
 			} else {
 
-				main.screen.listen("gameover", e === this.tank1 ? 2 : 1);
+				main.screen.listen("gameover", { p: e === this.tank1 ? 2 : 1, base: false });
 
 			}
 
@@ -235,9 +234,9 @@ window.Level = {
 	},
 
 	// TODO: should be behaviour
-	addExplosion: function (e) {
+	addExplosion: function (e, death) {
 
-		for (var i = 0; i < 10; i++) {
+		for (var i = 0; i < (death ? 20: 10); i++) {
 
 			this.add("explosion", {
 				pos: {
@@ -245,12 +244,13 @@ window.Level = {
 					y: e.pos.y + (Math.random() * 20 - 10)
 				},
 				sprite: {
+					texture: "expl",
 					scale: 0.7,
-					tint: 0xff7733,
+					tint: death ? 0xff3311 : 0x663311,
 					blend: "ADD"
 				},
 				life: {
-					count: (Math.random() * 10) + 10 | 0
+					count: (Math.random() * 10) + (death ? 50 : 10) | 0
 				}
 
 			});

@@ -4,7 +4,7 @@ window.Dialog = {
 
 	count: 0,
 	keepTickingMain: false,
-	init: function (stage, msgFunc, keepTickingMain) {
+	init: function (stage, msgFunc, keepTickingMain, count) {
 		this.view = new PIXI.DisplayObjectContainer();
 
 		msgFunc(this.view, stage.width, stage.hieght);
@@ -12,6 +12,7 @@ window.Dialog = {
 		this.stage = stage;
 		stage.addChild(this.view);
 		this.keepTickingMain = keepTickingMain;
+		this.count = count || this.count;
 		return this;
 	},
 	end: function () {

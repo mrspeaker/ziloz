@@ -72,10 +72,10 @@ window.GameScreen = {
 
 			this.level.map.tileHit(data.block, data.e);
 			if (data.block.type === 10) {
-				this.listen("gameover", 2);
+				this.listen("gameover", { p: 2, base: true });
 			}
 			if (data.block.type === 11) {
-				this.listen("gameover", 1);
+				this.listen("gameover", { p: 1, base: true });
 			}
 
 			break;
@@ -107,18 +107,43 @@ window.GameScreen = {
 			if (this.gameover) { break; }
 			this.gameover = true;
 
-			var tank = data === 2 ? this.level.tank2 : this.level.tank1;
+			var tank = data.p === 2 ? this.level.tank2 : this.level.tank1;
 
 			core.addComponent(tank, "spin");
 			core.removeComponent(this.level.tank1, "input");
 			core.removeComponent(this.level.tank2, "input");
+
+			if (data.base) {
+
+				var exps = 80,
+					addExplosion = this.level.addExplosion.bind(this.level);
+
+				var splode = function () {
+					setTimeout(function () {
+
+						addExplosion({
+							pos: {
+								x: (Math.random() * 80) + (data.p === 1 ? 24 : 0) * 16,
+								y: (Math.random() * 100) + (16 * 9)
+							}
+						});
+
+						if (exps-- > 0) {
+							splode();
+						}
+
+					}, 50);
+				}.bind(this);
+				splode();
+
+			}
 
 			this.dialog = Object.create(Dialog).init(this.stage, function (container, w, h) {
 				var text = new PIXI.Text("GAME OVER", { font:"80px Arial", fill:"#090" });
 				//text.position.x = w / 2 - 30;
 				//text.position.y = h / 2 - 60;
 				container.addChild(text);
-			}, true);
+			}, true, 300);
 
 			setTimeout(function () {
 				main.setScreen(TitleScreen);
@@ -158,8 +183,6 @@ window.GameScreen = {
 
 		case "net/game/die":
 			var e = data === Network.socket.id ? this.level.player : this.level.networkPlayer;
-			console.log("lcoa?", data === Network.socket.id)
-
 			this.level.die(e);
 			break;
 
