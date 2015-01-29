@@ -5,7 +5,11 @@
 ### required:
 
 - ammo network amount is off.
+- if other ntwork killed, local die never sent.
 - gui icons
+- muzzle flash
+- station explosions
+- screen shake
 - sounds
 	- shoot
 	- hit
@@ -13,12 +17,12 @@
 	- ammo refill
 	- fuel refile
 	- health refill
+	- no ammo sound
 	- move
 
 ### Then:
 
 - balance
-- shoot knockback?
 - improve gfx
 	- better tiles
 	- bullet gfx

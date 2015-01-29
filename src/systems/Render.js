@@ -49,6 +49,7 @@ sys.Render = {
 
 			turret.position.y -= 5;
 			cont.addChild(turret);
+			def.turretRef = turret;
 
 		}
 
@@ -79,6 +80,11 @@ sys.Render = {
 		if (e.rot) {
 
 			sprite.rotation = e.rot.angle + e.rot.offset;
+
+			if (e.sprite.turretRef) {
+				e.sprite.turretRef.position.x = (Math.sin(sprite.position.x / 2)) + 0.5;
+				e.sprite.turretRef.position.y = (Math.cos(sprite.position.y / 2)) - 5;
+			}
 
 		}
 

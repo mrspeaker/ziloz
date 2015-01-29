@@ -3,6 +3,7 @@
 window.GameScreen = {
 
 	dialog: null,
+	shakeCount: 0,
 
 	init: function (w, h, stage) {
 
@@ -33,6 +34,8 @@ window.GameScreen = {
 			this.level.tick(dt);
 		}
 
+		this.shake();
+
 	},
 
 	render: function () {
@@ -41,6 +44,21 @@ window.GameScreen = {
 			this.dialog.render();
 		} else {
 			this.level.render();
+		}
+
+	},
+
+	shake: function () {
+
+		if (this.shakeCount > 0) {
+
+			this.stage.position.x = (Math.random() - 0.5) * 3;
+			this.stage.position.y = (Math.random() - 0.5) * 3;
+
+			if(--this.shakeCount === 0) {
+				this.stage.position.x = 0;
+				this.stage.position.y = 0;
+			}
 		}
 
 	},
@@ -58,6 +76,12 @@ window.GameScreen = {
 		case "explode":
 
 			this.level.addExplosion(data);
+
+			break;
+
+		case "shake":
+
+			this.shakeCount = 20;
 
 			break;
 
@@ -84,7 +108,7 @@ window.GameScreen = {
 
 			if (data.health) {
 				if (data.health.dead) {
-					console.log("already dead.");
+					//console.log("already dead.");
 					break;
 				}
 				data.health.dead = true;
@@ -126,7 +150,7 @@ window.GameScreen = {
 								x: (Math.random() * 80) + (data.p === 1 ? 24 : 0) * 16,
 								y: (Math.random() * 100) + (16 * 9)
 							}
-						});
+						}, Math.random() * 3 | 0);
 
 						if (exps-- > 0) {
 							splode();
@@ -148,6 +172,12 @@ window.GameScreen = {
 			setTimeout(function () {
 				main.setScreen(TitleScreen);
 			}, 6000);
+
+			break;
+
+		case "addTrail":
+
+			this.level.addExplosion(data, 2);
 
 			break;
 

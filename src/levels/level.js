@@ -180,7 +180,7 @@ window.Level = {
 
 		if (e.lives) {
 
-			this.addExplosion(e, true);
+			this.addExplosion(e, 1);
 			e.sprite.ref.alpha = 0;
 
 			if (--e.lives.number > 0) {
@@ -234,9 +234,14 @@ window.Level = {
 	},
 
 	// TODO: should be behaviour
-	addExplosion: function (e, death) {
+	addExplosion: function (e, type) {
 
-		for (var i = 0; i < (death ? 20: 10); i++) {
+		var num = [10, 20, 5][type || 0],
+			tint = [0x663311, 0xff3311, 0x776666][type || 0],
+			life = [10, 50, 0][type || 0];
+
+
+		for (var i = 0; i < num; i++) {
 
 			this.add("explosion", {
 				pos: {
@@ -246,11 +251,11 @@ window.Level = {
 				sprite: {
 					texture: "expl",
 					scale: 0.7,
-					tint: death ? 0xff3311 : 0x663311,
+					tint: tint,
 					blend: "ADD"
 				},
 				life: {
-					count: (Math.random() * 10) + (death ? 50 : 10) | 0
+					count: (Math.random() * 10) + life | 0
 				}
 
 			});

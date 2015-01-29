@@ -111,3 +111,8 @@ components.noLoitering = {
 	lastMovedAt: 0,
 	bustedAfter: 30 * 1000
 }
+
+components.trails = {
+	rate: 50,
+	lastTrailAt: 0
+}

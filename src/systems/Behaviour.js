@@ -152,7 +152,19 @@ sys.Behaviour = {
 
 		}
 
-		e._lastMovedAt = Date.now();
+
+		if (e.trails) {
+
+			var now = Date.now();
+
+			if (now - e.trails.lastTrailAt > e.trails.rate) {
+
+				main.listen("addTrail", e);
+				e.trails.lastTrailAt = now;
+
+			}
+
+		}
 
 	},
 
@@ -160,7 +172,7 @@ sys.Behaviour = {
 
 		var now = Date.now();
 
-		if (!e.lastFire || now - e.lastFire > 200) {
+		if (!e.lastFire || now - e.lastFire > 300) {
 
 			var doFire = true;
 
@@ -204,6 +216,16 @@ sys.Behaviour = {
 			  	});
 
 				e.lastFire = now;
+
+				// Fire Knockback
+				if (e.rot && e.vel) {
+					var knockback = 6;
+					if (e.rot.angle === Math.PI) e.vel.y -= knockback;
+					if (e.rot.angle === 0) e.vel.y += knockback;
+					if (e.rot.angle === Math.PI / 2) e.vel.x -= knockback;
+					if (e.rot.angle === -Math.PI / 2) e.vel.x += knockback;
+				}
+
 
 			}
 
@@ -313,6 +335,8 @@ sys.Behaviour = {
 				name: "addShake",
 				args: [2000]
 			});
+
+			main.listen("shake");
 
 		}
 

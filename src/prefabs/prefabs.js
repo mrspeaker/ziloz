@@ -31,6 +31,8 @@ prefabs.bullet = {
 	rot: {},
 	sprite: {},
 
+	trails: {},
+
 	shoot: {},
 	life: {},
 	collision: {
