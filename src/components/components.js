@@ -87,7 +87,7 @@ components.life = {
 };
 
 components.shoot = {
-	vel: 5.0,
+	vel: 8.0,
 	rot: -Math.PI / 2
 };
 
@@ -113,6 +113,6 @@ components.noLoitering = {
 }
 
 components.trails = {
-	rate: 50,
+	rate: 15,
 	lastTrailAt: 0
 }

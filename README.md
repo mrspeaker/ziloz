@@ -9,7 +9,6 @@
 - gui icons
 - muzzle flash
 - station explosions
-- screen shake
 - sounds
 	- shoot
 	- hit
@@ -24,15 +23,15 @@
 
 - balance
 - improve gfx
-	- better tiles
-	- bullet gfx
 	- better lives icon
+	- background?
 
 ### Probably not
 
 - stalemate if both out of ammo and no refills?
 - controls v2
 - simple ai
+- network sync dead tiles.
 
 ## ECS fixes
 

@@ -29,7 +29,9 @@ prefabs.bullet = {
 	size: {},
 	vel: {},
 	rot: {},
-	sprite: {},
+	sprite: {
+		texture: "missile"
+	},
 
 	trails: {},
 

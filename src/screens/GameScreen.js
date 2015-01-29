@@ -92,6 +92,34 @@ window.GameScreen = {
 
 			break;
 
+		case "explodeStation":
+
+			// TODO: refactor with base explosion
+			var exps = 10,
+				addExplosion = this.level.addExplosion.bind(this.level);
+
+			var splode = function () {
+				setTimeout(function () {
+
+					addExplosion({
+						pos: {
+							x: (Math.random() * 30) + (data.pos.x * 16),
+							y: (Math.random() * 30) + (data.pos.y * 16)
+						}
+					}, Math.random() * 3 | 0);
+
+					if (exps-- > 0) {
+						splode();
+					}
+
+				}, 30);
+			}.bind(this);
+			splode();
+
+			this.listen("shake");
+
+			break;
+
 		case "tileHit":
 
 			this.level.map.tileHit(data.block, data.e);
