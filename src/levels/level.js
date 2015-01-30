@@ -444,7 +444,11 @@ window.Level = {
 			this.a1.width = 120 * (aTank.ammo.amount / aTank.ammo.max);
 		}
 
-		if (aTank.fuel) aGui.drawRect(12, 12, 56 * (aTank.fuel.amount / aTank.fuel.max), 25);
+		if (aTank.fuel) {
+			if (aTank.fuel.amount > 25 || (Date.now() % 400 > 200)) {
+				aGui.drawRect(12, 12, 56 * (aTank.fuel.amount / aTank.fuel.max), 25);
+			}
+		}
 
 		if (bTank.health) {
 			this.h2.width = 120 * (bTank.health.amount / bTank.health.max);
@@ -452,7 +456,11 @@ window.Level = {
 		if (bTank.ammo) {
 			this.a2.width = 120 * (bTank.ammo.amount / bTank.ammo.max);
 		}
-		if (bTank.fuel) bGui.drawRect(this.w - 132, this.h - 36, 56 * (bTank.fuel.amount / bTank.fuel.max), 25);
+		if (bTank.fuel) {
+			if (bTank.fuel.amount > 25 || (Date.now() % 400 > 200)) {
+				bGui.drawRect(this.w - 132, this.h - 36, 56 * (bTank.fuel.amount / bTank.fuel.max), 25);
+			}
+		}
 
 		/*if (aTank.lives) {
 			for(var i = 0; i < aTank.lives.number - 1; i++) {
