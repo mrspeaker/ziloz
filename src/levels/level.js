@@ -85,6 +85,14 @@ window.Level = {
 		// tank.input.power = 1.4; // TODO: fix obj ref in components
 		this.spawn(tank1);
 
+
+		this.t1Lives = [
+			sys.Render.makeSprite(main.textures.icon, 30, 185, 0x88ff88),
+			sys.Render.makeSprite(main.textures.icon, 50, 195, 0x88ff88)
+		]
+		sys.Render.addSprite(this.t1Lives[0]);
+		sys.Render.addSprite(this.t1Lives[1]);
+
 		// Player 2
 		var tank2 = this.tank2 = this.add("tank", {
 			sprite: {
@@ -99,6 +107,13 @@ window.Level = {
 		//tank2.input = Object.create(AIInput).init();//main.input2;
 		//tank2.input.power = 1.4; // TODO: fix obj ref in components
 		this.spawn(tank2);
+
+		this.t2Lives = [
+			sys.Render.makeSprite(main.textures.icon, 430, 185, 0xffff88),
+			sys.Render.makeSprite(main.textures.icon, 450, 195, 0xffff88)
+		]
+		sys.Render.addSprite(this.t2Lives[0]);
+		sys.Render.addSprite(this.t2Lives[1]);
 
 		tank1.sprite.turret = true;
 		tank2.sprite.turret = true;
@@ -185,6 +200,11 @@ window.Level = {
 
 			this.addExplosion(e, 1);
 			e.sprite.ref.alpha = 0;
+
+			var s = (e === this.tank1 ? this.t1Lives : this.t2Lives).pop();
+			if (s) {
+				sys.Render.removeSprite(s);
+			}
 
 			if (--e.lives.number > 0) {
 
@@ -391,7 +411,7 @@ window.Level = {
 		if (bTank.ammo) bGui.drawRect(this.w - 78, this.h - 30, 60 * (bTank.ammo.amount / bTank.ammo.max), 5);
 		if (bTank.fuel) bGui.drawRect(this.w - 138, this.h - 20, 60 * (bTank.fuel.amount / bTank.fuel.max), 5);
 
-		if (aTank.lives) {
+		/*if (aTank.lives) {
 			for(var i = 0; i < aTank.lives.number - 1; i++) {
 				aGui.drawRect((18 * i) + 20, 185, 16, 16);
 			}
@@ -401,7 +421,7 @@ window.Level = {
 			for(var i = 0; i < bTank.lives.number - 1; i++) {
 				bGui.drawRect((18 * i) + (this.w - 60), 185, 16, 16);
 			}
-		}
+		}*/
 
 	}
 

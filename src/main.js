@@ -63,6 +63,7 @@ var main = {
 			"expl": PIXI.Texture.fromImage("res/images/expl1.png"),
 			"flash": PIXI.Texture.fromImage("res/images/flash.png"),
 			"bg": PIXI.Texture.fromImage("res/images/bg.png"),
+			"icon": PIXI.Texture.fromImage("res/images/tankicon.png"),
 			"missile": PIXI.Texture.fromImage("res/images/missile.png")
 		};
 

@@ -43,7 +43,7 @@ sys.Render = {
 			var turret = this.makeSprite(
 				main.textures["top"],
 				0, 0,
-				def.tint - 20000,
+				def.tint - 10000,
 				def.scale, def.scale
 			);
 

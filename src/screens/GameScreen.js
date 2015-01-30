@@ -220,7 +220,7 @@ window.GameScreen = {
 					strokeThickness: 5
 				});
 
-				//text.position.x = w / 2 - 30;
+				text.position.x = 25;
 				//text.position.y = h / 2 - 60;
 				container.addChild(text);
 			}, true, 300);

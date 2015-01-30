@@ -11,21 +11,20 @@
 	- shoot
 	- explode
 	- no ammo sound
+- balance
 
 ### Then:
 
-- balance
-- improve gfx
-	- better lives icon
-	- better splash
+- better splash screen
 - tracks particles
 
 ### Probably not
 
+- network sync dead tiles.
+- theme tune
 - stalemate if both out of ammo and no refills?
 - controls v2
 - simple ai
-- network sync dead tiles.
 
 ## ECS fixes
 
