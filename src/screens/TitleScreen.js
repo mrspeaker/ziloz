@@ -7,9 +7,26 @@ window.TitleScreen = {
 	init: function (w, h, stage) {
 
 		this.stage = new PIXI.DisplayObjectContainer();
+		this.stage.scale.x = main.scale;
+		this.stage.scale.y = main.scale;
 
-		var text = new PIXI.Text("Zilok", { font:"50px Arial", fill:"#030" });
-		var text2 = new PIXI.Text("waiting for player 2...", { font:"20px Arial", fill:"#070" });
+		this.stage.addChild(
+			new PIXI.TilingSprite(main.textures["bg"], w, h)
+		);
+
+		var text = new PIXI.Text("Zilok", {
+			font:"70px 'Black Ops One', monospace",
+			fill:"#fff",
+			stroke: "#222",
+			strokeThickness: 5
+		});
+
+		text.position.x = 140;
+		text.position.y = 40;
+
+		var text2 = new PIXI.Text("waiting for player 2...", {
+			font:"20px helvetica, arial, sans-serif", fill:"#777"
+		});
 		text2.position.x = w / 2 - 100;
 		text2.position.y = h / 2;
 		this.stage.addChild(text);

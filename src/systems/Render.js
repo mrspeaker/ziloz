@@ -53,6 +53,16 @@ sys.Render = {
 
 		}
 
+		if (e.muzzleFlash) {
+			e.muzzleFlash.ref = this.makeSprite(
+				main.textures["flash"],
+				0, 0
+			);
+			e.muzzleFlash.ref.alpha = 0;
+			e.muzzleFlash.ref.position.y -= 20;
+			cont.addChild(e.muzzleFlash.ref);
+		}
+
 		cont.rotation = def.rot;
 
 		if (def.blend) {

@@ -10,12 +10,24 @@ window.GameScreen = {
 		this.stage = new PIXI.DisplayObjectContainer();
 		stage.addChild(this.stage);
 
+		this.stage.scale.x = main.scale;
+		this.stage.scale.y = main.scale;
+
+		this.stage.addChild(
+			new PIXI.TilingSprite(main.textures["bg"], w, h)
+		);
+
 		this.level = Object.create(Level).init(w, h, this.stage);
 
 		this.dialog = Object.create(Dialog).init(this.stage, function (container) {
-			var text = new PIXI.Text("REady...", { font:"20px Arial", fill:"#090" });
-			text.position.x = w / 2 - 30;
-			text.position.y = h / 2 - 60;
+			var text = new PIXI.Text("REady...", {
+				font: "40px 'Black Ops One', monospace",
+				fill:"#fff",
+				stroke: "#333",
+				strokeThickness: 5
+			});
+			text.position.x = w / 2 - 50;
+			text.position.y = h / 2 - 70;
 			container.addChild(text);
 		});
 
@@ -52,8 +64,8 @@ window.GameScreen = {
 
 		if (this.shakeCount > 0) {
 
-			this.stage.position.x = (Math.random() - 0.5) * 3;
-			this.stage.position.y = (Math.random() - 0.5) * 3;
+			this.stage.position.x = (Math.random() - 0.5) * 3 | 0;
+			this.stage.position.y = (Math.random() - 0.5) * 3 | 0;
 
 			if(--this.shakeCount === 0) {
 				this.stage.position.x = 0;
@@ -76,6 +88,7 @@ window.GameScreen = {
 		case "explode":
 
 			this.level.addExplosion(data);
+			main.sounds.expl.play();
 
 			break;
 
@@ -90,6 +103,13 @@ window.GameScreen = {
 			// TODO: this should be behaviour?
 			this.level.removeAndExplode(data);
 
+			break;
+
+		case "entityMoved":
+
+			if (data === this.level.player) {
+				this.level.entMoved = true;
+			}
 			break;
 
 		case "explodeStation":
@@ -191,7 +211,13 @@ window.GameScreen = {
 			}
 
 			this.dialog = Object.create(Dialog).init(this.stage, function (container, w, h) {
-				var text = new PIXI.Text("GAME OVER", { font:"80px Arial", fill:"#090" });
+				var text = new PIXI.Text("GAME OVER", {
+					font:"70px 'Black Ops One', monospace",
+					fill:"#fff",
+					stroke: "#333",
+					strokeThickness: 5
+				});
+
 				//text.position.x = w / 2 - 30;
 				//text.position.y = h / 2 - 60;
 				container.addChild(text);

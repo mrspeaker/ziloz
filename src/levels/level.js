@@ -8,6 +8,9 @@ window.Level = {
 	ents: null,
 	ents_to_add: null,
 
+	entMoving: false,
+	entMoved: false,
+
 	map: null,
 
 	tank1: null,
@@ -296,6 +299,8 @@ window.Level = {
 		var ents = this.ents,
 			self = this;
 
+		this.entMoved = false;
+
 		this.ents_to_add = this.ents_to_add.filter(function (e) {
 
 			// Any system init calls
@@ -344,6 +349,16 @@ window.Level = {
 			if (this.player.fuel) { playerModel.fuel = this.player.fuel.amount; }
 
 			Network.tick(playerModel);
+		};
+
+
+		// Play rumble when moving.
+		if (this.entMoved && !this.entMoving) {
+			main.sounds.move.play();
+			this.entMoving = true;
+		} else if (!this.entMoved && this.entMoving) {
+			this.entMoving = false;
+			main.sounds.move.stop();
 		}
 
 	},
@@ -368,23 +383,23 @@ window.Level = {
 		aGui.beginFill(aTank.sprite.ref.tint);
 		bGui.beginFill(bTank.sprite.ref.tint);
 
-		if (aTank.health) aGui.drawRect(15, 15, 120 * (aTank.health.amount / aTank.health.max), 5);
-		if (aTank.ammo) aGui.drawRect(15, 25, 120 * (aTank.ammo.amount / aTank.ammo.max), 5);
-		if (aTank.fuel) aGui.drawRect(15, 35, 120 * (aTank.fuel.amount / aTank.fuel.max), 5);
+		if (aTank.health) aGui.drawRect(78, 15, 60 * (aTank.health.amount / aTank.health.max), 5);
+		if (aTank.ammo) aGui.drawRect(78, 25, 60 * (aTank.ammo.amount / aTank.ammo.max), 5);
+		if (aTank.fuel) aGui.drawRect(15, 25, 60 * (aTank.fuel.amount / aTank.fuel.max), 10);
 
-		if (bTank.health) bGui.drawRect(this.w - 138, this.h - 40, 120 * (bTank.health.amount / bTank.health.max), 5);
-		if (bTank.ammo) bGui.drawRect(this.w - 138, this.h - 30, 120 * (bTank.ammo.amount / bTank.ammo.max), 5);
-		if (bTank.fuel) bGui.drawRect(this.w - 138, this.h - 20, 120 * (bTank.fuel.amount / bTank.fuel.max), 5);
+		if (bTank.health) bGui.drawRect(this.w - 78, this.h - 40, 60 * (bTank.health.amount / bTank.health.max), 5);
+		if (bTank.ammo) bGui.drawRect(this.w - 78, this.h - 30, 60 * (bTank.ammo.amount / bTank.ammo.max), 5);
+		if (bTank.fuel) bGui.drawRect(this.w - 138, this.h - 20, 60 * (bTank.fuel.amount / bTank.fuel.max), 5);
 
 		if (aTank.lives) {
-			for(var i = 0; i < aTank.lives.number; i++) {
-				aGui.drawRect((14 * i) + 20, 185, 12, 12);
+			for(var i = 0; i < aTank.lives.number - 1; i++) {
+				aGui.drawRect((18 * i) + 20, 185, 16, 16);
 			}
 		}
 
 		if (bTank.lives) {
-			for(var i = 0; i < bTank.lives.number; i++) {
-				bGui.drawRect((14 * i) + (this.w - 60), 185, 12, 12);
+			for(var i = 0; i < bTank.lives.number - 1; i++) {
+				bGui.drawRect((18 * i) + (this.w - 60), 185, 16, 16);
 			}
 		}
 

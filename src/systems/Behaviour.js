@@ -147,6 +147,7 @@ sys.Behaviour = {
 			if (distance > 0.1) {
 
 				e.fuel.amount = Math.max(0, e.fuel.amount - (distance * e.fuel.burnRate));
+				main.listen("entityMoved", e);
 
 			}
 
@@ -226,6 +227,16 @@ sys.Behaviour = {
 					if (e.rot.angle === -Math.PI / 2) e.vel.x += knockback;
 				}
 
+				if (e.muzzleFlash) {
+					e.muzzleFlash.ref.alpha = 1;
+					//e.muzzleFlash.ref.position.x = 0//-8//(Math.cos(rot) * (e.size.w));
+					//e.muzzleFlash.ref.position.y = 80//;// (Math.sin(rot) * (e.size.h));
+
+					console.log(e.muzzleFlash.ref.position.x);
+					setTimeout(function () {
+						e.muzzleFlash.ref.alpha = 0;
+					}, e.muzzleFlash.time);
+				}
 
 			}
 
@@ -379,18 +390,27 @@ sys.Behaviour = {
 
 				if (pickup.refill.ammo && e.ammo) {
 
-					e.ammo.amount = pickup.refill.ammo;
+					if (e.ammo.amount < pickup.refill.ammo) {
+						e.ammo.amount = pickup.refill.ammo;
+						main.sounds.pu1.play();
+					}
 
 				}
 
 				if (pickup.refill.fuel && e.fuel) {
 
+					if (pickup.refill.fuel - e.fuel.amount > 5) {
+						main.sounds.pu2.play();
+					}
 					e.fuel.amount = pickup.refill.fuel;
 
 				}
 
 				if (pickup.refill.health && e.health) {
 
+					if (pickup.refill.health - e.health.amount > 5) {
+						main.sounds.pu3.play();
+					}
 					e.health.amount = pickup.refill.health;
 
 				}

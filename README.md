@@ -7,24 +7,18 @@
 - ammo network amount is off.
 - if other ntwork killed, local die never sent.
 - gui icons
-- muzzle flash
-- station explosions
 - sounds
 	- shoot
-	- hit
 	- explode
-	- ammo refill
-	- fuel refile
-	- health refill
 	- no ammo sound
-	- move
 
 ### Then:
 
 - balance
 - improve gfx
 	- better lives icon
-	- background?
+	- better splash
+- tracks particles
 
 ### Probably not
 

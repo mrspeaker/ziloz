@@ -115,4 +115,9 @@ components.noLoitering = {
 components.trails = {
 	rate: 15,
 	lastTrailAt: 0
-}
+};
+
+components.muzzleFlash = {
+	time: 50,
+	ref: null
+};

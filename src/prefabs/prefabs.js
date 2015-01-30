@@ -21,7 +21,8 @@ prefabs.tank = {
 	fuel: {},
 	map: {},
 	refillGroup: {},
-	shakesWhenHit: {}
+	shakesWhenHit: {},
+	muzzleFlash: {}
 };
 
 prefabs.bullet = {

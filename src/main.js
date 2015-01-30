@@ -5,9 +5,12 @@ var main = {
 	w: 30 * 16,
 	h: 24 * 16,
 
+	scale: 1.5,
+
 	screen: null,
 
 	textures: null,
+	sounds: null,
 
 	init: function () {
 
@@ -15,6 +18,31 @@ var main = {
 
 		this.input1 = Object.create(Input).init(1);
 		this.input2 = Object.create(Input).init(2);
+
+		this.sounds = {
+			"expl": new Howl({
+  				src: ['res/audio/expl.mp3',
+  				'res/audio/expl.ogg'],
+  				volume: 0.7
+  			}),
+  			"pu1": new Howl({
+  				src: ['res/audio/Powerup4.wav'],
+  				volume: 0.7
+  			}),
+  			"pu2": new Howl({
+  				src: ['res/audio/Powerup26.wav'],
+  				volume: 0.7
+  			}),
+  			"pu3": new Howl({
+  				src: ['res/audio/Powerup3.wav'],
+  				volume: 0.7
+  			}),
+  			"move": new Howl({
+  				src: ['res/audio/move.mp3'],
+  				loop: true,
+  				volume: 0.1
+  			})
+		}
 
 		Network.init();
 	},
@@ -24,7 +52,7 @@ var main = {
 		PIXI.scaleModes.DEFAULT = PIXI.scaleModes.NEAREST;
 
 		this.stage = new PIXI.Stage(0x18060C);
-		this.renderer = PIXI.autoDetectRenderer(this.w, this.h);
+		this.renderer = PIXI.autoDetectRenderer(this.w * this.scale, this.h * this.scale);
 
 		document.body.appendChild(this.renderer.view);
 
@@ -33,6 +61,8 @@ var main = {
 			"base": PIXI.Texture.fromImage("res/images/tank-base.png"),
 			"top": PIXI.Texture.fromImage("res/images/tank-top.png"),
 			"expl": PIXI.Texture.fromImage("res/images/expl1.png"),
+			"flash": PIXI.Texture.fromImage("res/images/flash.png"),
+			"bg": PIXI.Texture.fromImage("res/images/bg.png"),
 			"missile": PIXI.Texture.fromImage("res/images/missile.png")
 		};
 
