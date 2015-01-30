@@ -229,10 +229,6 @@ sys.Behaviour = {
 
 				if (e.muzzleFlash) {
 					e.muzzleFlash.ref.alpha = 1;
-					//e.muzzleFlash.ref.position.x = 0//-8//(Math.cos(rot) * (e.size.w));
-					//e.muzzleFlash.ref.position.y = 80//;// (Math.sin(rot) * (e.size.h));
-
-					console.log(e.muzzleFlash.ref.position.x);
 					setTimeout(function () {
 						e.muzzleFlash.ref.alpha = 0;
 					}, e.muzzleFlash.time);

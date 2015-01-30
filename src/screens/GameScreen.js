@@ -94,7 +94,7 @@ window.GameScreen = {
 
 		case "shake":
 
-			this.shakeCount = 20;
+			this.shakeCount = data || 20;
 
 			break;
 
@@ -136,7 +136,7 @@ window.GameScreen = {
 			}.bind(this);
 			splode();
 
-			this.listen("shake");
+			this.listen("shake", 35);
 
 			break;
 
@@ -207,6 +207,8 @@ window.GameScreen = {
 					}, 50);
 				}.bind(this);
 				splode();
+
+				main.listen("shake", 100);
 
 			}
 
