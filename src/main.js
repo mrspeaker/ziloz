@@ -63,6 +63,19 @@ var main = {
 		PIXI.scaleModes.DEFAULT = PIXI.scaleModes.NEAREST;
 
 		this.stage = new PIXI.Stage(0x18060C);
+
+		/*var f = new PIXI.ColorMatrixFilter();
+		this.stage.filters = [f];
+
+		var colorMatrix =  [
+			1,0,0,0,
+			0,1,0,0,
+			0,0,1,0,
+			0,0,0,1
+		];
+
+		f.matrix = colorMatrix;*/
+
 		this.renderer = PIXI.autoDetectRenderer(this.w * this.scale, this.h * this.scale);
 
 		document.body.appendChild(this.renderer.view);
