@@ -32,6 +32,10 @@ var main = {
   				src: ['res/audio/shoot.mp3', 'res/audio/shoot.ogg'],
   				volume: 0.3
   			}),
+  			"warn": new Howl({
+  				src: ['res/audio/warn.mp3', 'res/audio/warn.ogg'],
+  				volume: 0.7
+  			}),
   			"pu1": new Howl({
   				src: ['res/audio/Powerup4.wav'],
   				volume: 0.7

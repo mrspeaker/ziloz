@@ -409,6 +409,11 @@ window.Level = {
 			this.entMoving = false;
 			main.sounds.move.stop();
 		}
+		if (this.player.fuel.amount < 25) {
+			if (!main.sounds.warn.playing()) {
+				main.sounds.warn.play();
+			}
+		}
 
 	},
 
