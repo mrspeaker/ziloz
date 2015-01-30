@@ -163,7 +163,6 @@ window.GameScreen = {
 			}
 			if (data.collision.group === "tank") {
 				if (data === this.level.player) {
-					console.log("sent my death");
 					Network.send_die();
 				}
 			} else {

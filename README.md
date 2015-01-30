@@ -6,7 +6,6 @@
 
 - ammo network amount is off.
 - if other ntwork killed, local die never sent.
-- gui icons
 - sounds
 	- shoot
 	- explode

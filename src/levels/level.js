@@ -93,6 +93,16 @@ window.Level = {
 		sys.Render.addSprite(this.t1Lives[0]);
 		sys.Render.addSprite(this.t1Lives[1]);
 
+		function addTiling (texture, x, y, w, h, scale) {
+			var s = new PIXI.TilingSprite(main.textures[texture], w, h);
+			s.scale.x = scale;
+			s.scale.y = scale;
+			s.position.x = x;
+			s.position.y = y;
+			sys.Render.addSprite(s);
+			return s;
+		}
+
 		// Player 2
 		var tank2 = this.tank2 = this.add("tank", {
 			sprite: {
@@ -119,11 +129,30 @@ window.Level = {
 		tank2.sprite.turret = true;
 
 		// Tank GUIs
+
+		var guiBG = new PIXI.Graphics();
+		guiBG.alpha = 0.5;
+		guiBG.beginFill(0x000000);
+		guiBG.drawRect(8, 8, 128, 32);
+		guiBG.drawRect(this.w - 136, this.h - 40, 128, 32);
+		guiBG.endFill();
+		sys.Render.addSprite(guiBG);
+
+		this.h1 = addTiling("icon-health", 74, 11, 120, 22, 0.5);
+		this.a1 = addTiling("icon-ammo", 74, 26, 120, 22, 0.5);
+		this.h2 = addTiling("icon-health", this.w - 70, this.h - 37, 120, 22, 0.5);
+		this.a2 = addTiling("icon-ammo", this.w - 70, this.h - 23, 120, 22, 0.5);
+
+
 		this.guiTank2 = new PIXI.Graphics();
+		this.guiTank2.alpha = 0.5;
 		sys.Render.addSprite(this.guiTank2);
 
 		this.guiTank1 = new PIXI.Graphics();
+		this.guiTank1.alpha = 0.5;
 		sys.Render.addSprite(this.guiTank1);
+
+
 
 
 	},
@@ -403,13 +432,22 @@ window.Level = {
 		aGui.beginFill(aTank.sprite.ref.tint);
 		bGui.beginFill(bTank.sprite.ref.tint);
 
-		if (aTank.health) aGui.drawRect(78, 15, 60 * (aTank.health.amount / aTank.health.max), 5);
-		if (aTank.ammo) aGui.drawRect(78, 25, 60 * (aTank.ammo.amount / aTank.ammo.max), 5);
-		if (aTank.fuel) aGui.drawRect(15, 25, 60 * (aTank.fuel.amount / aTank.fuel.max), 10);
+		if (aTank.health) {
+			this.h1.width = 120 * (aTank.health.amount / aTank.health.max);
+		}
+		if (aTank.ammo) {
+			this.a1.width = 120 * (aTank.ammo.amount / aTank.ammo.max);
+		}
 
-		if (bTank.health) bGui.drawRect(this.w - 78, this.h - 40, 60 * (bTank.health.amount / bTank.health.max), 5);
-		if (bTank.ammo) bGui.drawRect(this.w - 78, this.h - 30, 60 * (bTank.ammo.amount / bTank.ammo.max), 5);
-		if (bTank.fuel) bGui.drawRect(this.w - 138, this.h - 20, 60 * (bTank.fuel.amount / bTank.fuel.max), 5);
+		if (aTank.fuel) aGui.drawRect(12, 12, 56 * (aTank.fuel.amount / aTank.fuel.max), 25);
+
+		if (bTank.health) {
+			this.h2.width = 120 * (bTank.health.amount / bTank.health.max);
+		}
+		if (bTank.ammo) {
+			this.a2.width = 120 * (bTank.ammo.amount / bTank.ammo.max);
+		}
+		if (bTank.fuel) bGui.drawRect(this.w - 132, this.h - 36, 56 * (bTank.fuel.amount / bTank.fuel.max), 25);
 
 		/*if (aTank.lives) {
 			for(var i = 0; i < aTank.lives.number - 1; i++) {
