@@ -21,9 +21,16 @@ var main = {
 
 		this.sounds = {
 			"expl": new Howl({
-  				src: ['res/audio/expl.mp3',
-  				'res/audio/expl.ogg'],
+  				src: ['res/audio/expl.mp3', 'res/audio/expl.ogg'],
   				volume: 0.7
+  			}),
+  			"expl2": new Howl({
+  				src: ['res/audio/expl2.mp3', 'res/audio/expl2.ogg'],
+  				volume: 0.5
+  			}),
+  			"shoot": new Howl({
+  				src: ['res/audio/shoot.mp3', 'res/audio/shoot.ogg'],
+  				volume: 0.3
   			}),
   			"pu1": new Howl({
   				src: ['res/audio/Powerup4.wav'],

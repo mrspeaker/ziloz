@@ -6,16 +6,16 @@
 
 - ammo network amount is off.
 - if other ntwork killed, local die never sent.
-- sounds
-	- shoot
-	- explode
-	- no ammo sound
 - balance
 
 ### Then:
 
 - better splash screen
 - tracks particles
+- sounds
+	- no ammo sound
+	- running low on fuel warning/sound
+- handle network disconnect
 
 ### Probably not
 

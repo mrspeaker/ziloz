@@ -137,6 +137,7 @@ window.GameScreen = {
 			splode();
 
 			this.listen("shake", 35);
+			main.sounds.expl.play();
 
 			break;
 
@@ -263,6 +264,7 @@ window.GameScreen = {
 			};
 
 			this.listen("addEntity", { prefab: "bullet", conf: mod });
+			main.sounds.shoot.play();
 
 			break;
 

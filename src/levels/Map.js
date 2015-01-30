@@ -11,6 +11,8 @@ window.Map = {
 
 	refills: null,
 
+	lastHit: 0,
+
 	init: function (blocks) {
 
 		this.refills = [];
@@ -145,6 +147,13 @@ window.Map = {
 	},
 
 	tileHit: function (b, e) {
+
+		var now = Date.now();
+
+		if (now - this.lastHit > 200) {
+			this.lastHit = now;
+			main.sounds.expl2.play();
+		}
 
 		if (b.destructible) {
 

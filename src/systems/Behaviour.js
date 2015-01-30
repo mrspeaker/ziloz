@@ -227,6 +227,8 @@ sys.Behaviour = {
 					if (e.rot.angle === -Math.PI / 2) e.vel.x += knockback;
 				}
 
+				main.sounds.shoot.play();
+
 				if (e.muzzleFlash) {
 					e.muzzleFlash.ref.alpha = 1;
 					setTimeout(function () {
