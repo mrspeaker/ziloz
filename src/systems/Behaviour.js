@@ -153,20 +153,6 @@ sys.Behaviour = {
 
 		}
 
-
-		if (e.trails) {
-
-			var now = Date.now();
-
-			if (now - e.trails.lastTrailAt > e.trails.rate) {
-
-				main.listen("addTrail", e);
-				e.trails.lastTrailAt = now;
-
-			}
-
-		}
-
 	},
 
 	entityFired: function (e, params) {
@@ -324,7 +310,12 @@ sys.Behaviour = {
 			b = params.b,
 			damage = Math.max(a.collision.damage || b.collision.damage || 1);
 
-		if (a.health) { a.health.amount -= damage; }
+		if (a.health) {
+			a.health.amount -= damage;
+			if (a.health.amount > 0 && a.health.amount <= 20) {
+				core.addComponent(a, "trails");
+			}
+		}
 		if (b.health) { b.health.amount -= damage; }
 
 		if (b.rot && a.vel) {
@@ -410,6 +401,8 @@ sys.Behaviour = {
 						main.sounds.pu3.play();
 					}
 					e.health.amount = pickup.refill.health;
+					// Hmm... reallly?
+					core.removeComponent(e, "trails");
 
 				}
 

@@ -98,6 +98,19 @@ sys.Render = {
 
 		}
 
+		if (e.trails) {
+
+			var now = Date.now();
+
+			if (now - e.trails.lastTrailAt > e.trails.rate) {
+
+				main.listen("addTrail", e);
+				e.trails.lastTrailAt = now;
+
+			}
+
+		}
+
 	},
 
 	makeSprite: function (texture, x, y, col, sx, sy) {
