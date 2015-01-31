@@ -312,8 +312,14 @@ sys.Behaviour = {
 
 		if (a.health) {
 			a.health.amount -= damage;
-			if (a.health.amount > 0 && a.health.amount <= 20) {
-				core.addComponent(a, "trails");
+			if (a.health.amount > 0) {
+				if (a.health.amount <= 20) {
+					core.addComponent(a, "trails");
+				}
+			} else {
+				if (a.trails) {
+					core.removeComponent(a, "trails");
+				}
 			}
 		}
 		if (b.health) { b.health.amount -= damage; }
