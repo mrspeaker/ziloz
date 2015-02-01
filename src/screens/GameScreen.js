@@ -144,10 +144,10 @@ window.GameScreen = {
 		case "tileHit":
 
 			this.level.map.tileHit(data.block, data.e);
-			if (data.block.type === 10) {
+			if (data.block.type === 9) {
 				this.listen("gameover", { p: 2, base: true });
 			}
-			if (data.block.type === 11) {
+			if (data.block.type === 10) {
 				this.listen("gameover", { p: 1, base: true });
 			}
 

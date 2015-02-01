@@ -127,7 +127,7 @@ var main = {
 			this.stage.removeChild(this.screen.stage);
 		}
 		this.screen = Object.create(scr).init(this.w, this.h, this.stage);
-		this.screen.tick(16); // Lol.
+		this.screen.tick(16); // Lol. If you don't tick, then render gets called on last screen.
 
 	},
 
