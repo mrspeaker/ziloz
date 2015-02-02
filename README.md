@@ -22,7 +22,7 @@
 - theme tune
 - stalemate if both out of ammo and no refills?
 - controls v2
-- simple ai
+- simple ai / 1p mode
 
 ### Really not
 

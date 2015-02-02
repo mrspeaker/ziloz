@@ -26,6 +26,30 @@ io.on("connection", function (client) {
 
 	});
 
+	client.on("disconnect", function (d) {
+
+		if (client.gameId) {
+
+			// Do what, exactly?
+			var game = games.filter(function (g) {
+				return g.id === client.gameId;
+			});
+
+			if (game.length) {
+				if (game[0].players.length === 1) {
+					// Remove the game
+					games = games.filter(function (g) {
+						return g.id !== game[0].id;
+					});
+				} else {
+					console.log("What if we're in the middle of a game, hey?!");
+				}
+			};
+
+		};
+
+	});
+
 	client.on("join_request", function () {
 
 		var game = games.reduce(function (ac, el) {
@@ -74,8 +98,6 @@ io.on("connection", function (client) {
 	});
 
 	client.on("die", function () {
-
-		console.log("got die on sever.")
 
 		io.sockets.in(this.gameId).emit("game/die", client.id);
 

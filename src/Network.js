@@ -34,6 +34,8 @@
 
 			socket.io.on("reconnect", function () {
 
+				console.log("wha?");
+
 				// TODO
 				console.log("Disconnect/refresh");
 				socket.io.disconnect();
