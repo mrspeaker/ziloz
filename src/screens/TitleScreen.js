@@ -24,13 +24,13 @@ window.TitleScreen = {
 		text.position.x = 140;
 		text.position.y = 40;
 
-		var text2 = new PIXI.Text("waiting for player 2...", {
+		var waiting = this.waiting = new PIXI.Text("Waiting for player 2...", {
 			font:"20px helvetica, arial, sans-serif", fill:"#777"
 		});
-		text2.position.x = w / 2 - 100;
-		text2.position.y = h / 2;
+		waiting.position.x = w / 2 - 100;
+		waiting.position.y = h / 2;
 		this.stage.addChild(text);
-		this.stage.addChild(text2);
+		this.stage.addChild(waiting);
 
 		this.w = w;
 		this.h = h;
@@ -45,6 +45,8 @@ window.TitleScreen = {
 	},
 
 	tick: function (dt) {
+
+		this.waiting.alpha = (Date.now() / 600) % 2 > 1 ? 1 : 0;
 
 	},
 
