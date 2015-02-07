@@ -34,7 +34,6 @@ window.TitleScreen = {
 
 		this.w = w;
 		this.h = h;
-		//this.stage = stage;
 
 		stage.addChild(this.stage);
 
