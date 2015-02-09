@@ -37,7 +37,7 @@ components.vel = {
 };
 
 components.input = {
-	power: 1.4
+	power: 4.0
 };
 
 components.health = {
