@@ -146,7 +146,7 @@ window.TitleScreen = {
 			level.networkPlayer = level.player === level.tank1 ? level.tank2 : level.tank1;
 
 			level.player.input = main.input1; // grr
-			level.player.input.power = 1.4; // TODO: fix obj ref in components
+			level.player.input.power = 1.7; // TODO: fix obj ref in components
 			break;
 		}
 

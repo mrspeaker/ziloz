@@ -37,7 +37,7 @@ components.vel = {
 };
 
 components.input = {
-	power: 4.0
+	power: 1.0
 };
 
 components.health = {
@@ -55,7 +55,7 @@ components.ammo = {
 components.fuel = {
 	amount: 100,
 	max: 100,
-	burnRate: 0.05,
+	burnRate: 0.04,
 	refreshRate: 0.01
 };
 
